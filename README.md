@@ -199,6 +199,43 @@ Every step is captured, linked, labelled, and searchable. A new team member — 
 
 ---
 
+## How Claude, Perplexity, Notion, and GitHub interact
+
+WASTR runs on four tools, not one. The risk in a multi-tool setup is the same
+idea drifting across systems with no agreed canonical version. Three short
+documents define how the tools fit together:
+
+- [docs/sync-contract.md](docs/sync-contract.md) — what lives where, and how a
+  draft gets promoted to canonical.
+- [docs/tooling-protocol.md](docs/tooling-protocol.md) — concrete workflows
+  (interviews, strategy analysis, code changes, weekly / monthly reviews).
+- [docs/ownership.md](docs/ownership.md) — file-by-file owner map.
+
+In one picture:
+
+```
+   Notion                Perplexity              Claude / Copilot
+   (drafts,              (strategy &             (code generation,
+    meeting notes,        research               repo edits)
+    customer logs)        scratchpad)
+       │                     │                          │
+       │  draft              │  Learning Log            │  PR
+       ▼                     ▼                          ▼
+   ┌─────────────────────────────────────────────────────────┐
+   │                       GitHub                            │
+   │  wastr-learning-loop  ──  issues + /docs (canonical)    │
+   │  Wastr.Services.*     ──  production code               │
+   │  Wastr.Apps.*         ──  production code               │
+   │   PR template links every code change back to the loop  │
+   └─────────────────────────────────────────────────────────┘
+```
+
+Notion and Perplexity are **upstream** of GitHub, never parallel to it. Once
+something is promoted into this repo, the GitHub version is the version
+everyone references.
+
+---
+
 ## How PRs in *other* Wastr repos close the loop
 
 The mechanism that keeps the loop genuinely closed (not just decorative) is the **pull request template**, which we will roll out across every Wastr repo:
