@@ -65,7 +65,7 @@ Labels are typed and disciplined. They let us slice the entire company history b
 | **type:** | 🔵 blue | signal · decision · experiment · outcome¹ · bug · feature | *What kind of event is this?* |
 | **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
-| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
+| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight | *What does the evidence say about this claim?* |
 | **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
 
 ¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue.
@@ -138,7 +138,8 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
         │  Roadmap delta       → docs/strategy/           │
         │  Architectural call  → docs/architecture/adr/   │
         │  Non-arch commitment → [DECISION] issue         │
-        │  Re-look obligation  → docs/revisit-queue.md    │
+        │  Contradicted later  → reopen original issue,   │
+        │                        swap confirmed→hypothesis│
         └────────────────────┬────────────────────────────┘
                              │
                              ▼
@@ -158,7 +159,7 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
 Two governance rules embedded in the loop:
 
 - **Workflow status (Ideas / Todo / In Progress / Test / Done)** lives in the GitHub Project `Status` field — never in a label. It auto-updates on issue close.
-- **Each concept has one canonical home.** Outcomes are issue closures (not new issues). Decisions are ADRs *or* `[DECISION]` issues (never both). Revisit work is the doc (not a Project view).
+- **Each concept has one canonical home.** Outcomes are issue closures (not new issues). Decisions are ADRs *or* `[DECISION]` issues (never both). A learning that gets contradicted later is **reopened on its original issue** (swap `learning: confirmed` → `learning: hypothesis`) — there is no parallel "revisit queue".
 
 **Issues** are raw events — high volume, structured, machine-readable.
 **`/docs`** is synthesis — low volume, narrative, human-readable.
@@ -387,8 +388,7 @@ wastr-learning-loop/
 │   │   └── definitions.md                      canonical metric definitions
 │   │
 │   ├── knowledge/
-│   │   ├── confirmed-learnings.md              promoted insights (facts)
-│   │   └── revisit-queue.md                    insights now in doubt
+│   │   └── confirmed-learnings.md              promoted insights (facts)
 │   │
 │   └── architecture/
 │       └── adr/                                Architecture Decision Records
@@ -427,7 +427,7 @@ Recommended views (to be configured):
 | **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
 | **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
 
-> Revisit work is tracked in [`docs/revisit-queue.md`](docs/revisit-queue.md) — a scheduled review surface, not a daily project view. One source per concept.
+> When a new signal contradicts a confirmed learning, **reopen the original `learning: confirmed` issue** and swap the label back to `learning: hypothesis`. The issue is its own revisit queue — no separate doc or Project view. Decisions get their re-look tripwires via the `Revisit Trigger` section in each ADR / `[DECISION]` issue, which is a different mechanism.
 
 ### PR template — how code closes the loop
 
@@ -525,7 +525,7 @@ This repo is intentionally designed so that, in 6–12 months, an AI agent can:
 
 1. **Query the loop** — *"show me every invalidated bet about pricing in the last year and the signals that triggered them."* (already possible today via GitHub API.)
 2. **Propose new bets** — given recent signals, the agent suggests hypotheses with kill criteria, written as draft `[BET]` issues. (next step: MCP server over this repo.)
-3. **Detect contradictions** — when a new signal contradicts a `confirmed-learning`, the agent files it automatically into the `revisit-queue`.
+3. **Detect contradictions** — when a new signal contradicts a `learning: confirmed` issue, the agent reopens that issue, swaps the label back to `learning: hypothesis`, and posts a comment linking the new signal.
 4. **Pre-fill weekly reviews** — agent drafts the `[WEEKLY]` issue with metrics, shipped PRs, and clustered signals. Humans only approve and add interpretation.
 5. **Run autopilot experiments** — for low-risk feature flags, the agent proposes A/B splits, monitors metrics, and files the `[EXP]` outcome.
 

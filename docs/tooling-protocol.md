@@ -15,8 +15,10 @@
 2. **Within 48 h:** open `[SIGNAL]` issue(s) in this repo for each distinct
    observation. Quote the customer directly. Apply labels per the taxonomy.
 3. **Link** the Notion page URL in the issue footer.
-4. **If the signal contradicts a confirmed learning,** also apply
-   `learning: revisit` and the agent / weekly review will pick it up.
+4. **If the signal contradicts a confirmed learning,** also reopen the
+   original `learning: confirmed` issue, swap its label to
+   `learning: hypothesis`, and cross-link the two issues. The weekly review
+   will pick it up via the open-hypothesis filter.
 
 ### Strategy analysis (CEO + Perplexity)
 
@@ -49,14 +51,14 @@
 
 1. Open one `[WEEKLY]` issue from the template.
 2. Review: shipped PRs, new signals, running experiments, kill-criteria checks.
-3. Any signal that contradicts a confirmed learning → file into revisit queue.
+3. Any signal that contradicts a confirmed learning → reopen the original `learning: confirmed` issue and swap its label to `learning: hypothesis`.
 4. Any bet hitting kill criteria → close as `invalidated`.
 
 ### Monthly review (CEO + CTO, last Friday, 90 min)
 
 1. Promote eligible insights into `docs/knowledge/confirmed-learnings.md`.
 2. Re-rank `docs/strategy/roadmap-now-next-later.md`.
-3. Walk the revisit queue and close or re-confirm each item.
+3. Walk reopened `learning: hypothesis` issues (previously confirmed, now in doubt) and either re-confirm them or close as `learning: invalidated`.
 4. Update `docs/customers/pilot-learnings.md` with the month's synthesis.
 
 ---
