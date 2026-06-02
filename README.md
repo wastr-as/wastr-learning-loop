@@ -20,6 +20,41 @@ This repository is that record, that structure, and that loop. It is the **intel
 
 ---
 
+## Label taxonomy (25 labels, 5 groups)
+
+The rest of this document — the loop diagram, the issue templates, the rituals — is written in this vocabulary. Read this section first; everything downstream is a composition of these labels.
+
+Labels are typed and disciplined. They let us slice the entire company history by question.
+
+> **Workflow status lives in the GitHub Project, not in labels.**
+> The Project `Status` field (`Ideas / Todo / In Progress / Test / Done`) is the
+> single source of truth for *where in the pipeline* an item is, and it updates
+> automatically when issues are closed. Labels carry the *epistemic* dimension
+> only — what does the evidence say about the claim?
+
+| Group | Color | Labels | What it answers |
+|---|---|---|---|
+| **type:** | 🔵 blue | signal · decision · experiment · outcome¹ · bug · feature | *What kind of event is this?* |
+| **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
+| **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
+| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
+| **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
+
+¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue.
+
+Example queries this enables:
+
+- *"Show me every invalidated bet in the routing domain in the last 90 days."*
+  → `is:issue label:"type: decision" label:"learning: invalidated" label:"domain: routing"`
+- *"What new insights did our builder pilot generate?"*
+  → `label:"learning: new-insight" label:"segment: builder"`
+- *"What high-impact bugs are still open?"*
+  → `is:open label:"type: bug" label:"impact: high"`
+
+When AI agents are later wired in (via MCP), these are the queries they will reason over.
+
+---
+
 ## The loop, in one picture
 
 ```
@@ -291,39 +326,6 @@ What type of issue is closing?
 - Using `confirmed` on bets. If it was a bet, it's `validated` or `invalidated`.
 - Stacking multiple outcome labels "just in case." Pick the dominant one; the close comment carries nuance.
 - Avoiding `invalidated` because it feels like failure. It's the most valuable outcome — it stops you wasting more effort.
-
----
-
-## Label taxonomy (25 labels, 5 groups)
-
-Labels are typed and disciplined. They let us slice the entire company history by question.
-
-> **Workflow status lives in the GitHub Project, not in labels.**
-> The Project `Status` field (`Ideas / Todo / In Progress / Test / Done`) is the
-> single source of truth for *where in the pipeline* an item is, and it updates
-> automatically when issues are closed. Labels carry the *epistemic* dimension
-> only — what does the evidence say about the claim?
-
-| Group | Color | Labels | What it answers |
-|---|---|---|---|
-| **type:** | 🔵 blue | signal · decision · experiment · outcome¹ · bug · feature | *What kind of event is this?* |
-| **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
-| **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
-| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
-| **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
-
-¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue.
-
-Example queries this enables:
-
-- *"Show me every invalidated bet in the routing domain in the last 90 days."*
-  → `is:issue label:"type: decision" label:"learning: invalidated" label:"domain: routing"`
-- *"What new insights did our builder pilot generate?"*
-  → `label:"learning: new-insight" label:"segment: builder"`
-- *"What high-impact bugs are still open?"*
-  → `is:open label:"type: bug" label:"impact: high"`
-
-When AI agents are later wired in (via MCP), these are the queries they will reason over.
 
 ---
 
