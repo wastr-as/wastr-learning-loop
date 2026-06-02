@@ -1,7 +1,7 @@
 name: "05 · Experiment"
 description: "Design and track a structured experiment to validate or invalidate an assumption"
 title: "[EXP] "
-labels: ["type: experiment", "status: hypothesis"]
+labels: ["type: experiment", "learning: hypothesis"]
 body:
   - type: input
     id: linked_bet

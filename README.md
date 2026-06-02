@@ -132,10 +132,10 @@ Every event in the company has a home. No event is allowed to live only in Slack
 | # | Template | When to use it | Default labels |
 |---|---|---|---|
 | 01 | **Customer Signal** | A user said / did / showed us something. Quote them directly. | `type: signal` |
-| 02 | **Product Bet** | We're about to commit effort based on a hypothesis. | `type: decision`, `status: hypothesis` |
-| 03 | **Feature Spec** | We're building something concrete. | `type: feature`, `status: hypothesis` |
+| 02 | **Product Bet** | We're about to commit effort based on a hypothesis. | `type: decision`, `learning: hypothesis` |
+| 03 | **Feature Spec** | We're building something concrete. | `type: feature`, `learning: hypothesis` |
 | 04 | **Bug or Friction** | Something broke or felt wrong in production. | `type: bug` |
-| 05 | **Experiment** | We're running a structured test of a bet. | `type: experiment`, `status: hypothesis` |
+| 05 | **Experiment** | We're running a structured test of a bet. | `type: experiment`, `learning: hypothesis` |
 | 06 | **Decision Log** | We made a non-trivial architectural / product / operational choice. | `type: decision` |
 | 07 | **Weekly Review** | End of week — what shipped, what we learned, what's next. | `type: outcome` |
 
@@ -143,23 +143,28 @@ Each template forces the **important fields** to be filled in — e.g. a Product
 
 ---
 
-## Label taxonomy (27 labels, 6 groups)
+## Label taxonomy (25 labels, 5 groups)
 
 Labels are typed and disciplined. They let us slice the entire company history by question.
+
+> **Workflow status lives in the GitHub Project, not in labels.**
+> The Project `Status` field (`Ideas / Todo / In Progress / Test / Done`) is the
+> single source of truth for *where in the pipeline* an item is, and it updates
+> automatically when issues are closed. Labels carry the *epistemic* dimension
+> only — what does the evidence say about the claim?
 
 | Group | Color | Labels | What it answers |
 |---|---|---|---|
 | **type:** | 🔵 blue | signal · decision · experiment · outcome · bug · feature | *What kind of event is this?* |
 | **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
-| **status:** | 🟡 yellow | hypothesis · in-progress · validated · invalidated · shipped | *Where in the loop is it?* |
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
-| **learning:** | 🟢 green | confirmed · new-insight · revisit | *Did we update our beliefs?* |
+| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
 | **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
 
 Example queries this enables:
 
 - *"Show me every invalidated bet in the routing domain in the last 90 days."*
-  → `is:issue label:"type: decision" label:"status: invalidated" label:"domain: routing"`
+  → `is:issue label:"type: decision" label:"learning: invalidated" label:"domain: routing"`
 - *"What new insights did our builder pilot generate?"*
   → `label:"learning: new-insight" label:"segment: builder"`
 - *"What high-impact bugs are still open?"*
@@ -286,11 +291,11 @@ Recommended views (to be configured):
 | View | Filter | Purpose |
 |---|---|---|
 | **Signal stream** | `type: signal`, sorted by date | Raw firehose of customer reality |
-| **Active bets** | `type: decision` + `status: hypothesis` | What are we currently betting on? |
-| **Running experiments** | `type: experiment` + `status: in-progress` | What are we measuring? |
+| **Active bets** | `type: decision` + `learning: hypothesis` | What are we currently betting on? |
+| **Running experiments** | `type: experiment` + Project `Status = In Progress` | What are we measuring? |
 | **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
 | **Revisit queue** | `learning: revisit` | What do we owe ourselves a re-look on? |
-| **Shipped this quarter** | `status: shipped`, this quarter | Public-facing progress |
+| **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
 
 ---
 

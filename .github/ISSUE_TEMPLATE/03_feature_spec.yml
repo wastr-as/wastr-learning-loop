@@ -1,7 +1,7 @@
 name: "03 · Feature Spec"
 description: "Lightweight spec for a feature being built or considered"
 title: "[SPEC] "
-labels: ["type: feature", "status: hypothesis"]
+labels: ["type: feature", "learning: hypothesis"]
 body:
   - type: textarea
     id: problem

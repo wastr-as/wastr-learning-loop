@@ -83,7 +83,7 @@ interpretation: "One-line interpretation."
 ```yaml
 type: decision
 domain: <as above>
-status: hypothesis | validated | invalidated
+learning: hypothesis | validated | invalidated
 title: "Short imperative title"
 context: "What forced this decision now?"
 choice: "What we are going to do."

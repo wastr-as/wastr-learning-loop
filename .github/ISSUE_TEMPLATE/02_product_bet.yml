@@ -1,7 +1,7 @@
 name: "02 · Product Bet"
 description: "Capture a product bet: the hypothesis, the risk, and the success criteria"
 title: "[BET] "
-labels: ["type: decision", "status: hypothesis"]
+labels: ["type: decision", "learning: hypothesis"]
 body:
   - type: textarea
     id: hypothesis
