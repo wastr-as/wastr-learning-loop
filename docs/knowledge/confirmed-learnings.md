@@ -159,3 +159,31 @@ Each entry:
   - Confirmation screens should be read-only — if the user needs to edit on
     confirmation, the upstream step is broken.
 - **Date promoted:** 2026-05-20
+
+
+## L-011 — In a multi-market product, the localisation tax is identity and money, not the core flow
+
+- **Learning:** A product proven in one market does not generalise by "translating the UI."
+  The Brazil pilot showed the core capture flow (QR + photo + geo) transfers
+  cleanly to a different waste fraction and a different market with zero
+  changes. The *real* localisation work concentrated in two places we
+  underestimated: **identity** (CPF replacing Microsoft login as the legitimate
+  identifier) and **money** (currency and pricing abstractions that were hard-
+  coded to NOK). The hypothesis "core is geography-agnostic" was confirmed;
+  the new insight is *where* the per-market cost actually lives.
+- **Confirmed by:** [EXPERIMENT #30](https://github.com/wastr-as/wastr-learning-loop/issues/30)
+  (Brazil cooking-oil pilot, 2025-11-21 → 2026-02-20) and the cluster of
+  friction bugs that surfaced during it — CPF identity, address format (CEP +
+  apartment + responsible person), and pricing/currency rigidity.
+- **Implications:**
+  - Treat **identity** and **currency** as first-class architectural
+    abstractions, not configuration values. New-market entry should never
+    require touching domain code for these.
+  - The product's competitive moat (QR + photo + geo capture, two-way routing)
+    is *transferable*; do not delay EU expansion on assumptions that the core
+    flow needs rework per market.
+  - Pricing/currency abstraction is a near-term technical bet to derisk
+    market #3. Without it, every new country re-pays the same tax.
+  - When scoping the next pilot, budget for identity + address + money work
+    explicitly; do not bury them inside "localisation."
+- **Date promoted:** 2026-06-02
