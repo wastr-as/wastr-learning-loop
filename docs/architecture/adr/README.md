@@ -34,3 +34,4 @@ Each ADR contains:
 | [0011](0011-fleet-service.md) | New FleetService with its own datastore | Accepted | [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) |
 | [0012](0012-nvdb-toll-data-source.md) | NVDB as toll-data source for Norway | Accepted | [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) |
 | [0013](0013-route-engine-or-tools.md) | Route engine: Azure Maps (Layer 1) + OR-Tools (Layer 2) in new Routing Service | Accepted | [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) |
+| [0014](0014-co2-accounting.md) | CO₂ accounting: TTW for routing, HBEFA seed, WTW reserved for ESG | Accepted | [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) · [#47](https://github.com/wastr-as/wastr-learning-loop/issues/47) |
