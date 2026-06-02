@@ -172,6 +172,46 @@ Default is **one or the other, not both.** "Both" is a rare special case.
 
 When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* the decision to keep going — don't double-record.
 
+### The four `learning:` outcome labels
+
+When you close an experiment, bet, or signal, you swap `learning: hypothesis` for one of four outcome labels. They are **not synonyms** — pick the one that matches what actually happened.
+
+| Label | Means | Use when |
+|---|---|---|
+| **`learning: validated`** | The bet's success criterion was met. | An `[EXP]` / `[BET]` finished with the metric hitting target. Mechanical: "we predicted ≥15% reduction, we got 22%." |
+| **`learning: invalidated`** | The bet's kill criterion was hit. | An `[EXP]` / `[BET]` finished with the metric missing target by enough that we agreed up-front we'd stop. |
+| **`learning: confirmed`** | A belief we already held was reinforced by new evidence. | A `[SIGNAL]` or low-stakes observation that *confirms* the existing thesis without changing it. |
+| **`learning: new-insight`** | We learned something we didn't predict. | The experiment ran, but the *interesting* finding wasn't the headline metric. Side-effect, unexpected user behavior, novel constraint surfaced. |
+
+**Decision tree:**
+
+```
+Did we have an explicit hypothesis with kill criteria?
+├── Yes
+│   ├── Metric ≥ success threshold  →  learning: validated
+│   ├── Metric ≤ kill threshold     →  learning: invalidated
+│   └── In between (inconclusive)   →  keep learning: hypothesis,
+│                                       run longer or kill as invalidated
+│
+└── No (just a signal or observation)
+    ├── Reinforces what we already thought   →  learning: confirmed
+    └── Tells us something new                →  learning: new-insight
+```
+
+**Two distinctions that matter:**
+
+- **`validated` vs `confirmed`** — `validated` is for *bets/experiments* (a prediction was tested and was right). `confirmed` is for *signals/beliefs* (no formal prediction, just more evidence stacking up). A `[BET]` should never end as `confirmed` — if you wrote a bet, you committed to a measurable claim.
+- **`validated` vs `new-insight`** — these can co-exist on the same issue. If the experiment hit its target AND surfaced something surprising, use `validated` (primary outcome) and write the surprise in the close comment. Only use `new-insight` *instead* of `validated` if the surprise is more important than the headline metric.
+
+**No `inconclusive` label exists by design.** If a bet is inconclusive after its planned duration, either extend it (keep `learning: hypothesis`, update end date) or close it as `learning: invalidated` with a comment ("ran for X weeks, signal too weak to justify continued investment"). Inconclusive results that go nowhere *are* invalidations of the bet, even if not of the underlying belief.
+
+**Anti-patterns:**
+
+- Closing every shipped feature as `validated`. Shipping ≠ validating. Validation requires the metric to move.
+- Using `confirmed` on bets. If it was a bet, it's `validated` or `invalidated`.
+- Stacking multiple outcome labels "just in case." Pick the dominant one; the close comment carries nuance.
+- Avoiding `invalidated` because it feels like failure. It's the most valuable outcome — it stops you wasting more effort.
+
 ---
 
 ## Label taxonomy (25 labels, 5 groups)
