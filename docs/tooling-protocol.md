@@ -15,9 +15,14 @@
 2. **Within 48 h:** open `[SIGNAL]` issue(s) in this repo for each distinct
    observation. Quote the customer directly. Apply labels per the taxonomy.
 3. **Link** the Notion page URL in the issue footer.
-4. **If the signal contradicts a confirmed learning,** also reopen the
-   original `learning: confirmed` issue, swap its label to
-   `learning: hypothesis`, and cross-link the two issues. The weekly review
+4. **If the signal contradicts a confirmed learning,** apply the two-layer rule:
+   - **Issue-layer** (learning still lives on a `learning: confirmed` issue):
+     reopen that issue, swap its label to `learning: hypothesis`, cross-link
+     the two issues.
+   - **Doc-layer** (learning has been promoted into
+     `docs/knowledge/confirmed-learnings.md` as L-NNN): apply
+     `learning: revisit` to the new signal AND add a row to
+     `docs/knowledge/revisit-queue.md` pointing at the L-NNN entry. The weekly review
    will pick it up via the open-hypothesis filter.
 
 ### Strategy analysis (CEO + Perplexity)
@@ -51,14 +56,14 @@
 
 1. Open one `[WEEKLY]` issue from the template.
 2. Review: shipped PRs, new signals, running experiments, kill-criteria checks.
-3. Any signal that contradicts a confirmed learning → reopen the original `learning: confirmed` issue and swap its label to `learning: hypothesis`.
+3. Any signal that contradicts a confirmed learning → apply the two-layer rule (reopen the `learning: confirmed` issue OR add a row to `docs/knowledge/revisit-queue.md` if the learning has been promoted to a doc entry).
 4. Any bet hitting kill criteria → close as `invalidated`.
 
 ### Monthly review (CEO + CTO, last Friday, 90 min)
 
 1. Promote eligible insights into `docs/knowledge/confirmed-learnings.md`.
 2. Re-rank `docs/strategy/roadmap-now-next-later.md`.
-3. Walk reopened `learning: hypothesis` issues (previously confirmed, now in doubt) and either re-confirm them or close as `learning: invalidated`.
+3. Walk both revisit surfaces — reopened `learning: hypothesis` issues (previously confirmed, now in doubt) AND rows in `docs/knowledge/revisit-queue.md` — and either re-confirm each item or close as `learning: invalidated` (issues) / update `confirmed-learnings.md` (doc entries).
 4. Update `docs/customers/pilot-learnings.md` with the month's synthesis.
 
 ---

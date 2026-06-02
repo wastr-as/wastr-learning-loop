@@ -12,7 +12,7 @@
 |---|---|---|
 | **[Why this repo exists](#why-this-repo-exists)** + **[How this differs from Notion / Jira / Linear](#how-this-is-different-from-notion--jira--linear)** | The case for the loop and what it replaces. | Once, to buy the premise. |
 | **[The mental model](#the-mental-model)** | Vocabulary, loop diagram, worked example. | Once, end-to-end. After this you understand the system. |
-| **[Reference — when filing or closing issues](#reference--when-filing-or-closing-issues)** | Issue templates, ADR vs `[DECISION]`, hypothesis rules, `[BET]` vs `[EXPERIMENT]`, the four `learning:` outcomes, repo layout. | Look up while filing or closing issues. |
+| **[Reference — when filing or closing issues](#reference--when-filing-or-closing-issues)** | Issue templates, ADR vs `[DECISION]`, hypothesis rules, `[BET]` vs `[EXPERIMENT]`, the four `learning:` outcomes, contradicted learnings, repo layout. | Look up while filing or closing issues. |
 | **[Operating the system](#operating-the-system)** | Rituals, project views, PR template, multi-tool integration. | Before your first weekly review and your first cross-repo PR. |
 | **[How to start using it (today)](#how-to-start-using-it-today)** · **[Path to AI-native ops](#the-path-to-ai-native-operations)** · **[FAQ](#faq)** · **[Contact](#contact--owners)** | Onboarding checklist, roadmap, common objections. | Optional. |
 
@@ -65,10 +65,10 @@ Labels are typed and disciplined. They let us slice the entire company history b
 | **type:** | 🔵 blue | signal · decision · experiment · outcome¹ · bug · feature | *What kind of event is this?* |
 | **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
-| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight | *What does the evidence say about this claim?* |
+| **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
 | **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
 
-¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue.
+¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue. `learning: revisit` is applied to a **signal** that contradicts something previously confirmed (see [synthesis step 5](#the-loop-in-one-picture) and [contradicted learnings](#when-a-confirmed-learning-gets-contradicted)).
 
 Example queries this enables:
 
@@ -138,8 +138,10 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
         │  Roadmap delta       → docs/strategy/           │
         │  Architectural call  → docs/architecture/adr/   │
         │  Non-arch commitment → [DECISION] issue         │
-        │  Contradicted later  → reopen original issue,   │
-        │                        swap confirmed→hypothesis│
+        │  Contradicted later  → reopen issue (swap        │
+        │                        confirmed→hypothesis) OR  │
+        │                        row in revisit-queue.md   │
+        │                        if learning lives in docs │
         └────────────────────┬────────────────────────────┘
                              │
                              ▼
@@ -159,7 +161,7 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
 Two governance rules embedded in the loop:
 
 - **Workflow status (Ideas / Todo / In Progress / Test / Done)** lives in the GitHub Project `Status` field — never in a label. It auto-updates on issue close.
-- **Each concept has one canonical home.** Outcomes are issue closures (not new issues). Decisions are ADRs *or* `[DECISION]` issues (never both). A learning that gets contradicted later is **reopened on its original issue** (swap `learning: confirmed` → `learning: hypothesis`) — there is no parallel "revisit queue".
+- **Each concept has one canonical home.** Outcomes are issue closures (not new issues). Decisions are ADRs *or* `[DECISION]` issues (never both). Contradicted learnings follow the **two-layer rule**: if the learning still lives on its `learning: confirmed` issue, reopen the issue and swap the label back to `learning: hypothesis`; if the learning has been promoted into [`docs/knowledge/confirmed-learnings.md`](docs/knowledge/confirmed-learnings.md) (entries L-001, L-002, …), add a row to [`docs/knowledge/revisit-queue.md`](docs/knowledge/revisit-queue.md) and tag the contradicting `[SIGNAL]` with `learning: revisit`. See [contradicted learnings](#when-a-confirmed-learning-gets-contradicted) for the full procedure.
 
 **Issues** are raw events — high volume, structured, machine-readable.
 **`/docs`** is synthesis — low volume, narrative, human-readable.
@@ -354,6 +356,28 @@ What type of issue is closing?
 - Stacking multiple outcome labels "just in case." Pick the dominant one; the close comment carries nuance.
 - Avoiding `invalidated` because it feels like failure. It's the most valuable outcome — it stops you wasting more effort.
 
+### When a confirmed learning gets contradicted
+
+Sometimes a new signal contradicts something we had already marked `learning: confirmed`. The procedure depends on **where the confirmed learning currently lives** — there are two layers, and they use different mechanisms.
+
+**Two-layer rule:**
+
+| Layer | Where the learning lives | Mechanism when contradicted |
+|---|---|---|
+| **Issue-layer** | Still a closed GitHub issue with `learning: confirmed`, not yet promoted to docs | **Reopen the issue**, swap `learning: confirmed` → `learning: hypothesis`, cross-link the contradicting signal in a comment. The reopened issue *is* the revisit surface. |
+| **Doc-layer** | Promoted into [`docs/knowledge/confirmed-learnings.md`](docs/knowledge/confirmed-learnings.md) as L-NNN (the issue is closed and superseded by the doc) | Add a row to [`docs/knowledge/revisit-queue.md`](docs/knowledge/revisit-queue.md) pointing at the L-NNN entry, AND apply `learning: revisit` to the contradicting `[SIGNAL]` issue. |
+
+**Why two mechanisms?** Once a learning has been promoted into `confirmed-learnings.md`, the canonical home is the doc entry (L-NNN), not the original closed issue. Reopening a long-closed issue would split the source of truth. The revisit-queue row is the doc-layer equivalent of "reopen the issue".
+
+**The `learning: revisit` label** is applied to the **contradicting signal**, not to the original learning. Query: `is:issue label:"learning: revisit"` returns every signal currently calling a confirmed belief into question. The label is the entry point; the revisit-queue row is the tracking artefact.
+
+**Resolution at the next monthly review:**
+
+- **Issue-layer**: walk reopened `learning: hypothesis` issues that were previously confirmed. Either re-confirm (swap back to `learning: confirmed`) or close as `learning: invalidated`.
+- **Doc-layer**: walk rows in `revisit-queue.md`. Either update the L-NNN entry in `confirmed-learnings.md` (still true, was a one-off; or amend the wording) or move it out of `confirmed-learnings.md` entirely if the belief no longer holds. Either way, remove the revisit-queue row and remove the `learning: revisit` label from the contradicting signal.
+
+**Not to be confused with ADR `Revisit Trigger` sections** — those are tripwires defined *at the time a decision is made* ("reopen this ADR if X happens"). The revisit mechanism above is reactive (a contradicting signal arrived); ADR triggers are proactive (we anticipated when to re-look). Both can coexist on the same topic.
+
 ### Repository layout
 
 ```
@@ -388,7 +412,8 @@ wastr-learning-loop/
 │   │   └── definitions.md                      canonical metric definitions
 │   │
 │   ├── knowledge/
-│   │   └── confirmed-learnings.md              promoted insights (facts)
+│   │   ├── confirmed-learnings.md              promoted insights (facts)
+│   │   └── revisit-queue.md                    promoted insights now in doubt
 │   │
 │   └── architecture/
 │       └── adr/                                Architecture Decision Records
@@ -427,7 +452,7 @@ Recommended views (to be configured):
 | **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
 | **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
 
-> When a new signal contradicts a confirmed learning, **reopen the original `learning: confirmed` issue** and swap the label back to `learning: hypothesis`. The issue is its own revisit queue — no separate doc or Project view. Decisions get their re-look tripwires via the `Revisit Trigger` section in each ADR / `[DECISION]` issue, which is a different mechanism.
+> Contradicted learnings use a **two-layer mechanism** — issue-layer learnings reopen their original issue, doc-layer learnings get a row in [`docs/knowledge/revisit-queue.md`](docs/knowledge/revisit-queue.md). Neither is a daily project view; both are scheduled review surfaces. See [when a confirmed learning gets contradicted](#when-a-confirmed-learning-gets-contradicted).
 
 ### PR template — how code closes the loop
 
@@ -525,7 +550,7 @@ This repo is intentionally designed so that, in 6–12 months, an AI agent can:
 
 1. **Query the loop** — *"show me every invalidated bet about pricing in the last year and the signals that triggered them."* (already possible today via GitHub API.)
 2. **Propose new bets** — given recent signals, the agent suggests hypotheses with kill criteria, written as draft `[BET]` issues. (next step: MCP server over this repo.)
-3. **Detect contradictions** — when a new signal contradicts a `learning: confirmed` issue, the agent reopens that issue, swaps the label back to `learning: hypothesis`, and posts a comment linking the new signal.
+3. **Detect contradictions** — when a new signal contradicts a previously confirmed learning, the agent applies the two-layer rule: if the learning still lives on an open `learning: confirmed` issue, it reopens that issue and swaps the label to `learning: hypothesis`; if the learning has been promoted into `docs/knowledge/confirmed-learnings.md`, it adds a row to `docs/knowledge/revisit-queue.md` and tags the new signal `learning: revisit`. In both cases it cross-links the contradicting signal.
 4. **Pre-fill weekly reviews** — agent drafts the `[WEEKLY]` issue with metrics, shipped PRs, and clustered signals. Humans only approve and add interpretation.
 5. **Run autopilot experiments** — for low-risk feature flags, the agent proposes A/B splits, monitors metrics, and files the `[EXP]` outcome.
 
