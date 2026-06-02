@@ -23,41 +23,56 @@ This repository is that record, that structure, and that loop. It is the **intel
 ## The loop, in one picture
 
 ```
-        ┌────────────────────────────────────────────┐
-        │  1. SIGNALS                                │
-        │  Raw observations from the real world      │
-        │  (interviews, pilots, support, analytics)  │
-        └──────────────────┬─────────────────────────┘
-                           │  cluster + interpret
-                           ▼
-        ┌────────────────────────────────────────────┐
-        │  2. BETS                                   │
-        │  Hypotheses with success + kill criteria   │
-        └──────────────────┬─────────────────────────┘
-                           │  design test
-                           ▼
-        ┌────────────────────────────────────────────┐
-        │  3. EXPERIMENTS                            │
-        │  Structured tests, measurable outcomes     │
-        └──────────────────┬─────────────────────────┘
-                           │  ship + measure
-                           ▼
-        ┌────────────────────────────────────────────┐
-        │  4. OUTCOMES                               │
-        │  Validated / invalidated / inconclusive    │
-        └──────────────────┬─────────────────────────┘
-                           │  weekly + monthly review
-                           ▼
-        ┌────────────────────────────────────────────┐
-        │  5. SYNTHESIS                              │
-        │  Confirmed learnings → /docs/knowledge     │
-        │  Roadmap updated → /docs/strategy          │
-        │  Decisions logged → /docs/architecture     │
-        └──────────────────┬─────────────────────────┘
-                           │
-                           ▼
-                     (next cycle)
+        ┌─────────────────────────────────────────────────┐
+        │  1. SIGNALS                                     │
+        │  Raw observations from the real world           │
+        │  (interviews, pilots, support, analytics)       │
+        │  → [SIGNAL] issue, type:signal                  │
+        └────────────────────┬────────────────────────────┘
+                             │  cluster + interpret (weekly)
+                             ▼
+        ┌─────────────────────────────────────────────────┐
+        │  2. BETS                                        │
+        │  Hypotheses with success + kill criteria        │
+        │  → [BET] issue, type:decision,                  │
+        │    learning:hypothesis                          │
+        └────────────────────┬────────────────────────────┘
+                             │  design test
+                             ▼
+        ┌─────────────────────────────────────────────────┐
+        │  3. EXPERIMENTS                                 │
+        │  Structured tests with a measurable metric      │
+        │  → [EXP] issue, type:experiment,                │
+        │    learning:hypothesis                          │
+        └────────────────────┬────────────────────────────┘
+                             │  ship + measure
+                             ▼
+        ┌─────────────────────────────────────────────────┐
+        │  4. CLOSURE                                     │
+        │  Close the [EXP] / [BET] with a summary         │
+        │  comment + swap learning:hypothesis for         │
+        │  learning:confirmed | validated | invalidated   │
+        │  | new-insight. No new "outcome" issue.         │
+        └────────────────────┬────────────────────────────┘
+                             │  monthly review
+                             ▼
+        ┌─────────────────────────────────────────────────┐
+        │  5. SYNTHESIS                                   │
+        │  Confirmed learning  → docs/knowledge/          │
+        │  Roadmap delta       → docs/strategy/           │
+        │  Architectural call  → docs/architecture/adr/   │
+        │  Non-arch commitment → [DECISION] issue         │
+        │  Re-look obligation  → docs/revisit-queue.md    │
+        └────────────────────┬────────────────────────────┘
+                             │
+                             ▼
+                       (next cycle)
 ```
+
+Two governance rules embedded in the loop:
+
+- **Workflow status (Ideas / Todo / In Progress / Test / Done)** lives in the GitHub Project `Status` field — never in a label. It auto-updates on issue close.
+- **Each concept has one canonical home.** Outcomes are issue closures (not new issues). Decisions are ADRs *or* `[DECISION]` issues (never both). Revisit work is the doc (not a Project view).
 
 **Issues** are raw events — high volume, structured, machine-readable.
 **`/docs`** is synthesis — low volume, narrative, human-readable.
