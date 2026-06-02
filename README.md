@@ -202,7 +202,28 @@ Every step is captured, linked, labelled, and searchable. A new team member — 
 
 ## Reference — when filing or closing issues
 
-> You don't need to read this part front-to-back. Look up what you need when you're about to file an issue, close one, or write a decision record.
+> Don't read this front-to-back. The table below is the cheat sheet — one row per issue type, every other rule in this section is a deeper cut of one of these columns. Jump to the linked subsection only when the table isn't enough.
+
+### Cheat sheet — one row per issue type
+
+| Issue type | Template | Opens with labels | On close — `learning:` action | Carries a hypothesis? | Canonical decision home | Deeper cut |
+|---|---|---|---|---|---|---|
+| **`[SIGNAL]`** | [01](#issue-templates) | `type: signal` (no `learning:`) | **Add** `learning: confirmed` / `invalidated` / `new-insight`. If it contradicts a doc-layer learning, also **add** `learning: revisit`. | No — raw observation | — | [Outcomes](#the-four-learning-outcome-labels) · [Contradicted](#when-a-confirmed-learning-gets-contradicted) |
+| **`[BET]`** | [02](#issue-templates) | `type: decision`, `learning: hypothesis` | **Swap** `hypothesis` → `validated` / `invalidated` / `new-insight` | Yes — strategic claim, multi-week | The closed `[BET]` *is* the commitment record | [BET vs EXP](#bet-vs-experiment--which-do-i-file) · [Hypothesis](#what-is-a-hypothesis) |
+| **`[SPEC]`** | [03](#issue-templates) | `type: feature`, `learning: hypothesis` | **Swap** `hypothesis` → `validated` / `invalidated` / `new-insight` | Yes — implicit *"shipping this produces the intended outcome"* | — | [Hypothesis](#what-is-a-hypothesis) |
+| **`[BUG]`** | [04](#issue-templates) | `type: bug` | None — bugs are fixed or won't-fix. If a pattern emerges, file a new `[SIGNAL]`. | No — fact, not claim | — | — |
+| **`[EXP]`** | [05](#issue-templates) | `type: experiment`, `learning: hypothesis` | **Swap** `hypothesis` → `validated` / `invalidated` / `new-insight` | Yes — one falsifiable, time-boxed claim | — | [BET vs EXP](#bet-vs-experiment--which-do-i-file) |
+| **`[DECISION]`** | [06](#issue-templates) | `type: decision` (no `learning:`) | None — decisions are made, not validated | No — choice already made | **Architectural** → ADR canonical, issue optional pointer. **Product / commercial / ops** → `[DECISION]` issue canonical. Never both. | [ADR vs DECISION](#decision-records-adr-vs-decision-issue) |
+| **`[WEEKLY]`** | [07](#issue-templates) | `type: outcome` (no `learning:`) | None — snapshot. **Only** issue type allowed to carry `type: outcome`. | No — observation of the loop | — | — |
+
+**Quick-lookup recipes:**
+
+- *"What labels go on a fresh X?"* → **Opens with** column.
+- *"I'm closing X — what do I change?"* → **On close** column.
+- *"Should this be a `[BET]` or `[EXPERIMENT]`?"* → [BET vs EXP](#bet-vs-experiment--which-do-i-file).
+- *"Is this an ADR or a `[DECISION]` issue?"* → [Decision records](#decision-records-adr-vs-decision-issue).
+- *"A confirmed learning is now in doubt — what do I do?"* → [When a confirmed learning gets contradicted](#when-a-confirmed-learning-gets-contradicted).
+- *"What's the difference between `validated` and `confirmed`?"* → [The four `learning:` outcome labels](#the-four-learning-outcome-labels).
 
 ### Issue templates
 
