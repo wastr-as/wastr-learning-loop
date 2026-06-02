@@ -172,6 +172,24 @@ Default is **one or the other, not both.** "Both" is a rare special case.
 
 When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* the decision to keep going — don't double-record.
 
+### What is a hypothesis?
+
+In this repo, a **hypothesis** is a *claim about the future that the world can prove wrong.* It has three required properties:
+
+1. **Specific** — it names a concrete change, audience, and direction. Not *"users will like this"*, but *"return-load suggestions will increase Drammen transporter weekly revenue."*
+2. **Falsifiable** — there is at least one observable outcome that would force you to abandon the claim. If you can't describe what would change your mind, it's a belief, not a hypothesis.
+3. **Time-bounded** — it commits to a window in which the answer should arrive. *"Within 4 weeks"*, *"by end of Q3"*, *"after 100 orders processed."* Unbounded hypotheses become zombies.
+
+A good hypothesis follows the shape:
+
+> **We believe** *[change]* will produce *[outcome]* for *[audience]* within *[time window]*.
+> **We'll know we're right when** *[observable metric or behaviour]*.
+> **We'll kill it if** *[failure threshold]*.
+
+The `learning: hypothesis` label marks any issue that *carries* an open hypothesis — i.e. the world hasn't yet told us if the claim holds. It's the **epistemic state** of "not settled." When evidence arrives, the label is swapped for one of the outcome labels (`validated` / `invalidated` / `new-insight`).
+
+Hypotheses live on `[BET]`, `[EXPERIMENT]`, and `[SPEC]` issues. They do **not** live on `[DECISION]` issues (a decision is a choice that has already been made) or `[BUG]` issues (a bug is a fact, not a claim).
+
 ### HOWTO: `[BET]` vs `[EXPERIMENT]` — both carry `learning: hypothesis`, so which do I file?
 
 This is the most-confused pair, because both are open claims about the future. The difference is **scope and shape of the claim.**
