@@ -400,7 +400,7 @@ wastr-learning-loop/
 
 ## Operating the system
 
-> How the loop runs day-to-day: when we meet, what views to use, how code changes connect back to issues, and how the four tools we use (Notion, Perplexity, Claude, GitHub) fit together.
+> How the loop runs day-to-day: when we meet, what views to use, how code changes connect back to issues, and how our tool pipeline (Notion → Perplexity → GitHub, with Claude / Copilot on the code side) fits together.
 
 ### Rituals — weekly & monthly cadence
 
@@ -455,14 +455,14 @@ Every PR is required to:
 
 This makes the codebase a *citation* of the intelligence layer, not an independent artifact.
 
-### Multi-tool integration (Notion, Perplexity, Claude, GitHub)
+### Multi-tool integration (Notion → Perplexity → GitHub)
 
-WASTR runs on four tools, not one. The risk in a multi-tool setup is the same
-idea drifting across systems with no agreed canonical version. Three short
-documents define how the tools fit together:
+The loop runs on a **pipeline**, not a set of parallel tools. Each tool has a
+distinct job, and content flows in one direction toward the canonical store.
+Three short documents define the contract:
 
-- [docs/sync-contract.md](docs/sync-contract.md) — what lives where, and how a
-  draft gets promoted to canonical.
+- [docs/sync-contract.md](docs/sync-contract.md) — what lives where, and how
+  raw capture gets refined into a canonical result.
 - [docs/tooling-protocol.md](docs/tooling-protocol.md) — concrete workflows
   (interviews, strategy analysis, code changes, weekly / monthly reviews).
 - [docs/ownership.md](docs/ownership.md) — file-by-file owner map.
@@ -470,25 +470,39 @@ documents define how the tools fit together:
 In one picture:
 
 ```
-   Notion                Perplexity              Claude / Copilot
-   (drafts,              (strategy &             (code generation,
-    meeting notes,        research               repo edits)
-    customer logs)        scratchpad)
-       │                     │                          │
-       │  draft              │  Learning Log            │  PR
-       ▼                     ▼                          ▼
-   ┌─────────────────────────────────────────────────────────┐
-   │                       GitHub                            │
-   │  wastr-learning-loop  ──  issues + /docs (canonical)    │
-   │  Wastr.Services.*     ──  production code               │
-   │  Wastr.Apps.*         ──  production code               │
-   │   PR template links every code change back to the loop  │
-   └─────────────────────────────────────────────────────────┘
+   Notion                  Perplexity                GitHub
+   (raw capture)           (synthesis engine)        (canonical record)
+   meeting notes,    ───►  clusters, summarises,  ───►  issues + /docs
+   interview                turns raw notes into          in this repo
+   transcripts,             a structured result
+   customer logs            (hypothesis, signal
+                            cluster, strategy memo)
+                                                          │
+                                                          │  referenced by
+                                                          ▼
+                                              Claude / Copilot
+                                              (code generation, repo edits)
+                                                          │
+                                                          │  PR
+                                                          ▼
+                                              Wastr.Services.* / Wastr.Apps.*
+                                              (production code, PR template
+                                               links every change back to
+                                               the loop)
 ```
 
-Notion and Perplexity are **upstream** of GitHub, never parallel to it. Once
-something is promoted into this repo, the GitHub version is the version
-everyone references.
+**Notion is raw input, not a parallel source of truth.** It holds the messy
+artefacts of real work — meeting notes, customer call transcripts, half-formed
+thoughts. Nothing in Notion is canonical.
+
+**Perplexity is the promotion engine.** It reads the raw Notion material, asks
+clarifying questions, and produces a *result*: a structured hypothesis, a
+signal cluster, a strategy memo — already in the shape of a GitHub issue or
+`/docs` file. A human reviews that result and files it.
+
+Once the result lands in this repo, the GitHub version is the version everyone
+references. The Notion source becomes archival; if the two ever disagree,
+GitHub wins.
 
 ---
 
