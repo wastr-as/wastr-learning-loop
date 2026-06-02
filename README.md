@@ -141,6 +141,8 @@ Every event in the company has a home. No event is allowed to live only in Slack
 
 Each template forces the **important fields** to be filled in — e.g. a Product Bet must declare its **kill criteria** before it can be filed. This is how we prevent zombie projects.
 
+> **Outcomes are not their own issue type.** When an experiment or bet concludes, close the existing issue with a summary comment and swap `learning: hypothesis` for `learning: confirmed` / `validated` / `invalidated` / `new-insight`. The close comment *is* the outcome record. The `type: outcome` label is reserved exclusively for **Weekly Review** snapshots (template 07).
+
 ---
 
 ## Label taxonomy (25 labels, 5 groups)
@@ -155,11 +157,13 @@ Labels are typed and disciplined. They let us slice the entire company history b
 
 | Group | Color | Labels | What it answers |
 |---|---|---|---|
-| **type:** | 🔵 blue | signal · decision · experiment · outcome · bug · feature | *What kind of event is this?* |
+| **type:** | 🔵 blue | signal · decision · experiment · outcome¹ · bug · feature | *What kind of event is this?* |
 | **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
 | **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
 | **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
+
+¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue.
 
 Example queries this enables:
 
@@ -194,7 +198,7 @@ Let's trace one realistic scenario from raw signal to shipped feature, end-to-en
 
 5. **Implementation PRs** in `Wastr.Apps.Web.Driver` and `Wastr.Services.Matching` — each PR's body links back to `#58` and `#63` via the PR template.
 
-6. **Outcome (`#71`)** — Result: 22% reduction in empty-running. Bet validated.
+6. **Experiment closure** — `[EXP] #63` is closed with a comment summarising the result: *"22% reduction in empty-running over 4 weeks across 3 transporters. Bet validated."* The `learning: hypothesis` label is swapped for `learning: confirmed`. **No new issue is created for the outcome** — the close comment on the experiment is the outcome.
 
 7. **Synthesis** — At the monthly review, this learning is promoted to `docs/knowledge/confirmed-learnings.md`. Roadmap in `docs/strategy/roadmap-now-next-later.md` moves the feature from "Next" to "Now" for full rollout.
 
