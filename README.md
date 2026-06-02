@@ -172,53 +172,6 @@ Default is **one or the other, not both.** "Both" is a rare special case.
 
 When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* the decision to keep going — don't double-record.
 
-### HOWTO: `[DECISION]` vs `[EXPERIMENT]` — which issue type?
-
-Both close a question — but they answer **different kinds** of questions. Picking the wrong type produces zombie issues (decisions that never get measured, experiments that were really just opinions in disguise).
-
-| Aspect | `[DECISION]` (`type: decision`) | `[EXPERIMENT]` (`type: experiment`) |
-|---|---|---|
-| **Question form** | *"Which option do we pick?"* | *"Is our hypothesis true?"* |
-| **Inputs** | Existing knowledge, constraints, trade-offs | A testable assumption + a measurable outcome |
-| **Output** | A chosen path + rationale (often an ADR) | A `learning:` outcome (validated / invalidated / new-insight) |
-| **Reversibility** | Often hard to reverse cheaply | Designed to be cheap to run and discard |
-| **Time scale** | Hours–days of discussion, then committed | Days–weeks of running, then concluded |
-| **Carries `learning:` label?** | ❌ No | ✅ Yes (mandatory on close) |
-| **Promotes to** | An ADR in `docs/architecture/adr/` (if architectural) | A line in `docs/knowledge/confirmed-learnings.md` (if durable) |
-
-**Use `[DECISION]` when** you have enough information already and need to commit to one path to unblock work. The work is *choosing*, not *learning*. Examples: pick Cosmos vs SQL for ordering, put secrets in Key Vault, keep Sandbox separate from Prod.
-
-**Use `[EXPERIMENT]` when** you have a hypothesis you cannot validate from a desk — you need to ship something small, observe reality, and let data answer. Examples: "will transporters use return-load suggestions?", "does the Customer App generalise to a non-CDW market?".
-
-**Litmus test:** ask yourself —
-
-> *"Could a smart team disagree on the answer using only what we already know?"*
-
-- **Yes, but the disagreement is about preferences/trade-offs** → `[DECISION]`. Argue it out, pick one, write an ADR.
-- **Yes, and we genuinely don't know which side is right because the world hasn't told us yet** → `[EXPERIMENT]`. Don't argue — go measure.
-- **No, the answer is obvious from prior work** → not an issue. Just do it.
-
-**Where `[BET]` fits — the three-way distinction:**
-
-A `[BET]` is *not* a third kind of decision and *not* a kind of experiment — it's the **commitment that sits between them**. The cleanest way to see it is by combining the two labels that matter:
-
-| Issue | `type:` | `learning:` | Means |
-|---|---|---|---|
-| **`[DECISION]`** | `decision` | *none* | Settled choice. We've picked Option A, we're moving on. No open claim about the future. |
-| **`[BET]`** | `decision` | `hypothesis` | Committed direction with an open claim. *"We're going to invest in X because we believe Y will happen."* The decision part is "we're doing this"; the hypothesis part is "and here's what we expect to see." |
-| **`[EXPERIMENT]`** | `experiment` | `hypothesis` | A specific structured test that will move the bet's hypothesis to validated / invalidated / new-insight. Falsifiable, time-boxed, has a metric. |
-
-So `learning: hypothesis` is the **epistemic state** — it says "this is not settled yet, the world hasn't told us if we're right." It lives on bets and experiments because both are bets on the future; it does not live on decisions because decisions are already-made calls.
-
-A bet typically spawns one or more experiments. Example: the bet *"return-load suggestions will reduce empty-running by ≥15%"* spawns the experiment *"4-week Drammen pilot with 3 transporters, metric = empty-run % per driver per week."* When the experiment closes with `learning: validated`, the bet inherits that outcome (and gets the same label swap).
-
-When a bet has no experiment behind it, it's just an opinion in disguise. Either design the experiment or downgrade the bet to a `[DECISION]` and admit you're committing without measurement.
-
-**Quick rule of thumb:**
-
-> If you find yourself writing *"we'll see if it works"* in a `[DECISION]` issue, it should be an `[EXPERIMENT]`.
-> If you find yourself writing *"Option A vs Option B trade-offs"* in an `[EXPERIMENT]` issue, it should be a `[DECISION]`.
-
 ### HOWTO: `[BET]` vs `[EXPERIMENT]` — both carry `learning: hypothesis`, so which do I file?
 
 This is the most-confused pair, because both are open claims about the future. The difference is **scope and shape of the claim.**
