@@ -64,7 +64,8 @@
 1. Promote eligible insights into `docs/knowledge/confirmed-learnings.md`.
 2. Re-rank `docs/strategy/roadmap-now-next-later.md`.
 3. Walk both revisit surfaces — reopened `learning: hypothesis` issues (previously confirmed, now in doubt) AND rows in `docs/knowledge/revisit-queue.md` — and either re-confirm each item or close as `learning: invalidated` (issues) / update `confirmed-learnings.md` (doc entries).
-4. Update `docs/customers/pilot-learnings.md` with the month's synthesis.
+4. Scan `[SIGNAL]` issues across segments — if the same pattern appears in ≥3 signals, open an `[L-NNN]` promotion candidate or add a cross-segment note to `docs/customers/pilot-learnings.md`.
+5. Update `docs/customers/pilot-learnings.md` with the month's synthesis (per-segment notes + any cross-segment patterns identified in step 4).
 
 ---
 

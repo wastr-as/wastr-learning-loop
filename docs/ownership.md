@@ -26,8 +26,7 @@ The point of this map is not bureaucracy. It is to remove the daily question
 | `docs/strategy/product-thesis.md` | CEO | CTO contributes the "what is shipped today" section. |
 | `docs/strategy/roadmap-now-next-later.md` | Both | Updated at monthly review. |
 | `docs/strategy/decision-log.md` | Both | Index file; auto-curated where possible. |
-| `docs/customers/pilot-learnings.md` | CEO | Synthesis of customer signals. |
-| `docs/customers/objections-and-signals.md` | CEO | Recurring patterns. |
+| `docs/customers/pilot-learnings.md` | CEO | Synthesis of customer signals, incl. recurring cross-segment patterns. |
 | `docs/rituals/*.md` | Both | Process changes require both. |
 | `docs/metrics/definitions.md` | CTO | Canonical metric definitions. CEO contributes business-side metrics. |
 | `docs/knowledge/confirmed-learnings.md` | Both | Promotions decided at monthly review. |

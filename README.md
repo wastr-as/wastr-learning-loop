@@ -422,8 +422,7 @@ wastr-learning-loop/
 │   │   └── decision-log.md                     index of all [DECISION] issues
 │   │
 │   ├── customers/
-│   │   ├── pilot-learnings.md                  synthesis across signals
-│   │   └── objections-and-signals.md           recurring patterns
+│   │   └── pilot-learnings.md                  synthesis across signals (incl. cross-segment patterns)
 │   │
 │   ├── rituals/
 │   │   ├── weekly-review-template.md           how we run Friday reviews

@@ -28,8 +28,7 @@ never parallel to it.
 | Artifact | Drafted in | Promoted to (canonical) | Trigger for promotion |
 |---|---|---|---|
 | Customer interview raw notes | Notion | `[SIGNAL]` issue (GitHub) | Within 48 h of interview |
-| Recurring customer pattern | Notion | `docs/customers/objections-and-signals.md` | Monthly review |
-| Pilot synthesis | Notion | `docs/customers/pilot-learnings.md` | Monthly review |
+| Pilot synthesis (incl. recurring patterns across segments) | Notion | `docs/customers/pilot-learnings.md` | Monthly review |
 | Product hypothesis | Anywhere | `[BET]` issue (GitHub) | Before any build effort |
 | Feature spec | Anywhere | `[SPEC]` issue (GitHub) | Before code is written |
 | Experiment design | Anywhere | `[EXP]` issue (GitHub) | Before experiment starts |
