@@ -188,7 +188,11 @@ A good hypothesis follows the shape:
 
 The `learning: hypothesis` label marks any issue that *carries* an open hypothesis — i.e. the world hasn't yet told us if the claim holds. It's the **epistemic state** of "not settled." When evidence arrives, the label is swapped for one of the outcome labels (`validated` / `invalidated` / `new-insight`).
 
-Hypotheses live on `[BET]`, `[EXPERIMENT]`, and `[SPEC]` issues. They do **not** live on `[DECISION]` issues (a decision is a choice that has already been made) or `[BUG]` issues (a bug is a fact, not a claim).
+Hypotheses live on `[BET]`, `[EXPERIMENT]`, and `[SPEC]` issues. They do **not** live on:
+
+- `[DECISION]` issues — a decision is a choice that has already been made.
+- `[BUG]` issues — a bug is a fact, not a claim.
+- `[SIGNAL]` issues — a signal is a raw observation from the world, not a claim about the future. Signals start with no `learning:` label and *receive* one on close (`confirmed` / `invalidated` / `new-insight`) to record how the team interpreted the evidence.
 
 ### HOWTO: `[BET]` vs `[EXPERIMENT]` — both carry `learning: hypothesis`, so which do I file?
 
