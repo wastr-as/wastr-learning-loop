@@ -4,13 +4,15 @@
 > Covers the whole company across four lanes: Product, Commercial, Funding & partnerships, Team & ops.
 > Update at every monthly review. Move items only when learnings justify it.
 
-_Last updated: 2026-06-02_
+_Last updated: 2026-06-03_
 
 ## Now (this quarter — currently in flight)
 
 ### Product
 - [ ] Vipps login + checkout cutover from placeholder to live (NO market) — [#43](https://github.com/wastr-as/wastr-learning-loop/issues/43) (blocks bet [#41](https://github.com/wastr-as/wastr-learning-loop/issues/41), depends on merchant credentials)
-- [ ] Driver vehicle model (capacity + accepted waste types) — [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) (first concrete enabler for [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44); scope: persist + admin UI only, no consumer logic)
+- [ ] **FleetService** — vehicle catalog + instances + assignments + toll reference data — [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) ([ADR-0011](../architecture/adr/0011-fleet-service.md)); first of three named enablers for bet [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44)
+- [ ] **Toll-aware routing** — compute API in Geolocation Service, data plane in FleetService — [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) ([ADR-0012](../architecture/adr/0012-nvdb-toll-data-source.md) chose NVDB)
+- [ ] **Routing Service** — OR-Tools-based VRP / PDP / two-way logistics optimisation engine — [#47](https://github.com/wastr-as/wastr-learning-loop/issues/47) ([ADR-0013](../architecture/adr/0013-route-engine-or-tools.md)); core IP of bet [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44)
 
 ### Commercial
 - [ ] Provision Vipps merchant account (Test + Prod) — commercial half of [#43](https://github.com/wastr-as/wastr-learning-loop/issues/43)
@@ -38,10 +40,10 @@ _Last updated: 2026-06-02_
 ## Later (parked — keep visible, don't commit)
 
 ### Product
-- [ ] Smart route planner — auto-assign orders to most suitable driver, pre-accept simulation at marketplace, pluggable strategy (time / distance / cost / CO₂), toll-aware (bomstasjon), two-way logistics integration — [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (directional bet, anchors near-term decisions; not yet a spec)
+- [ ] Smart route planner — auto-assign orders to most suitable driver, pre-accept simulation at marketplace, pluggable strategy (time / distance / cost / CO₂), toll-aware (bomstasjon), two-way logistics integration — [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (directional bet; engineering enablers [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) + [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) + [#47](https://github.com/wastr-as/wastr-learning-loop/issues/47) now in flight in Now/Product, but the user-visible bet payoff is still gated on pilot collector volume)
 
 ### Commercial
-- [ ] Obtain toll-data API access (Fjellinjen / Statens vegvesen) — prerequisite for [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) (toll-aware routing) and [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (smart route planner); commercial / procurement step, no code
+- [ ] Toll-data commercial source (Fjellinjen / Skyttel) — exit ramp from NVDB per [ADR-0012](../architecture/adr/0012-nvdb-toll-data-source.md) revisit triggers (NVDB chosen as free primary; commercial only if accuracy / fallback maintenance becomes painful)
 
 ### Commercial
 - [ ] …
