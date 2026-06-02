@@ -174,28 +174,38 @@ When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* t
 
 ### The four `learning:` outcome labels
 
-When you close an experiment, bet, or signal, you swap `learning: hypothesis` for one of four outcome labels. They are **not synonyms** — pick the one that matches what actually happened.
+When you close an experiment, bet, or signal, you apply one of four `learning:` outcome labels. The mechanism differs slightly by issue type:
+
+- **`[BET]` / `[SPEC]` / `[EXP]`** — start their life with `learning: hypothesis`. On close, **swap** `learning: hypothesis` for one of the outcome labels below.
+- **`[SIGNAL]`** — starts with no `learning:` label (just `type: signal`). On close, **add** one of the outcome labels below.
+- **`[BUG]` / `[DECISION]` / `[WEEKLY]`** — don't use `learning:` labels at all. Bugs are fixed or won't-fix; decisions are made; weekly reviews are snapshots.
+
+The four labels are **not synonyms** — pick the one that matches what actually happened.
 
 | Label | Means | Use when |
 |---|---|---|
-| **`learning: validated`** | The bet's success criterion was met. | An `[EXP]` / `[BET]` finished with the metric hitting target. Mechanical: "we predicted ≥15% reduction, we got 22%." |
-| **`learning: invalidated`** | The bet's kill criterion was hit. | An `[EXP]` / `[BET]` finished with the metric missing target by enough that we agreed up-front we'd stop. |
-| **`learning: confirmed`** | A belief we already held was reinforced by new evidence. | A `[SIGNAL]` or low-stakes observation that *confirms* the existing thesis without changing it. |
-| **`learning: new-insight`** | We learned something we didn't predict. | The experiment ran, but the *interesting* finding wasn't the headline metric. Side-effect, unexpected user behavior, novel constraint surfaced. |
+| **`learning: validated`** | The bet's success criterion was met. | A `[BET]` / `[EXP]` / `[SPEC]` finished with the metric hitting target. Mechanical: "we predicted ≥15% reduction, we got 22%." Never used on signals. |
+| **`learning: invalidated`** | The bet's kill criterion was hit, OR a signal turned out to be noise. | A `[BET]` / `[EXP]` missed target by enough that we agreed up-front we'd stop. Or a `[SIGNAL]` we couldn't reproduce / wasn't real. |
+| **`learning: confirmed`** | A belief we already held was reinforced by new evidence. | A `[SIGNAL]` that confirms the existing thesis without changing it ("yes, 3 more transporters said the same thing"). Never used on bets. |
+| **`learning: new-insight`** | We learned something we didn't predict. | A `[BET]` / `[EXP]` where the *interesting* finding wasn't the headline metric, OR a `[SIGNAL]` that tells us something new about the world. |
 
 **Decision tree:**
 
 ```
-Did we have an explicit hypothesis with kill criteria?
-├── Yes
+What type of issue is closing?
+├── [BET] / [SPEC] / [EXP]  (started with learning: hypothesis)
+│   │  swap learning: hypothesis for:
 │   ├── Metric ≥ success threshold  →  learning: validated
 │   ├── Metric ≤ kill threshold     →  learning: invalidated
+│   ├── Unexpected dominant finding →  learning: new-insight
 │   └── In between (inconclusive)   →  keep learning: hypothesis,
 │                                       run longer or kill as invalidated
 │
-└── No (just a signal or observation)
-    ├── Reinforces what we already thought   →  learning: confirmed
-    └── Tells us something new                →  learning: new-insight
+└── [SIGNAL]  (started with no learning: label)
+    │  add one of:
+    ├── Reinforces existing thesis        →  learning: confirmed
+    ├── Tells us something new            →  learning: new-insight
+    └── Noise / couldn't reproduce        →  learning: invalidated
 ```
 
 **Two distinctions that matter:**
