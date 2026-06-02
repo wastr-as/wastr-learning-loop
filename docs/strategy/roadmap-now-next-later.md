@@ -41,7 +41,7 @@ _Last updated: 2026-06-02_
 - [ ] Smart route planner — auto-assign orders to most suitable driver, pre-accept simulation at marketplace, pluggable strategy (time / distance / cost / CO₂), toll-aware (bomstasjon), two-way logistics integration — [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (directional bet, anchors near-term decisions; not yet a spec)
 
 ### Commercial
-- [ ] Obtain toll-data API access (Fjellinjen / Statens vegvesen) — prerequisite for toll-aware routing in [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44); commercial / procurement step, no code
+- [ ] Obtain toll-data API access (Fjellinjen / Statens vegvesen) — prerequisite for [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) (toll-aware routing) and [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (smart route planner); commercial / procurement step, no code
 
 ### Commercial
 - [ ] …
