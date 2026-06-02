@@ -172,6 +172,43 @@ Default is **one or the other, not both.** "Both" is a rare special case.
 
 When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* the decision to keep going — don't double-record.
 
+### HOWTO: `[DECISION]` vs `[EXPERIMENT]` — which issue type?
+
+Both close a question — but they answer **different kinds** of questions. Picking the wrong type produces zombie issues (decisions that never get measured, experiments that were really just opinions in disguise).
+
+| Aspect | `[DECISION]` (`type: decision`) | `[EXPERIMENT]` (`type: experiment`) |
+|---|---|---|
+| **Question form** | *"Which option do we pick?"* | *"Is our hypothesis true?"* |
+| **Inputs** | Existing knowledge, constraints, trade-offs | A testable assumption + a measurable outcome |
+| **Output** | A chosen path + rationale (often an ADR) | A `learning:` outcome (validated / invalidated / new-insight) |
+| **Reversibility** | Often hard to reverse cheaply | Designed to be cheap to run and discard |
+| **Time scale** | Hours–days of discussion, then committed | Days–weeks of running, then concluded |
+| **Carries `learning:` label?** | ❌ No | ✅ Yes (mandatory on close) |
+| **Promotes to** | An ADR in `docs/architecture/adr/` (if architectural) | A line in `docs/knowledge/confirmed-learnings.md` (if durable) |
+
+**Use `[DECISION]` when** you have enough information already and need to commit to one path to unblock work. The work is *choosing*, not *learning*. Examples: pick Cosmos vs SQL for ordering, put secrets in Key Vault, keep Sandbox separate from Prod.
+
+**Use `[EXPERIMENT]` when** you have a hypothesis you cannot validate from a desk — you need to ship something small, observe reality, and let data answer. Examples: "will transporters use return-load suggestions?", "does the Customer App generalise to a non-CDW market?".
+
+**Litmus test:** ask yourself —
+
+> *"Could a smart team disagree on the answer using only what we already know?"*
+
+- **Yes, but the disagreement is about preferences/trade-offs** → `[DECISION]`. Argue it out, pick one, write an ADR.
+- **Yes, and we genuinely don't know which side is right because the world hasn't told us yet** → `[EXPERIMENT]`. Don't argue — go measure.
+- **No, the answer is obvious from prior work** → not an issue. Just do it.
+
+**Where `[BET]` fits:** a `[BET]` is the *commitment* ("we are going to invest effort in X to validate Y"). It typically spawns:
+- one or more **`[DECISION]`** issues for the architectural choices it forces, and
+- one or more **`[EXPERIMENT]`** issues for the actual market/user test that proves it.
+
+The bet is the commitment, the decision is the choice, the experiment is the measurement. Three separate things, three separate issues.
+
+**Quick rule of thumb:**
+
+> If you find yourself writing *"we'll see if it works"* in a `[DECISION]` issue, it should be an `[EXPERIMENT]`.
+> If you find yourself writing *"Option A vs Option B trade-offs"* in an `[EXPERIMENT]` issue, it should be a `[DECISION]`.
+
 ### The four `learning:` outcome labels
 
 When you close an experiment, bet, or signal, you apply one of four `learning:` outcome labels. The mechanism differs slightly by issue type:
