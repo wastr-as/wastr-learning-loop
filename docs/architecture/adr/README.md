@@ -33,3 +33,4 @@ Each ADR contains:
 | [0010](0010-vipps-for-no-identity-and-payment.md) | Vipps for NO identity + payment (Customer App) | Accepted | [#42](https://github.com/wastr-as/wastr-learning-loop/issues/42) |
 | [0011](0011-fleet-service.md) | New FleetService with its own datastore | Accepted | [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) |
 | [0012](0012-nvdb-toll-data-source.md) | NVDB as toll-data source for Norway | Accepted | [#46](https://github.com/wastr-as/wastr-learning-loop/issues/46) |
+| [0013](0013-route-engine-or-tools.md) | Route engine: Azure Maps (Layer 1) + OR-Tools (Layer 2) in new Routing Service | Accepted | [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) |
