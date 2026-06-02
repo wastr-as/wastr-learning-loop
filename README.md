@@ -294,8 +294,9 @@ Recommended views (to be configured):
 | **Active bets** | `type: decision` + `learning: hypothesis` | What are we currently betting on? |
 | **Running experiments** | `type: experiment` + Project `Status = In Progress` | What are we measuring? |
 | **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
-| **Revisit queue** | `learning: revisit` | What do we owe ourselves a re-look on? |
 | **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
+
+> Revisit work is tracked in [`docs/revisit-queue.md`](docs/revisit-queue.md) — a scheduled review surface, not a daily project view. One source per concept.
 
 ---
 
