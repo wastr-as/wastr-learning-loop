@@ -61,7 +61,8 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
         ┌─────────────────────────────────────────────────┐
         │  1. SIGNALS                                     │
         │  Raw observations from the real world           │
-        │  (interviews, pilots, support, analytics)       │
+        │  (interviews, pilots, support, analytics,       │
+        │   AND production bugs — see step 4b)            │
         │  → [SIGNAL] issue, type:signal                  │
         └────────────────────┬────────────────────────────┘
                              │  cluster + interpret (weekly)
@@ -72,22 +73,36 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
         │  → [BET] issue, type:decision,                  │
         │    learning:hypothesis                          │
         └────────────────────┬────────────────────────────┘
-                             │  design test
+                             │  design test + build
+              ┌──────────────┼──────────────┐
+              ▼                             ▼
+   ┌──────────────────────┐    ┌──────────────────────────┐
+   │  3a. SPECS           │    │  3b. EXPERIMENTS         │
+   │  The thing we build  │    │  The measurement of      │
+   │  to support the bet  │◄───┤  whether the spec works  │
+   │  → [SPEC] issue,     │    │  → [EXP] issue,          │
+   │    type:feature,     │    │    type:experiment,      │
+   │    learning:         │    │    learning:hypothesis   │
+   │    hypothesis        │    │                          │
+   └──────────┬───────────┘    └────────────┬─────────────┘
+              │  ship                       │  measure
+              └──────────────┬──────────────┘
                              ▼
         ┌─────────────────────────────────────────────────┐
-        │  3. EXPERIMENTS                                 │
-        │  Structured tests with a measurable metric      │
-        │  → [EXP] issue, type:experiment,                │
-        │    learning:hypothesis                          │
+        │  4a. CLOSURE                                    │
+        │  Close the [EXP] / [SPEC] / [BET] with a        │
+        │  summary comment + swap learning:hypothesis for │
+        │  learning:validated | invalidated | new-insight │
+        │  No new "outcome" issue.                        │
         └────────────────────┬────────────────────────────┘
-                             │  ship + measure
+                             │  in production, reality bites
                              ▼
         ┌─────────────────────────────────────────────────┐
-        │  4. CLOSURE                                     │
-        │  Close the [EXP] / [BET] with a summary         │
-        │  comment + swap learning:hypothesis for         │
-        │  learning:confirmed | validated | invalidated   │
-        │  | new-insight. No new "outcome" issue.         │
+        │  4b. BUGS & FRICTION                            │
+        │  Something broke or felt wrong post-ship        │
+        │  → [BUG] issue, type:bug                        │
+        │  Fixed in code; if it reveals a pattern, file   │
+        │  a new [SIGNAL] back into step 1.               │
         └────────────────────┬────────────────────────────┘
                              │  monthly review
                              ▼
@@ -102,6 +117,16 @@ When AI agents are later wired in (via MCP), these are the queries they will rea
                              │
                              ▼
                        (next cycle)
+
+        ─── orthogonal cadence ───────────────────────────
+        ┌─────────────────────────────────────────────────┐
+        │  WEEKLY REVIEW (Fridays)                        │
+        │  A snapshot that observes the loop, not a step  │
+        │  in it. Aggregates what shipped, what closed,   │
+        │  what was learned, what's next.                 │
+        │  → [WEEKLY] issue, type:outcome                 │
+        │  (the ONLY legitimate source of type:outcome)   │
+        └─────────────────────────────────────────────────┘
 ```
 
 Two governance rules embedded in the loop:
