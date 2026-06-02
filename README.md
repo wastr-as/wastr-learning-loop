@@ -219,6 +219,47 @@ When a bet has no experiment behind it, it's just an opinion in disguise. Either
 > If you find yourself writing *"we'll see if it works"* in a `[DECISION]` issue, it should be an `[EXPERIMENT]`.
 > If you find yourself writing *"Option A vs Option B trade-offs"* in an `[EXPERIMENT]` issue, it should be a `[DECISION]`.
 
+### HOWTO: `[BET]` vs `[EXPERIMENT]` — both carry `learning: hypothesis`, so which do I file?
+
+This is the most-confused pair, because both are open claims about the future. The difference is **scope and shape of the claim.**
+
+| Aspect | `[BET]` (`type: decision` + `learning: hypothesis`) | `[EXPERIMENT]` (`type: experiment` + `learning: hypothesis`) |
+|---|---|---|
+| **What it is** | A *strategic commitment* — "we are going to invest effort in X because we believe Y." | A *tactical, structured test* of one falsifiable claim. |
+| **Granularity** | Broad. *"Return-load suggestions will reduce empty-running."* | Narrow. *"4-week Drammen pilot with 3 transporters: empty-run % per driver per week drops ≥15%."* |
+| **Time scale** | Weeks–quarters. Outlives any single experiment. | Days–weeks. Has a hard end date. |
+| **Metric** | Optional headline metric, often qualitative ("transporters adopt this"). | **Required.** One number, one threshold, defined up front. |
+| **Spawns** | Typically 1–N experiments + maybe specs and decisions. | Usually nothing — it produces evidence that updates its parent bet. |
+| **Closure** | Closes when the underlying belief is resolved (via the experiments it spawned). | Closes on the planned end date, with the metric result. |
+| **Killable mid-flight?** | Yes — if early experiments invalidate, kill the bet before more is spent. | Almost never — you let it run to its planned end so the data is comparable. |
+
+**Use `[BET]` when** you're making a multi-week direction call — you want to *commit and signal* that the team is going this way, even before you know exactly which experiments will prove it. A bet is the *parent* container for a thesis.
+
+**Use `[EXPERIMENT]` when** you have a single, sharp, falsifiable claim with a metric and a time-box. An experiment is *the act of measuring*.
+
+**The parent/child relationship:**
+
+```
+[BET]  Return-load suggestions reduce empty-running     (strategic claim, 1 quarter)
+  ├── [EXPERIMENT]  Drammen 4-week pilot, 3 transporters  (one measurement)
+  ├── [EXPERIMENT]  Oslo 8-week pilot, 8 transporters     (replication at scale)
+  └── [SPEC]        Driver-app UI for return-load card    (the build to support both)
+```
+
+The bet doesn't have a metric of its own — its outcome is the *sum* of its experiments. If Drammen validates AND Oslo validates → bet `learning: validated`. If Drammen invalidates → kill the bet without running Oslo, mark `learning: invalidated`.
+
+**Anti-patterns:**
+
+- **Filing a bet as an experiment** — *"Pilot Customer App in Brazil"* as a single `[EXPERIMENT]`. It's actually a bet ("we believe the core flow generalises across markets") that should spawn experiments (Brazil pilot, then market #2). Look at #30 — backfilled as an experiment, but the *real* hypothesis ("the product is geography-agnostic") is a bet that lasts beyond one pilot.
+- **Filing an experiment as a bet** — *"Run a 4-week A/B test on button copy"* as a `[BET]`. It's not a strategic commitment, it's a measurement. Use `[EXPERIMENT]`.
+- **Filing a hypothesis without either** — typing "we should try this" into a `[DECISION]` issue. If it's not settled, it's a bet or an experiment, not a decision.
+
+**Quick rule of thumb:**
+
+> If the claim takes longer than a single test to resolve → `[BET]`.
+> If the claim is *"one test will tell us"* → `[EXPERIMENT]`.
+> A bet without at least one experiment to back it up is an opinion. Add the experiment or downgrade the bet.
+
 ### The four `learning:` outcome labels
 
 When you close an experiment, bet, or signal, you apply one of four `learning:` outcome labels. The mechanism differs slightly by issue type:
