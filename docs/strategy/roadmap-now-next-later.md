@@ -9,10 +9,10 @@ _Last updated: 2026-06-02_
 ## Now (this quarter — currently in flight)
 
 ### Product
-- [ ] …
+- [ ] Vipps login + checkout cutover from placeholder to live (NO market) — [#43](https://github.com/wastr-as/wastr-learning-loop/issues/43) (blocks bet [#41](https://github.com/wastr-as/wastr-learning-loop/issues/41), depends on merchant credentials)
 
 ### Commercial
-- [ ] …
+- [ ] Provision Vipps merchant account (Test + Prod) — commercial half of [#43](https://github.com/wastr-as/wastr-learning-loop/issues/43)
 
 ### Funding & partnerships
 - [ ] …
@@ -23,7 +23,7 @@ _Last updated: 2026-06-02_
 ## Next (next quarter — on deck, specs being shaped)
 
 ### Product
-- [ ] …
+- [ ] Cross-market payment strategy (BR + future EU) — Vipps is NO-only per [ADR-0010](../architecture/adr/0010-vipps-for-no-identity-and-payment.md)
 
 ### Commercial
 - [ ] …

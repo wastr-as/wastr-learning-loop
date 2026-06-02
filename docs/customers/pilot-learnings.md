@@ -37,3 +37,5 @@ _No data yet — first Oslo transporter pilot signals pending. Re-add subsection
 - Quantitative impact of UX hardening on QR-to-order conversion rate (no baseline captured pre-fixes).
 - Whether the BR pilot finding generalises to a **third** market (would confirm the platform thesis at a higher confidence level).
 - Whether the pricing/currency abstraction is sufficient for non-NOK markets — not yet exercised; revisit when first paid BR order lands.
+- **Vipps conversion impact for NO builders** — flow scaffolded ([#40](https://github.com/wastr-as/wastr-learning-loop/issues/40)) but no live calls yet. Bet ([#41](https://github.com/wastr-as/wastr-learning-loop/issues/41)) cannot be evaluated until merchant credentials are provisioned and the cutover ships ([#43](https://github.com/wastr-as/wastr-learning-loop/issues/43)).
+- **Cross-market payment strategy** — Vipps is NO-only ([ADR-0010](../architecture/adr/0010-vipps-for-no-identity-and-payment.md)); BR pilot still has no payment path.
