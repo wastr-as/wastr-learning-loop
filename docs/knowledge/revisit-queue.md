@@ -5,7 +5,7 @@
 
 | # | Original learning | Contradicting signal | Status | Owner |
 |---|---|---|---|---|
-| – | – | – | – | – |
+| 1 | **L-010** — Resolve address at the picker, not at confirmation | [#36](https://github.com/wastr-as/wastr-learning-loop/issues/36) — geo-resolved address sometimes wrong, no manual override. Shipping fallback in [#37](https://github.com/wastr-as/wastr-learning-loop/issues/37). **Trigger to revisit L-010 itself:** `addressSource = "manual"` rate exceeds 20% over a rolling 30-day window. | open | @siarhei-karabitski |
 
 ## Rules
 
