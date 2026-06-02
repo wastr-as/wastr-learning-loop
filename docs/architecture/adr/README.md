@@ -31,4 +31,4 @@ Each ADR contains:
 | [0008](0008-immutable-audit-trail-user-ids.md) | Immutable audit trail — store IDs, resolve names at read time | Accepted | – |
 | [0009](0009-route-owns-order-sequence.md) | Route owns order sequence via ordered `OrderIds` array | Accepted | – |
 | [0010](0010-vipps-for-no-identity-and-payment.md) | Vipps for NO identity + payment (Customer App) | Accepted | [#42](https://github.com/wastr-as/wastr-learning-loop/issues/42) |
-| [0011](0011-vehicle-fleet-in-collector-service.md) | Vehicle + Fleet domain in Collector Service (no separate FleetService yet) | Accepted | [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) |
+| [0011](0011-fleet-service.md) | New FleetService with its own datastore | Accepted | [#45](https://github.com/wastr-as/wastr-learning-loop/issues/45) |
