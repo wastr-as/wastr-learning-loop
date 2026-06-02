@@ -198,11 +198,21 @@ Both close a question — but they answer **different kinds** of questions. Pick
 - **Yes, and we genuinely don't know which side is right because the world hasn't told us yet** → `[EXPERIMENT]`. Don't argue — go measure.
 - **No, the answer is obvious from prior work** → not an issue. Just do it.
 
-**Where `[BET]` fits:** a `[BET]` is the *commitment* ("we are going to invest effort in X to validate Y"). It typically spawns:
-- one or more **`[DECISION]`** issues for the architectural choices it forces, and
-- one or more **`[EXPERIMENT]`** issues for the actual market/user test that proves it.
+**Where `[BET]` fits — the three-way distinction:**
 
-The bet is the commitment, the decision is the choice, the experiment is the measurement. Three separate things, three separate issues.
+A `[BET]` is *not* a third kind of decision and *not* a kind of experiment — it's the **commitment that sits between them**. The cleanest way to see it is by combining the two labels that matter:
+
+| Issue | `type:` | `learning:` | Means |
+|---|---|---|---|
+| **`[DECISION]`** | `decision` | *none* | Settled choice. We've picked Option A, we're moving on. No open claim about the future. |
+| **`[BET]`** | `decision` | `hypothesis` | Committed direction with an open claim. *"We're going to invest in X because we believe Y will happen."* The decision part is "we're doing this"; the hypothesis part is "and here's what we expect to see." |
+| **`[EXPERIMENT]`** | `experiment` | `hypothesis` | A specific structured test that will move the bet's hypothesis to validated / invalidated / new-insight. Falsifiable, time-boxed, has a metric. |
+
+So `learning: hypothesis` is the **epistemic state** — it says "this is not settled yet, the world hasn't told us if we're right." It lives on bets and experiments because both are bets on the future; it does not live on decisions because decisions are already-made calls.
+
+A bet typically spawns one or more experiments. Example: the bet *"return-load suggestions will reduce empty-running by ≥15%"* spawns the experiment *"4-week Drammen pilot with 3 transporters, metric = empty-run % per driver per week."* When the experiment closes with `learning: validated`, the bet inherits that outcome (and gets the same label swap).
+
+When a bet has no experiment behind it, it's just an opinion in disguise. Either design the experiment or downgrade the bet to a `[DECISION]` and admit you're committing without measurement.
 
 **Quick rule of thumb:**
 
