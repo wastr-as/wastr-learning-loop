@@ -143,6 +143,20 @@ Each template forces the **important fields** to be filled in — e.g. a Product
 
 > **Outcomes are not their own issue type.** When an experiment or bet concludes, close the existing issue with a summary comment and swap `learning: hypothesis` for `learning: confirmed` / `validated` / `invalidated` / `new-insight`. The close comment *is* the outcome record. The `type: outcome` label is reserved exclusively for **Weekly Review** snapshots (template 07).
 
+### Decision records: ADR vs `[DECISION]` issue
+
+Each decision has exactly **one** canonical home. Never both.
+
+| Decision type | Canonical home | Why |
+|---|---|---|
+| **Architectural / technical** — changes how code is structured, what services exist, what protocols we speak | **ADR** under `docs/architecture/adr/` | Engineers need to find it in 2 years while reading code. Numbered, stable URL, browsable as a sequence. |
+| **Product / commercial / operational** — no code structure impact (pricing, vendor choice, hiring model, partner strategy) | **`[DECISION]` issue** (template 06) | Lives where the bets and signals that produced it live. Closeable, commentable, linkable from non-engineering work. |
+| **Architectural AND broad org impact** | **ADR is canonical, `[DECISION]` issue is a pointer** (optional) | The ADR has the substance; the issue exists only if non-engineers also need to find the decision. The issue body says "See ADR-NNNN" and nothing else. |
+
+Default is **one or the other, not both.** "Both" is a rare special case.
+
+When to skip both entirely: a closed `[BET]` with a clear outcome comment *is* the decision to keep going — don't double-record.
+
 ---
 
 ## Label taxonomy (25 labels, 5 groups)
@@ -202,7 +216,7 @@ Let's trace one realistic scenario from raw signal to shipped feature, end-to-en
 
 7. **Synthesis** — At the monthly review, this learning is promoted to `docs/knowledge/confirmed-learnings.md`. Roadmap in `docs/strategy/roadmap-now-next-later.md` moves the feature from "Next" to "Now" for full rollout.
 
-8. **Decision (`#74`)** — `[DECISION]` issue: *"Return-load suggestion becomes a core capability of the matching service."* ADR added under `docs/architecture/adr/`.
+8. **Architectural commitment** — Because this changes what the matching service does, an ADR is written: `ADR-NNNN: Return-load suggestion as a core capability of the matching service`. The ADR links back to `[BET] #51` and `[EXP] #63` as evidence. **No separate `[DECISION]` issue** — the ADR is the decision record.
 
 Every step is captured, linked, labelled, and searchable. A new team member — or a future AI agent — can read this chain end-to-end in minutes.
 
