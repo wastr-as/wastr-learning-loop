@@ -1,0 +1,95 @@
+name: Enforce learning label on close
+
+# Reopens any [BET]/[SPEC]/[EXP]/[SIGNAL] issue closed without a proper
+# learning: outcome label. See README "The four learning: outcome labels".
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.issue.labels.map(l => l.name);
+
+            const requiresLearning = labels.some(l =>
+              ['type: signal', 'type: decision', 'type: experiment', 'type: feature'].includes(l)
+            );
+
+            // [DECISION] log entries (template 06) use type: decision but are not
+            // hypotheses being tested — they are decisions being recorded. Detect
+            // by absence of learning: hypothesis at any point in the issue's life.
+            // Simplest heuristic: a [BET] / [SPEC] / [EXP] always starts with
+            // learning: hypothesis, a [DECISION] never does.
+            const isHypothesisIssue = labels.includes('learning: hypothesis');
+
+            const outcomeLabels = [
+              'learning: confirmed',
+              'learning: validated',
+              'learning: invalidated',
+              'learning: new-insight'
+            ];
+            const hasOutcome = labels.some(l => outcomeLabels.includes(l));
+
+            // Rules:
+            // 1. If issue has type: signal/decision/experiment/feature and was
+            //    closed with learning: hypothesis still attached -> reopen.
+            // 2. If issue has type: signal/experiment/feature and has neither
+            //    learning: hypothesis nor an outcome label -> reopen.
+            // (type: decision items that are [DECISION] log entries are exempt
+            //  from rule 2 because they don't use learning: labels at all.)
+
+            const stillHypothesis = isHypothesisIssue;
+            const isBetLikeType = labels.some(l =>
+              ['type: signal', 'type: experiment', 'type: feature'].includes(l)
+            );
+            const missingOutcome = isBetLikeType && !hasOutcome;
+
+            if (!requiresLearning) {
+              core.info('Issue type does not require a learning: label. Skipping.');
+              return;
+            }
+
+            if (!stillHypothesis && !missingOutcome) {
+              core.info('Learning label is set correctly on close. OK.');
+              return;
+            }
+
+            const reasons = [];
+            if (stillHypothesis) {
+              reasons.push('`learning: hypothesis` is still attached \u2014 swap it for one of `learning: validated` / `invalidated` / `new-insight`.');
+            }
+            if (missingOutcome) {
+              reasons.push('No `learning:` outcome label is set \u2014 add one of `learning: confirmed` / `invalidated` / `new-insight` (or `validated` for bets/experiments).');
+            }
+
+            const body = [
+              '\u26a0\ufe0f **Closure rejected by the learning-loop guard.**',
+              '',
+              ...reasons.map(r => '- ' + r),
+              '',
+              'Reopening. Fix the labels (and ideally add a close comment with the outcome), then close again.',
+              '',
+              'See [README \u2192 The four `learning:` outcome labels](../blob/main/README.md#the-four-learning-outcome-labels) for guidance.'
+            ].join('\n');
+
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number: context.issue.number,
+              state: 'open'
+            });
+
+            core.setFailed('Closed without a valid learning: outcome label.');
