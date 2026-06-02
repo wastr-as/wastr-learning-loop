@@ -1,4 +1,4 @@
-t# Product Thesis
+# Product Thesis
 
 > **Why this problem, why us, why now.**
 
@@ -66,6 +66,12 @@ materials + return waste) is the technical core IP.
   documents (domain model ready; UI work pending).
 - Full ESG / NS 9431 reporting dashboard.
 - Neutral multi-actor API standard (research project #9).
+- **Smart route planner** — auto-assignment of orders to drivers based on
+  capacity / waste-type / schedule / geography, pre-accept simulation at the
+  marketplace ("where does this fit in your existing routes?"), pluggable
+  optimization strategy (time / distance / toll-aware / CO₂), and Norwegian
+  bomstasjon cost integration. Directional bet anchoring near-term routing
+  choices — see [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44).
 
 ## Why Us
 

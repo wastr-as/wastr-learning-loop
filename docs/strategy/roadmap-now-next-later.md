@@ -37,7 +37,7 @@ _Last updated: 2026-06-02_
 ## Later (parked — keep visible, don't commit)
 
 ### Product
-- [ ] …
+- [ ] Smart route planner — auto-assign orders to most suitable driver, pre-accept simulation at marketplace, pluggable strategy (time / distance / cost / CO₂), toll-aware (bomstasjon), two-way logistics integration — [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44) (directional bet, anchors near-term decisions; not yet a spec)
 
 ### Commercial
 - [ ] …
