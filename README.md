@@ -6,6 +6,18 @@
 
 ---
 
+## Contents
+
+| Section | What's in it | When to read |
+|---|---|---|
+| **[Why this repo exists](#why-this-repo-exists)** + **[How this differs from Notion / Jira / Linear](#how-this-is-different-from-notion--jira--linear)** | The case for the loop and what it replaces. | Once, to buy the premise. |
+| **[The mental model](#the-mental-model)** | Vocabulary, loop diagram, worked example. | Once, end-to-end. After this you understand the system. |
+| **[Reference — when filing or closing issues](#reference--when-filing-or-closing-issues)** | Issue templates, ADR vs `[DECISION]`, hypothesis rules, `[BET]` vs `[EXPERIMENT]`, the four `learning:` outcomes, repo layout. | Look up while filing or closing issues. |
+| **[Operating the system](#operating-the-system)** | Rituals, project views, PR template, multi-tool integration. | Before your first weekly review and your first cross-repo PR. |
+| **[How to start using it (today)](#how-to-start-using-it-today)** · **[Path to AI-native ops](#the-path-to-ai-native-operations)** · **[FAQ](#faq)** · **[Contact](#contact--owners)** | Onboarding checklist, roadmap, common objections. | Optional. |
+
+---
+
 ## Why this repo exists
 
 WASTR is being built as an **AI-native startup**. That is not a marketing phrase — it is an operating principle. For AI to take on real decisions (route suggestions, pricing, matching, customer comms), it needs three things we do not yet have at scale:
@@ -20,9 +32,25 @@ This repository is that record, that structure, and that loop. It is the **intel
 
 ---
 
-## Label taxonomy (25 labels, 5 groups)
+## How this is different from Notion / Jira / Linear
 
-The rest of this document — the loop diagram, the issue templates, the rituals — is written in this vocabulary. Read this section first; everything downstream is a composition of these labels.
+| Concern | Traditional setup | This repo |
+|---|---|---|
+| Source of truth | Scattered (Slack, Notion, Jira, Drive) | One repo, one project board |
+| Structure | Free-text pages, ad-hoc tags | Typed issue templates, controlled label taxonomy |
+| Searchability | Full-text, fragile | Label + field queries, GitHub API, future MCP |
+| AI-readability | Poor (mixed formats) | High (issues = JSON-shaped events) |
+| Change history | Notion page history | Git commit history on every doc |
+| Linkage to code | Manual | Every PR in every Wastr repo references back here |
+| Cost | $$ per seat per tool | Free (GitHub) |
+
+---
+
+## The mental model
+
+> Read these three sub-sections together — they are the system. **Vocabulary** defines the labels, the **loop diagram** shows how those labels flow through an event's life cycle, and the **worked example** shows what it looks like end-to-end on a real feature. Everything else in this document is a reference manual or an operational note on top of this.
+
+### Vocabulary — label taxonomy (25 labels, 5 groups)
 
 Labels are typed and disciplined. They let us slice the entire company history by question.
 
@@ -53,9 +81,7 @@ Example queries this enables:
 
 When AI agents are later wired in (via MCP), these are the queries they will reason over.
 
----
-
-## The loop, in one picture
+### The loop, in one picture
 
 ```
         ┌─────────────────────────────────────────────────┐
@@ -141,66 +167,41 @@ That separation is deliberate: issues are training data, docs are the model's "w
 
 ---
 
-## How this is different from a Notion / Confluence / Jira combo
+### A worked example, end-to-end
 
-| Concern | Traditional setup | This repo |
-|---|---|---|
-| Source of truth | Scattered (Slack, Notion, Jira, Drive) | One repo, one project board |
-| Structure | Free-text pages, ad-hoc tags | Typed issue templates, controlled label taxonomy |
-| Searchability | Full-text, fragile | Label + field queries, GitHub API, future MCP |
-| AI-readability | Poor (mixed formats) | High (issues = JSON-shaped events) |
-| Change history | Notion page history | Git commit history on every doc |
-| Linkage to code | Manual | Every PR in every Wastr repo references back here |
-| Cost | $$ per seat per tool | Free (GitHub) |
+Let's trace one realistic scenario from raw signal to shipped feature, end-to-end.
 
----
+1. **Signal (`#42`)** — Pilot transporter Ola says in an interview:
+   > "I drive empty back from Drammen twice a week and I never know if anyone needs a pickup on that route."
 
-## Repository layout
+   → opens `[SIGNAL]` issue, labels `domain: routing`, `segment: transporter`, `impact: high`.
 
-```
-wastr-learning-loop/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── 01_customer_signal.yml      raw field observations
-│   │   ├── 02_product_bet.yml          hypothesis + kill criteria
-│   │   ├── 03_feature_spec.yml         lightweight spec linked to a bet
-│   │   ├── 04_bug_or_friction.yml      production issues + root cause
-│   │   ├── 05_experiment.yml           structured tests with results
-│   │   ├── 06_decision_log.yml         ADR-style, with revisit triggers
-│   │   └── 07_weekly_review.yml        weekly outcome snapshot
-│   └── pull_request_template.md        forces every PR to link back to the loop
-│
-├── docs/
-│   ├── strategy/
-│   │   ├── north-star.md                       the one sentence that aligns us
-│   │   ├── product-thesis.md                   why this problem, why us, why now
-│   │   ├── roadmap-now-next-later.md           rolling, opinion-driven roadmap
-│   │   └── decision-log.md                     index of all [DECISION] issues
-│   │
-│   ├── customers/
-│   │   ├── pilot-learnings.md                  synthesis across signals
-│   │   └── objections-and-signals.md           recurring patterns
-│   │
-│   ├── rituals/
-│   │   ├── weekly-review-template.md           how we run Friday reviews
-│   │   └── monthly-product-review-template.md  how we run monthly reviews
-│   │
-│   ├── metrics/
-│   │   └── definitions.md                      canonical metric definitions
-│   │
-│   ├── knowledge/
-│   │   ├── confirmed-learnings.md              promoted insights (facts)
-│   │   └── revisit-queue.md                    insights now in doubt
-│   │
-│   └── architecture/
-│       └── adr/                                Architecture Decision Records
-│
-└── README.md                                   you are here
-```
+2. **Bet (`#51`, links `#42`)** — Team forms a hypothesis:
+   > *"We believe that surfacing potential return-load orders to transporters mid-route will reduce empty-running by ≥15% for pilot transporters within 30 days."*
+
+   Kill criterion: if <5% reduction after 30 days, we kill the feature.
+
+3. **Spec (`#58`, links `#51`)** — Lightweight feature spec for the "return load suggestion" UI in the Driver app.
+
+4. **Experiment (`#63`, links `#51`)** — Pilot with 3 transporters for 4 weeks. Metric: empty-run % per driver per week.
+
+5. **Implementation PRs** in `Wastr.Apps.Web.Driver` and `Wastr.Services.Matching` — each PR's body links back to `#58` and `#63` via the PR template.
+
+6. **Experiment closure** — `[EXP] #63` is closed with a comment summarising the result: *"22% reduction in empty-running over 4 weeks across 3 transporters. Bet validated."* The `learning: hypothesis` label is swapped for `learning: confirmed`. **No new issue is created for the outcome** — the close comment on the experiment is the outcome.
+
+7. **Synthesis** — At the monthly review, this learning is promoted to `docs/knowledge/confirmed-learnings.md`. Roadmap in `docs/strategy/roadmap-now-next-later.md` moves the feature from "Next" to "Now" for full rollout.
+
+8. **Architectural commitment** — Because this changes what the matching service does, an ADR is written: `ADR-NNNN: Return-load suggestion as a core capability of the matching service`. The ADR links back to `[BET] #51` and `[EXP] #63` as evidence. **No separate `[DECISION]` issue** — the ADR is the decision record.
+
+Every step is captured, linked, labelled, and searchable. A new team member — or a future AI agent — can read this chain end-to-end in minutes.
 
 ---
 
-## The issue templates (the heart of the system)
+## Reference — when filing or closing issues
+
+> You don't need to read this part front-to-back. Look up what you need when you're about to file an issue, close one, or write a decision record.
+
+### Issue templates
 
 Every event in the company has a home. No event is allowed to live only in Slack or someone's head.
 
@@ -261,9 +262,9 @@ Hypotheses do **not live on**:
 - `[SIGNAL]` issues — a signal is a raw observation from the world, not a claim about the future. Signals start with no `learning:` label and *receive* one on close (`confirmed` / `invalidated` / `new-insight`) to record how the team interpreted the evidence.
 - `[WEEKLY]` issues — a weekly review is a snapshot, not a claim.
 
-### HOWTO: `[BET]` vs `[EXPERIMENT]` — both carry `learning: hypothesis`, so which do I file?
+### `[BET]` vs `[EXPERIMENT]` — which do I file?
 
-This is the most-confused pair, because both are open claims about the future. The difference is **scope and shape of the claim.**
+This is the most-confused pair, because both carry `learning: hypothesis` and both are open claims about the future. The difference is **scope and shape of the claim.**
 
 | Aspect | `[BET]` (`type: decision` + `learning: hypothesis`) | `[EXPERIMENT]` (`type: experiment` + `learning: hypothesis`) |
 |---|---|---|
@@ -352,39 +353,109 @@ What type of issue is closing?
 - Stacking multiple outcome labels "just in case." Pick the dominant one; the close comment carries nuance.
 - Avoiding `invalidated` because it feels like failure. It's the most valuable outcome — it stops you wasting more effort.
 
+### Repository layout
+
+```
+wastr-learning-loop/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── 01_customer_signal.yml      raw field observations
+│   │   ├── 02_product_bet.yml          hypothesis + kill criteria
+│   │   ├── 03_feature_spec.yml         lightweight spec linked to a bet
+│   │   ├── 04_bug_or_friction.yml      production issues + root cause
+│   │   ├── 05_experiment.yml           structured tests with results
+│   │   ├── 06_decision_log.yml         ADR-style, with revisit triggers
+│   │   └── 07_weekly_review.yml        weekly outcome snapshot
+│   └── pull_request_template.md        forces every PR to link back to the loop
+│
+├── docs/
+│   ├── strategy/
+│   │   ├── north-star.md                       the one sentence that aligns us
+│   │   ├── product-thesis.md                   why this problem, why us, why now
+│   │   ├── roadmap-now-next-later.md           rolling, opinion-driven roadmap
+│   │   └── decision-log.md                     index of all [DECISION] issues
+│   │
+│   ├── customers/
+│   │   ├── pilot-learnings.md                  synthesis across signals
+│   │   └── objections-and-signals.md           recurring patterns
+│   │
+│   ├── rituals/
+│   │   ├── weekly-review-template.md           how we run Friday reviews
+│   │   └── monthly-product-review-template.md  how we run monthly reviews
+│   │
+│   ├── metrics/
+│   │   └── definitions.md                      canonical metric definitions
+│   │
+│   ├── knowledge/
+│   │   ├── confirmed-learnings.md              promoted insights (facts)
+│   │   └── revisit-queue.md                    insights now in doubt
+│   │
+│   └── architecture/
+│       └── adr/                                Architecture Decision Records
+│
+└── README.md                                   you are here
+```
+
 ---
 
-## The closed loop — a worked example
+## Operating the system
 
-Let's trace one realistic scenario from raw signal to shipped feature, end-to-end.
+> How the loop runs day-to-day: when we meet, what views to use, how code changes connect back to issues, and how the four tools we use (Notion, Perplexity, Claude, GitHub) fit together.
 
-1. **Signal (`#42`)** — Pilot transporter Ola says in an interview:
-   > "I drive empty back from Drammen twice a week and I never know if anyone needs a pickup on that route."
+### Rituals — weekly & monthly cadence
 
-   → opens `[SIGNAL]` issue, labels `domain: routing`, `segment: transporter`, `impact: high`.
+| Cadence | Ritual | Output | Guide |
+|---|---|---|---|
+| **Friday, 30 min** | Weekly review | one `[WEEKLY]` issue | [docs/rituals/weekly-review-template.md](docs/rituals/weekly-review-template.md) |
+| **Last Friday of month, 90 min** | Monthly product review | updated `pilot-learnings.md`, updated `roadmap-now-next-later.md`, any new `[DECISION]` issues | [docs/rituals/monthly-product-review-template.md](docs/rituals/monthly-product-review-template.md) |
+| **Continuous** | File signals as they happen | `[SIGNAL]` issues | template `01_customer_signal` |
+| **As needed** | Decision log | `[DECISION]` issue + ADR file | template `06_decision_log` |
 
-2. **Bet (`#51`, links `#42`)** — Team forms a hypothesis:
-   > *"We believe that surfacing potential return-load orders to transporters mid-route will reduce empty-running by ≥15% for pilot transporters within 30 days."*
+Rituals are short on purpose. The system only works if the team actually does them — so they are designed to be cheaper than skipping.
 
-   Kill criterion: if <5% reduction after 30 days, we kill the feature.
+### Project board & recommended views
 
-3. **Spec (`#58`, links `#51`)** — Lightweight feature spec for the "return load suggestion" UI in the Driver app.
+All issues are added to a single project board: [`WASTR Intelligence Loop`](https://github.com/orgs/wastr-as/projects/3).
 
-4. **Experiment (`#63`, links `#51`)** — Pilot with 3 transporters for 4 weeks. Metric: empty-run % per driver per week.
+Recommended views (to be configured):
 
-5. **Implementation PRs** in `Wastr.Apps.Web.Driver` and `Wastr.Services.Matching` — each PR's body links back to `#58` and `#63` via the PR template.
+| View | Filter | Purpose |
+|---|---|---|
+| **Signal stream** | `type: signal`, sorted by date | Raw firehose of customer reality |
+| **Active bets** | `type: decision` + `learning: hypothesis` | What are we currently betting on? |
+| **Running experiments** | `type: experiment` + Project `Status = In Progress` | What are we measuring? |
+| **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
+| **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
 
-6. **Experiment closure** — `[EXP] #63` is closed with a comment summarising the result: *"22% reduction in empty-running over 4 weeks across 3 transporters. Bet validated."* The `learning: hypothesis` label is swapped for `learning: confirmed`. **No new issue is created for the outcome** — the close comment on the experiment is the outcome.
+> Revisit work is tracked in [`docs/revisit-queue.md`](docs/revisit-queue.md) — a scheduled review surface, not a daily project view. One source per concept.
 
-7. **Synthesis** — At the monthly review, this learning is promoted to `docs/knowledge/confirmed-learnings.md`. Roadmap in `docs/strategy/roadmap-now-next-later.md` moves the feature from "Next" to "Now" for full rollout.
+### PR template — how code closes the loop
 
-8. **Architectural commitment** — Because this changes what the matching service does, an ADR is written: `ADR-NNNN: Return-load suggestion as a core capability of the matching service`. The ADR links back to `[BET] #51` and `[EXP] #63` as evidence. **No separate `[DECISION]` issue** — the ADR is the decision record.
+The mechanism that keeps the loop genuinely closed (not just decorative) is the **pull request template**, which we will roll out across every Wastr repo:
 
-Every step is captured, linked, labelled, and searchable. A new team member — or a future AI agent — can read this chain end-to-end in minutes.
+- `Wastr.Services.Ordering`
+- `Wastr.Services.Matching`
+- `Wastr.Services.Driver`
+- `Wastr.Services.Collector`
+- `Wastr.Services.User`
+- `Wastr.Services.Product`
+- `Wastr.Services.Geolocation`
+- `Wastr.Services.Notification`
+- `Wastr.Apps.Web.Customer`
+- `Wastr.Apps.Web.Driver`
+- `Wastr.Apps.Web.Collector`
+- `Wastr.Apps.Web.Admin`
+- `global-infra`
 
----
+Every PR is required to:
 
-## How Claude, Perplexity, Notion, and GitHub interact
+1. **Link back** to at least one issue in `wastr-learning-loop` (signal, bet, spec, experiment, decision).
+2. **Declare what was learned** in the build process.
+3. **Confirm** that the linked issue has been updated with the outcome.
+
+This makes the codebase a *citation* of the intelligence layer, not an independent artifact.
+
+### Multi-tool integration (Notion, Perplexity, Claude, GitHub)
 
 WASTR runs on four tools, not one. The risk in a multi-tool setup is the same
 idea drifting across systems with no agreed canonical version. Three short
@@ -421,62 +492,16 @@ everyone references.
 
 ---
 
-## How PRs in *other* Wastr repos close the loop
+## How to start using it (today)
 
-The mechanism that keeps the loop genuinely closed (not just decorative) is the **pull request template**, which we will roll out across every Wastr repo:
+If you have 30 minutes:
 
-- `Wastr.Services.Ordering`
-- `Wastr.Services.Matching`
-- `Wastr.Services.Driver`
-- `Wastr.Services.Collector`
-- `Wastr.Services.User`
-- `Wastr.Services.Product`
-- `Wastr.Services.Geolocation`
-- `Wastr.Services.Notification`
-- `Wastr.Apps.Web.Customer`
-- `Wastr.Apps.Web.Driver`
-- `Wastr.Apps.Web.Collector`
-- `Wastr.Apps.Web.Admin`
-- `global-infra`
+1. **Fill in** [docs/strategy/north-star.md](docs/strategy/north-star.md) — the one sentence that aligns every later decision.
+2. **File 3 `[SIGNAL]` issues** from recent pilot conversations.
+3. **File 1 `[BET]` issue** for the most important thing the team is currently building.
+4. **Run this Friday's weekly review** using the template — even a 10-minute version.
 
-Every PR is required to:
-
-1. **Link back** to at least one issue in `wastr-learning-loop` (signal, bet, spec, experiment, decision).
-2. **Declare what was learned** in the build process.
-3. **Confirm** that the linked issue has been updated with the outcome.
-
-This makes the codebase a *citation* of the intelligence layer, not an independent artifact.
-
----
-
-## Rituals — how the loop turns
-
-| Cadence | Ritual | Output | Guide |
-|---|---|---|---|
-| **Friday, 30 min** | Weekly review | one `[WEEKLY]` issue | [docs/rituals/weekly-review-template.md](docs/rituals/weekly-review-template.md) |
-| **Last Friday of month, 90 min** | Monthly product review | updated `pilot-learnings.md`, updated `roadmap-now-next-later.md`, any new `[DECISION]` issues | [docs/rituals/monthly-product-review-template.md](docs/rituals/monthly-product-review-template.md) |
-| **Continuous** | File signals as they happen | `[SIGNAL]` issues | template `01_customer_signal` |
-| **As needed** | Decision log | `[DECISION]` issue + ADR file | template `06_decision_log` |
-
-Rituals are short on purpose. The system only works if the team actually does them — so they are designed to be cheaper than skipping.
-
----
-
-## The GitHub Project — "WASTR Intelligence Loop"
-
-All issues are added to a single project board: [`WASTR Intelligence Loop`](https://github.com/orgs/wastr-as/projects/3).
-
-Recommended views (to be configured):
-
-| View | Filter | Purpose |
-|---|---|---|
-| **Signal stream** | `type: signal`, sorted by date | Raw firehose of customer reality |
-| **Active bets** | `type: decision` + `learning: hypothesis` | What are we currently betting on? |
-| **Running experiments** | `type: experiment` + Project `Status = In Progress` | What are we measuring? |
-| **Recent learnings** | `learning: new-insight`, last 30 days | What did we just learn? |
-| **Shipped this quarter** | Project `Status = Done`, closed this quarter | Public-facing progress |
-
-> Revisit work is tracked in [`docs/revisit-queue.md`](docs/revisit-queue.md) — a scheduled review surface, not a daily project view. One source per concept.
+That alone seeds the loop. Everything else compounds from there.
 
 ---
 
@@ -494,20 +519,7 @@ We don't need any of this on day one. We need the **substrate** — structured, 
 
 ---
 
-## How to start using it (today)
-
-If you have 30 minutes:
-
-1. **Fill in** [docs/strategy/north-star.md](docs/strategy/north-star.md) — the one sentence that aligns every later decision.
-2. **File 3 `[SIGNAL]` issues** from recent pilot conversations.
-3. **File 1 `[BET]` issue** for the most important thing the team is currently building.
-4. **Run this Friday's weekly review** using the template — even a 10-minute version.
-
-That alone seeds the loop. Everything else compounds from there.
-
----
-
-## Frequently asked questions
+## FAQ
 
 **Q: Isn't this overhead?**
 For a 2–3 person team, yes — for two weeks. After that, the time spent on issues is recovered 5× by not re-explaining context, not re-litigating decisions, and not re-discovering invalidated bets. And the asset compounds — by month 6 it is a hiring tool, a fundraising tool, and an AI training set.
