@@ -1,4 +1,4 @@
-# ADR-0004: Route Owns Order Sequence via Ordered `OrderIds` Array
+# ADR-0009: Route Owns Order Sequence via Ordered `OrderIds` Array
 
 - **Status:** Accepted
 - **Date:** 2026-01-08

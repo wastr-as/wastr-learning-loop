@@ -1,4 +1,4 @@
-# ADR-0007: SignalR for Client Realtime, One Hub for Collector and Driver
+# ADR-0002: SignalR for Client Realtime, One Hub for Collector and Driver
 
 - **Status:** Accepted
 - **Date:** 2026-02-25
@@ -68,5 +68,5 @@ RU/s on Cosmos for queries that returned identical data 90% of the time.
   SignalR Service (managed backplane).
 - Push payload thinness becomes a UX problem (perceived double-latency on
   visible state) → consider payload-rich pushes for specific hot paths.
-- A third party needs to consume these events → expose Event Grid (ADR-0006)
+- A third party needs to consume these events → expose Event Grid (ADR-0001)
   instead of SignalR; SignalR remains client-only.

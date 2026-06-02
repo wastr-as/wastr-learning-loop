@@ -1,4 +1,4 @@
-# ADR-0006: Service Bus for Work, Event Grid for Fan-out
+# ADR-0001: Service Bus for Work, Event Grid for Fan-out
 
 - **Status:** Accepted
 - **Date:** 2026-02-12

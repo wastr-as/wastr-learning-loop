@@ -1,4 +1,4 @@
-# ADR-0003: Immutable Audit Trail — Store IDs, Resolve Names at Read Time
+# ADR-0008: Immutable Audit Trail — Store IDs, Resolve Names at Read Time
 
 - **Status:** Accepted
 - **Date:** 2025-12-10

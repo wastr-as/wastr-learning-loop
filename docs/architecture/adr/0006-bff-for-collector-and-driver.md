@@ -1,4 +1,4 @@
-# ADR-0002: BFF Pattern for Collector and Driver Apps
+# ADR-0006: BFF Pattern for Collector and Driver Apps
 
 - **Status:** Accepted
 - **Date:** 2025-12-02

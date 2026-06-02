@@ -1,4 +1,4 @@
-# ADR-0001: Cosmos DB for Ordering, SQL Server for User
+# ADR-0005: Cosmos DB for Ordering, SQL Server for User
 
 - **Status:** Accepted
 - **Date:** 2025-11-15
@@ -41,7 +41,7 @@ or paying RU costs for joins we don't need.
 
 **Negative**
 - Two operational profiles to monitor (RU/s vs DTU).
-- BFFs must enrich Cosmos documents with SQL-resolved names (see ADR-0003).
+- BFFs must enrich Cosmos documents with SQL-resolved names (see ADR-0008).
 - Cross-store transactions impossible — handled by event-driven compensation.
 
 ## Revisit Trigger

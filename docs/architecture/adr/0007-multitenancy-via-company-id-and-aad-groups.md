@@ -1,4 +1,4 @@
-# ADR-0005: Multi-Tenancy via `CompanyId` and Azure AD Group Claims
+# ADR-0007: Multi-Tenancy via `CompanyId` and Azure AD Group Claims
 
 - **Status:** Accepted
 - **Date:** 2026-01-22
