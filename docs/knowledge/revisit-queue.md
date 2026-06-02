@@ -10,9 +10,9 @@
 > the L-NNN entry itself as a `Revisit trigger` bullet, or in an ADR's
 > `Revisit Trigger` section.
 
-| # | Contradicted learning (L-NNN) | Contradicting signal | Owner |
-|---|---|---|---|
-| *(empty)* | | | |
+| # | Filed | Contradicted learning (L-NNN) | Contradicting signal | Owner |
+|---|---|---|---|---|
+| *(empty)* | | | | |
 
 ## Procedure
 
@@ -20,8 +20,22 @@
 
 1. File the `[SIGNAL]` as usual; apply `learning: revisit` in addition to the
    normal labels.
-2. Add a row above pointing at the L-NNN entry and linking the signal issue.
+2. Add a row above with today's date in `Filed`, pointing at the L-NNN entry
+   and linking the signal issue.
 3. Cross-link from the signal back to the L-NNN entry in its body.
+
+**Monitoring between reviews** — two commands, no project board:
+
+```pwsh
+# Issue-layer: reopened hypotheses + signals tagged learning: revisit
+gh issue list --repo wastr-as/wastr-learning-loop \
+  --label "learning: revisit" --state all \
+  --json number,state,updatedAt,title \
+  | ConvertFrom-Json | Format-Table number, state, updatedAt, title
+```
+
+The `Filed` column in the table above is the doc-layer equivalent — anything
+older than one monthly cycle is stale and should be on the agenda.
 
 **Resolving at the next monthly review**, pick one:
 
