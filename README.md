@@ -374,7 +374,7 @@ Sometimes a new signal contradicts something we had already marked `learning: co
 **Resolution at the next monthly review:**
 
 - **Issue-layer**: walk reopened `learning: hypothesis` issues that were previously confirmed. Either re-confirm (swap back to `learning: confirmed`) or close as `learning: invalidated`.
-- **Doc-layer**: walk rows in `revisit-queue.md`. Either update the L-NNN entry in `confirmed-learnings.md` (still true, was a one-off; or amend the wording) or move it out of `confirmed-learnings.md` entirely if the belief no longer holds. Either way, remove the revisit-queue row and remove the `learning: revisit` label from the contradicting signal.
+- **Doc-layer**: walk rows in `revisit-queue.md`. Pick one: (a) amend the L-NNN entry, (b) file an `[EXP]` to settle the point empirically (keep row open until it closes), (c) move L-NNN out of `confirmed-learnings.md` entirely, or (d) close as "still true, was a one-off". On resolution, delete the row, remove `learning: revisit` from the signal, and close the signal with its proper outcome label.
 
 **Not to be confused with ADR `Revisit Trigger` sections** — those are tripwires defined *at the time a decision is made* ("reopen this ADR if X happens"). The revisit mechanism above is reactive (a contradicting signal arrived); ADR triggers are proactive (we anticipated when to re-look). Both can coexist on the same topic.
 

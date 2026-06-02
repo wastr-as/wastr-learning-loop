@@ -158,6 +158,11 @@ Each entry:
     resolve → show → allow manual edit, all on the same screen.
   - Confirmation screens should be read-only — if the user needs to edit on
     confirmation, the upstream step is broken.
+- **Revisit trigger:** if `addressSource = "manual"` rate exceeds 20% over a
+  rolling 30-day window, the "resolve at picker" premise is wrong (users are
+  systematically overriding the geo-result). Re-evaluate L-010 — candidate
+  alternatives: resolve at confirmation, or skip auto-resolution and let the
+  user type the address from scratch.
 - **Date promoted:** 2026-05-20
 
 
