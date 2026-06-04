@@ -1,6 +1,6 @@
 # Sketch: Routing service — criteria currently in use
 
-> Snapshot of what `Wastr.Services.Routing` actually optimises for **as of 2026-06-04**, after SPEC #47 Phase 1 landed end-to-end (Routing service, Collector BFF, RoutePlannerModal map + Optimise button). Aligned with [ADR-0013](../adr/0013-route-engine-or-tools.md) and [ADR-0018](../adr/0018-route-plan-immutability-driver-executes.md).
+> Snapshot of what `Wastr.Services.Routing` actually optimises for **as of 2026-06-04**, after SPEC #47 Phase 1 landed end-to-end (Routing service, Collector BFF, RoutePlannerModal map + Optimise button + **road-following polyline overlay**). Aligned with [ADR-0013](../adr/0013-route-engine-or-tools.md) and [ADR-0018](../adr/0018-route-plan-immutability-driver-executes.md).
 >
 > This is a "what's wired today vs. what the contract supports" view — useful for triaging the next polish steps and for the R&D portfolio (projects #3–5, #10).
 
@@ -9,6 +9,12 @@
 The solver model is a full CVRP+VRPTW; the **contract** exposes capacity, time windows, multi-vehicle, depot, departure time, toll preference. The **caller (Collector planner)** currently passes only a small subset, so the effective behaviour today is a **TSP with service time, single vehicle, Azure-Maps-traffic-aware durations**.
 
 The gap between contract and UI is intentional Phase 1 scope — the constraint plumbing is already in place server-side.
+
+## Recent updates
+
+- **2026-06-04 — road-following polyline overlay (commits `2b72cf8` / `4de11cc` / `36235c2`).** After OR-Tools picks the sequence, the Routing service now calls Geolocation `POST /api/geolocation/route/compute` (Azure Maps Route Directions) per vehicle route and embeds the resulting GeoJSON LineString as `PolylineGeoJson` on each `OptimisedVehicleRoute`. The Collector BFF passes it through; the planner modal renders it with `L.geoJSON` in primary green and keys it to the optimised sequence so any manual drag/remove/clear immediately invalidates it and reverts to the dashed straight-line preview until the next Optimise run. The polyline call is best-effort — a failure logs a warning and leaves the field null so the planner UI falls back gracefully. Closes the visual gap between "footer says 14.6 km 42 min" and "map shows a straight diagonal".
+- **2026-06-04 — planner modal sizing (commit `62e9de5`).** Modal grew to `max-h-[96vh]` and the map to `aspect-square min-h-[320px] max-h-[55vh]` so the polyline preview is actually usable.
+- **2026-06-04 — Geolocation matrix URL fix (commit `0f03803`).** Was hitting `api/geolocation/routing/matrix` (404 → 500 "Optimisation failed"); corrected to `api/geolocation/route/matrix`. Error surfacing in the BFF was also improved to include the inner exception message.
 
 ## Objective
 
@@ -76,6 +82,6 @@ i.e. a **TSP-with-service-time**, single vehicle, traffic-snapshot-aware duratio
 
 - Solver: [`OrToolsRouteOptimisationService.cs`](https://github.com/wastr-as/Wastr.Services.Routing/blob/main/src/Wastr.Services.Routing.Infrastructure/Optimisation/OrToolsRouteOptimisationService.cs)
 - Matrix client: [`GeolocationMatrixClient.cs`](https://github.com/wastr-as/Wastr.Services.Routing/blob/main/src/Wastr.Services.Routing.Infrastructure/Geolocation/GeolocationMatrixClient.cs)
-- BFF wrapper: `Wastr.Services.Collector → CollectorController.OptimiseRoute` (commit `1d02a5b`)
+- BFF wrapper: `Wastr.Services.Collector → CollectorController.OptimiseRoute` (commit `4de11cc` — now mirrors `PolylineGeoJson`)
 - UI caller: `Wastr.Apps.Web.Collector → RoutePlannerModal.runOptimise()` (commit `84f3cda`)
-- Map preview: `Wastr.Apps.Web.Collector → RoutePlannerModal` (commit `106ec28`)
+- Map preview: `Wastr.Apps.Web.Collector → RoutePlannerModal` (commits `106ec28` initial straight-line → `36235c2` road-following polyline overlay)
