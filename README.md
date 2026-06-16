@@ -67,8 +67,11 @@ Labels are typed and disciplined. They let us slice the entire company history b
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
 | **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
 | **segment:** | 🟦 teal | transporter · builder · homeowner · internal | *Whose problem is this?* |
+| **lane:** | 🟣 violet / 🔴 red | b2b · b2c | *Which validation track — grant-facing or internal?* |
 
 ¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue. `learning: revisit` is applied to a **signal** that contradicts something previously confirmed (see [synthesis step 5](#the-loop-in-one-picture) and [contradicted learnings](#when-a-confirmed-learning-gets-contradicted)).
+
+> **`lane:` enforces the Innovasjon Norge reporting boundary.** `lane: b2b` is the grant-facing track (Iteo A1–A3 SMB validation — transporters, contractors, property managers, collectors, documentation/routing) and is the **only** lane reported to Innovasjon Norge. `lane: b2c` is the internal-only homeowner revenue/signal track; its conversion data, consumer messaging tests, and revenue are **never** reported as an IN outcome. Both lanes share one operational backbone but stay separable for clean reporting.
 
 Example queries this enables:
 
@@ -78,6 +81,8 @@ Example queries this enables:
   → `label:"learning: new-insight" label:"segment: builder"`
 - *"What high-impact bugs are still open?"*
   → `is:open label:"type: bug" label:"impact: high"`
+- *"What can we report to Innovasjon Norge?"* (grant-facing B2B only)
+  → `is:issue label:"lane: b2b"` — and never `label:"lane: b2c"` in an IN deliverable.
 
 When AI agents are later wired in (via MCP), these are the queries they will reason over.
 

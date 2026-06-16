@@ -80,6 +80,7 @@ To keep Claude and Perplexity interoperable with GitHub, both must export
 type: signal
 domain: routing | matching | ordering | customer | driver | collector | infra
 segment: transporter | builder | homeowner | internal
+lane: b2b | b2c
 impact: high | medium | low
 source: "Notion page title" or "Perplexity thread title"
 quote: "Direct customer quote."
