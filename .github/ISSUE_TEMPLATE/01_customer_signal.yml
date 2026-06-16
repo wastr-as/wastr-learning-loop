@@ -10,6 +10,7 @@ body:
       options:
         - Transporter (SMB)
         - Builder / Contractor
+        - Homeowner (DIY / occasional)
         - Internal
     validations:
       required: true

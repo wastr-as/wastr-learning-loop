@@ -79,7 +79,7 @@ To keep Claude and Perplexity interoperable with GitHub, both must export
 ```yaml
 type: signal
 domain: routing | matching | ordering | customer | driver | collector | infra
-segment: transporter | builder | internal
+segment: transporter | builder | homeowner | internal
 impact: high | medium | low
 source: "Notion page title" or "Perplexity thread title"
 quote: "Direct customer quote."

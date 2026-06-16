@@ -15,6 +15,13 @@
 - **Current baseline:**
 - **12-month target:**
 
+> **Candidate (under validation — not adopted):** "Can WASTR become the place
+> homeowners go *first* when they have renovation waste?" — a demand-side
+> first-touch / repeat-intent metric proposed by the cold-start reframing in
+> bet [#59](https://github.com/wastr-as/wastr-learning-loop/issues/59). Listed
+> here only as a candidate; do not adopt until the homeowner-segment validation
+> round returns signal.
+
 ## Supporting Metrics
 
 | Metric | Definition | Current | Target |

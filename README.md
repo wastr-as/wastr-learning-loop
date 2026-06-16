@@ -66,7 +66,7 @@ Labels are typed and disciplined. They let us slice the entire company history b
 | **domain:** | 🟣 purple | ordering · matching · routing · customer · driver · collector · infra | *Which part of the system?* |
 | **impact:** | 🟠 orange | high · medium · low | *How much does this matter?* |
 | **learning:** | 🟢 green | hypothesis · validated · invalidated · confirmed · new-insight · revisit | *What does the evidence say about this claim?* |
-| **segment:** | 🟦 teal | transporter · builder · internal | *Whose problem is this?* |
+| **segment:** | 🟦 teal | transporter · builder · homeowner · internal | *Whose problem is this?* |
 
 ¹ `type: outcome` is only used by Weekly Review issues (template 07). Individual experiment/bet results live as close comments + `learning:` label swaps on the original issue — never as a new "outcome" issue. `learning: revisit` is applied to a **signal** that contradicts something previously confirmed (see [synthesis step 5](#the-loop-in-one-picture) and [contradicted learnings](#when-a-confirmed-learning-gets-contradicted)).
 
