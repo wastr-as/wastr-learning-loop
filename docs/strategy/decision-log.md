@@ -8,6 +8,7 @@
 | [#9](https://github.com/wastr-as/wastr-learning-loop/issues/9) | 2025-09-12 | Store all service secrets in Azure Key Vault, referenced via UAMI | infra | Validated · [ADR-0003](../architecture/adr/0003-secrets-in-keyvault.md) | Multi-tenant secret isolation per customer |
 | [#10](https://github.com/wastr-as/wastr-learning-loop/issues/10) | 2025-11-10 | Maintain a separate Test (sandbox) environment, promote to Prod after validation | infra | Validated · [ADR-0004](../architecture/adr/0004-test-and-prod-environments.md) | Release cadence high enough to warrant ephemeral PR envs |
 | [#62](https://github.com/wastr-as/wastr-learning-loop/issues/62) | 2026-06-16 | Two-lane validation: Lane A = B2B (Innovasjon Norge-facing, Iteo A1–A3); Lane B = B2C homeowner (internal revenue/signal, never IN-reported); shared backbone, one tagged dataset, strict reporting boundary | Business / Product | Active | <5 SMB responses in 2 weeks → convene; two lanes slow Lane A → collapse to B2B-only until IN milestone clears |
+| [#65](https://github.com/wastr-as/wastr-learning-loop/issues/65) | 2026-06-17 | CTO is ritual keeper for the weekly/monthly reviews; fixed recurring slots + default-alive rule; weekly is a whole-company snapshot with a ≤3-decision live cap | Business / Product | Provisional (pending CEO comment) | 2 consecutive missed weeks → renegotiate slot; CEO wants a different ownership split |
 
 ## How to add an entry
 
