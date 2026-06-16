@@ -52,14 +52,26 @@
 3. Commit the ADR under `docs/architecture/adr/NNNN-title.md`.
 4. Reference the ADR file from the issue and vice versa.
 
-### Weekly review (CEO + CTO, Friday 30 min)
+### Weekly review (CEO + CTO, Friday 30 min — CTO is ritual keeper)
 
-1. Open one `[WEEKLY]` issue from the template.
-2. Review: shipped PRs, new signals, running experiments, kill-criteria checks.
+**Keeper:** the CTO owns *that this happens* — holds the fixed recurring slot,
+pre-fills the issue, ensures it's filed. **Default-alive:** if one founder can't
+attend, the other runs it and files; the absent founder comments within 24 h. The
+week is "done" only when the `[WEEKLY]` issue exists.
+
+1. **Before the call (keeper, ~10 min solo):** pre-fill the `[WEEKLY]` issue from the
+   loop — shipped PRs, new `type: signal` issues, running `[EXP]`s, kill-criteria
+   checks, metrics. Status is read async; the call is for decisions.
+2. **Live (30 min):** scan both lanes (Lane A grant-facing, Lane B internal — keep the
+   boundary), then converge on **at most 3 joint decisions** (bet to open, kill-criteria
+   hit, lane-priority conflict). Don't manufacture three; one real decision is a good week.
 3. Any signal that contradicts a confirmed learning → apply the two-layer rule (reopen the `learning: confirmed` issue OR add a row to `docs/knowledge/revisit-queue.md` if the learning has been promoted to a doc entry).
 4. Any bet hitting kill criteria → close as `invalidated`.
 
-### Monthly review (CEO + CTO, last Friday, 90 min)
+### Monthly review (CEO + CTO, last Friday, 90 min — CTO is ritual keeper)
+
+> Same keeper + default-alive rule as the weekly. Output artifacts are the updated docs
+> below, not a `[WEEKLY]` issue.
 
 1. Promote eligible insights into `docs/knowledge/confirmed-learnings.md`.
 2. Re-rank `docs/strategy/roadmap-now-next-later.md`.

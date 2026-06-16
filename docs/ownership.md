@@ -51,7 +51,19 @@ The point of this map is not bureaucracy. It is to remove the daily question
 | `[BUG]` Bug or Friction | Either | CTO closes |
 | `[EXP]` Experiment | Either | Both must agree on success / kill criteria |
 | `[DECISION]` Decision Log | Either | The other co-founder comments before close |
-| `[WEEKLY]` Weekly Review | Rotates | The other co-founder attends |
+| `[WEEKLY]` Weekly Review | CTO (ritual keeper) — pre-fills & files | CEO attends; comments within 24 h if absent |
+
+---
+
+## Ritual cadence ownership
+
+The *templates* in `docs/rituals/*.md` are co-owned (see table above). **Running** the
+cadence is owned by the **CTO as ritual keeper**: holding the fixed weekly + monthly
+slots, pre-filling the review issue, and making sure the artifact gets filed every week.
+
+**Default-alive rule:** either founder may run and file a review alone; the other
+comments within 24 h. A review is "done" only when its issue / doc artifact exists —
+a missing week is a visible gap, not a private lapse.
 
 ---
 
