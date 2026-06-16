@@ -16,7 +16,7 @@ _Last updated: 2026-06-16_
 
 ### Commercial
 - [ ] Provision Vipps merchant account (Test + Prod) — commercial half of [#43](https://github.com/wastr-as/wastr-learning-loop/issues/43)
-- [ ] **Lane A — B2B validation (Innovasjon Norge-facing).** Iteo A1–A3: SMB CDW logistics — transporters/haulers, small contractors, property managers, collectors; pain, WTP, documentation/routing needs. **Only lane reported to IN.** Governed by [#62](https://github.com/wastr-as/wastr-learning-loop/issues/62)
+- [ ] **Lane A — B2B validation (Innovasjon Norge-facing).** Iteo A1–A3: SMB CDW logistics — transporters/haulers, small contractors, property managers, collectors; pain, WTP, documentation/routing needs. **Only lane reported to IN.** Tracked as bet [#63](https://github.com/wastr-as/wastr-learning-loop/issues/63), governed by [#62](https://github.com/wastr-as/wastr-learning-loop/issues/62)
 - [ ] **Lane B — B2C revenue/signal (internal-only, parallel).** Homeowner guided waste handling + Savings Calculator smoke test for early cash + behavioural data — [#59](https://github.com/wastr-as/wastr-learning-loop/issues/59) / [#60](https://github.com/wastr-as/wastr-learning-loop/issues/60) / [#61](https://github.com/wastr-as/wastr-learning-loop/issues/61). **Never reported as an IN outcome.** Shares the Lane A backbone; per [#62](https://github.com/wastr-as/wastr-learning-loop/issues/62)
 
 ### Funding & partnerships
