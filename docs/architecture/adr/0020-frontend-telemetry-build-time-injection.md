@@ -102,6 +102,35 @@ site report to, and (2) how does the connection string reach the bundle.
   `dc.services.visualstudio.com`, status 200).
 - Azure `appi-wastr-landing` → Logs: `pageViews | where timestamp > ago(30m)`.
 
+## Monitoring & alerting (provisioned in IaC)
+
+Interpretation and verification are **not** a manual daily chore — they are
+provisioned as code in `global-infra/shared-resources`:
+
+- **Workbook** `WASTR Landing — Analytics` (`landing-workbook.json`) pins:
+  traffic & top pages, the **conversion funnel** (`hero_calculator_clicked` →
+  `calc_started` → `calc_completed` → `save_cta_clicked`), bounce rate,
+  exceptions, and load performance (p50/p95). Read the funnel top-to-bottom:
+  the largest step-to-step drop-off is where the page loses people.
+- **Alerts** (`azurerm_monitor_scheduled_query_rules_alert_v2`, gated on
+  `landing_alert_email` so a missing address never blocks `apply`):
+  - **No telemetry in 2h** — early warning that a deploy broke the build-time
+    connection-string injection (no `pageViews` ingested).
+  - **Exception spike** — > 10 client-side errors in 15 min.
+
+**Cadence**
+- *Per deploy:* 60-second smoke check — confirm a `track` 200 in DevTools, then
+  `exceptions | where timestamp > ago(1h)` shows nothing new.
+- *Weekly:* glance at the workbook.
+- *Monthly / after calculator or CTA changes:* review the funnel for movement.
+- *Otherwise:* rely on the alerts; don't hand-poll.
+
+> Note: only methods actually wired into views emit data today
+> (`hero_calculator_clicked`, `calc_started`, `calc_completed`,
+> `save_cta_clicked`, `project_cta_clicked`). Other SDK helpers in
+> `analytics.ts` (`trackCTA`, `trackSegmentSwitch`, `trackFormSubmission`,
+> `trackOutboundLink`, `trackScrollDepth`) exist but are not yet called.
+
 ## Revisit Trigger
 
 - If we accumulate **many** CI-managed repo secrets across repos (the
