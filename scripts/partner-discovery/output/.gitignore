@@ -1,0 +1,3 @@
+# Iteo shortlist CSVs are generated artefacts — keep the folder, ignore the output.
+*.csv
+!.gitkeep

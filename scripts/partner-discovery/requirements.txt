@@ -1,0 +1,7 @@
+# Partner-discovery extractor — dependencies
+#
+# Phase 0 uses ONLY the Python standard library (urllib, json, csv), so there is
+# nothing to install here. Python 3.10+ is required (the code uses X | Y unions).
+#
+# Kept intentionally free of third-party packages so the hand-off script runs on a
+# bare Python install — no `pip install` step for whoever re-runs it.
