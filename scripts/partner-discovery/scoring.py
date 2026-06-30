@@ -33,34 +33,76 @@ def passes_quality(company: Company) -> bool:
     if not (company.has_contact or company.mva_registered):
         return False
 
-    # Size band (the SMB cut). Companies with no registered count are kept only if
-    # configured to (they score lower); a registered count must sit in 1-20.
-    if company.employees is None:
-        return config.KEEP_UNREGISTERED_EMPLOYEE_COUNT
-    return config.MIN_EMPLOYEES <= company.employees <= config.MAX_EMPLOYEES
+    # Size band (the SMB cut). A registered count must sit at/under the cap; 0 and
+    # an unregistered count are treated alike (kept; many real AS register 0). The
+    # contact-or-MVA gate above already removes genuine dormant shells.
+    if company.employees is not None and company.employees > 0:
+        if not (config.MIN_EMPLOYEES <= company.employees <= config.MAX_EMPLOYEES):
+            return False
+    elif not config.KEEP_ZERO_OR_UNREGISTERED_EMPLOYEES:
+        return False
+
+    # Name gate for broad/noisy NACE codes: a company qualifying ONLY via a gated
+    # code (e.g. equipment leasing 77.390) must look waste-related by name.
+    if not _passes_name_gate(company):
+        return False
+
+    return True
+
+
+def _passes_name_gate(company: Company) -> bool:
+    """Require a waste keyword when a company only matches a name-gated NACE code."""
+    target_hits = [
+        c for c in ([company.nace_primary] + company.nace_codes)
+        if c in config.NACE_TO_SEGMENT
+    ]
+    if not target_hits:
+        return True  # no on-target code at all; segment attribution handles it
+    clean_hits = [c for c in target_hits if c not in config.NACE_NAME_GATED]
+    if clean_hits:
+        return True  # qualifies on a non-gated code -> no keyword required
+    name = company.name.lower()
+    return any(kw in name for kw in config.WASTE_NAME_KEYWORDS)
 
 
 # --------------------------------------------------------------------------- #
 # 2. Scoring
 # --------------------------------------------------------------------------- #
 def _nace_precision_points(company: Company) -> tuple[float, str]:
-    """Segment fit + NACE precision. Full marks when a target NACE is primary."""
-    target = {c for codes in config.SEGMENT_NACE.values() for c in codes}
-    primary_hit = company.nace_primary in target
-    secondary_hit = any(c in target for c in company.nace_codes)
+    """CDW relevance + NACE precision.
 
-    if primary_hit:
-        return config.WEIGHT_NACE_PRECISION, "primary NACE on-target"
-    if secondary_hit:
-        return config.WEIGHT_NACE_PRECISION * 0.5, "secondary NACE on-target"
+    Core CDW codes (collection/treatment/sorting/demolition) score full; adjacent
+    on-target codes (generic freight, groundwork, building) score lower; a match on
+    a secondary code only scores lower still.
+    """
+    w = config.WEIGHT_NACE_PRECISION
+    target = set(config.NACE_TO_SEGMENT)
+
+    if company.nace_primary in target:
+        if company.nace_primary in config.NACE_TIER1:
+            return w, "core CDW NACE (primary)"
+        return w * 0.85, "primary NACE on-target"
+
+    secondary = [c for c in company.nace_codes if c in target]
+    if secondary:
+        if any(c in config.NACE_TIER1 for c in secondary):
+            return w * 0.6, "core CDW NACE (secondary)"
+        return w * 0.45, "secondary NACE on-target"
     return 0.0, ""
 
 
 def _size_points(company: Company) -> tuple[float, str]:
-    """Size-in-band. Sweet spot (1-10) full; 11-20 partial; unknown lowest."""
+    """Size-in-band. Sweet spot (1-10) full; 11-20 partial; 0/unknown lower.
+
+    A registered 0 or an unregistered count is common for lean, real operators —
+    if MVA-registered (i.e. a genuine operating business) it gets meaningful credit
+    rather than being treated as a dead shell.
+    """
     w = config.WEIGHT_SIZE_IN_BAND
-    if company.employees is None:
-        return w * 0.4, "employee count not registered"
+    if not company.employees:  # None or 0 -> count not meaningfully registered
+        if company.mva_registered:
+            return w * 0.6, "lean/0 employees, MVA-registered"
+        return w * 0.35, "employee count not registered"
     if company.employees <= config.SWEET_SPOT_MAX:
         return w, f"{company.employees} employees (sweet spot)"
     return w * 0.7, f"{company.employees} employees"
@@ -100,7 +142,7 @@ def _contact_points(company: Company) -> tuple[float, str]:
             present.append("email")
         return min(pts, w), "contact: " + "+".join(present)
     if company.mva_registered:
-        return w * 0.25, "MVA-registered (no direct contact)"
+        return w * 0.5, "MVA-registered (no direct contact)"
     return 0.0, ""
 
 

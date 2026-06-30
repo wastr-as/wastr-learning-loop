@@ -40,17 +40,26 @@ Excel). The `output/` folder is git-ignored — the CSV is a generated artefact.
 |---|---|---|
 | **Fetch** | Brreg `enheter` API, one query per NACE code × all kommuner, paginated | `connectors/brreg.py` |
 | **De-dup** | by `org.nr`, keeping the most contactable record | `extract.py` |
-| **Quality filter** | active only · founded < 2025 · contact-or-MVA · size band 1–20 | `scoring.py` |
-| **Score** | 0–100 priority: NACE precision + size + Oslo proximity + contact | `scoring.py` |
+| **Quality filter** | active only · founded < 2025 · contact-or-MVA · size ≤ 20 (0/unregistered kept) · waste name-gate on broad codes | `scoring.py` |
+| **Score** | 0–100 priority: NACE relevance + size + Oslo proximity + contact | `scoring.py` |
 | **Select** | rank, enforce ~60/40 A/B mix, cut to ~200 | `scoring.py` |
 | **Write** | CSV in the Iteo hand-off schema | `extract.py` |
 
 ### Segments (two SMB targets)
 
-- **A — Independent haulers** (1–5 trucks): NACE `49.41` Godstransport på vei,
-  `38.11` Innsamling ikke-farlig avfall.
+- **A — Haulers & waste collectors.** Core CDW codes: `38.11` Innsamling ikke-farlig
+  avfall, `38.21` Behandling/disponering ikke-farlig avfall, `38.32` Sortering for
+  materialgjenvinning. Plus adjacent transport: `49.41` Godstransport på vei, and —
+  name-gated to waste only — `49.42` Flyttetransport and `77.39` utleie av
+  skip/container/sekk (this is where skip-bag operators like Avfallssekk / Kvikk
+  Bag / Containerservice register).
 - **B — Small CDW-generating contractors**: `43.11` Riving, `43.12` Grunnarbeid,
   `43.99` Annen spesialisert bygg/anlegg, `41.20` Oppføring av bygninger.
+
+> **Name-gated codes** (`77.39`, `49.42`) are broad/noisy, so a company qualifying
+> *only* via one of them must also have a waste-related name keyword (avfall, sekk,
+> container, renovasjon, gjenvinning, …). A company that also matches a clean code
+> (e.g. `38.11`) is kept regardless.
 
 ### Geography (2024 Akershus codes, verified against Brreg)
 
@@ -61,13 +70,16 @@ Nordre Follo `3207`, Lørenskog `3222`.
 
 | Component | Weight | Full marks when… |
 |---|---|---|
-| NACE precision / segment fit | 25 | a target NACE is the **primary** code |
-| Size in band | 20 | 1–10 employees (the hauler sweet spot) |
+| NACE relevance / precision | 30 | a **core CDW** code (`38.11/38.21/38.32/43.11`) is primary |
+| Size in band | 20 | 1–10 employees (the sweet spot) |
 | Oslo proximity | 15 | kommune = Oslo `0301` |
-| Contact completeness | 40 | website + phone + email present |
+| Contact completeness | 35 | website + phone + email present |
 
-Contact is weighted heaviest on purpose: a reachable company is worth far more to
-Iteo than an unreachable one, so contactable companies float to the top of the cut.
+NACE relevance leads so actual waste operators rank above generic road-freight /
+courier firms that merely share code `49.41`. Lean operators (0 registered
+employees, no website, MVA-registered) are **not** buried: a registered `0` is
+treated like "unregistered" and MVA registration earns real size + contact credit —
+so flagship targets like **Hente AS** and **Kvikk Bag AS** rank inside the cut.
 
 ---
 
@@ -82,15 +94,20 @@ What this means for the ≥80%-with-contact acceptance target:
 | Reachability signal | Coverage in the 200-row cut |
 |---|---|
 | **Org.nr** (universal lookup key) | **100%** |
-| MVA-registered (real operating business) | ~91% |
+| MVA-registered (real operating business) | **100%** |
 | Reachable (website **or** MVA) | **100%** |
-| Direct website field | ~44% |
+| Direct website field | ~26% |
 
 Every row carries an **org.nr**, which is the universal key for Norwegian contact
 lookup (1881, Proff, Forvalt) and for the **first Phase 1 enrichment connector**.
 So the list is 100% actionable today; phone/email pre-fill is the next increment,
 not a Phase 0 blocker. This deviation is documented for Denis/Iteo in
 [`icp-note.md`](icp-note.md).
+
+> **Want every recognisable company, not just the top 200?** Run with `--no-cap`
+> to emit the **full ranked qualified universe** (~1,500 rows) so any known
+> operator can be found by org.nr. The 200-row cut is Iteo's focus list; the full
+> file is the transparency backstop for "company X is missing" questions.
 
 ---
 
