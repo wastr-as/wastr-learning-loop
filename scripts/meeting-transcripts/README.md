@@ -40,13 +40,16 @@ Third parties are recorded, so **start recording visibly and get a verbal "ok to
 ## Setup
 
 ```powershell
-# 1. Python 3.10+ and ffmpeg on PATH
-winget install Gyan.FFmpeg
-
+# 1. Python 3.10+
 # 2. Install the Python dependency
 cd scripts/meeting-transcripts
 pip install -r requirements.txt
 ```
+
+`faster-whisper` bundles **PyAV** (the `av` package), which ships the ffmpeg
+libraries — so audio/video decoding works out of the box and a **separate ffmpeg
+install is not required**. Install the ffmpeg CLI only if you want it for your own
+pre-processing (`winget install Gyan.FFmpeg`).
 
 The Whisper model (~3 GB for `large-v3`) downloads and caches on first run.
 

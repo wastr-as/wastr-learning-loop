@@ -2,8 +2,10 @@
 #
 # Python 3.10+ required (code uses X | Y unions).
 #
-# faster-whisper pulls in ctranslate2 and the tokenizer; it does NOT bundle
-# ffmpeg. Install ffmpeg separately and make sure it is on PATH:
+# faster-whisper pulls in ctranslate2, the tokenizer, and PyAV (the `av`
+# package). PyAV bundles the ffmpeg libraries, so audio/video decoding works
+# out of the box — a separate ffmpeg install is NOT required. Install one only
+# if you want the `ffmpeg` CLI for your own pre-processing:
 #   * Windows:  winget install Gyan.FFmpeg   (or: choco install ffmpeg)
 #   * macOS:    brew install ffmpeg
 #   * Linux:    sudo apt install ffmpeg
