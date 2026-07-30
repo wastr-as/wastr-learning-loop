@@ -111,6 +111,45 @@ not a Phase 0 blocker. This deviation is documented for Denis/Iteo in
 
 ---
 
+## Enrichment — revenue (omsetning) + contacts + tiers
+
+Denis's manual pass tiers the shortlist by **omsetning** (from proff.no) and
+talk-urgency, dropping anything under **3 MNOK** to Tier 4. Two opt-in enrichers
+automate that — run on the final shortlist (one API call per company):
+
+| Flag | Source | Open? | Fills |
+|---|---|---|---|
+| `--enrich-revenue` | **Brreg Regnskapsregister** | ✅ NLOD, free, no key | `Revenue (NOK)`, `Revenue year`, `Tier` |
+| `--enrich-contacts` | **1881 API** | ❌ commercial, gated | `Phone`, `Email` |
+
+```powershell
+python extract.py --enrich-revenue                    # free omsetning + auto-tiers
+python extract.py --enrich-revenue --enrich-contacts  # + 1881 phone/email (needs creds)
+```
+
+**Why not scrape proff.no?** proff.no has **no public API** and scraping it
+breaches their ToS. But the *same* omsetning figure is filed for free in Brreg's
+open **Regnskapsregister** (`.../regnskap/{orgnr}` → `sumDriftsinntekter`), so the
+revenue enricher reproduces Denis's gate legally and without a key.
+
+**Tiers** (`scoring.assign_tier`) encode the objective part of his rule: revenue
+known and `< 3 MNOK` → **Tier 4**; otherwise **Tier 1** (talk now) / **Tier 2**
+(contact soon) / **Tier 3** (future) by score. Unknown revenue (no accounts filed)
+does not force Tier 4. Subjective signals ("ønsket pilot", "brukt selv") stay a
+manual override in `Why prioritised`. Iteo works **Tiers 1–2**.
+
+**1881 contact enricher** is committed but **disabled by default** — it is a paid
+service with no open endpoint. It only runs when all three env vars are set
+(carries the #56 legal gate):
+
+```powershell
+$env:API1881_URL = "https://.../lookup/company/{org_nr}"   # from your 1881 contract
+$env:API1881_KEY = "<your-key>"
+$env:WASTR_1881_LEGAL_OK = "1"                              # confirms #56 review passed
+```
+
+---
+
 ## Phase 1 — pluggable connectors (carries #56 forward)
 
 New sources implement one interface — `connectors/base.py::Connector.fetch` —
@@ -134,8 +173,12 @@ partner-discovery/
 ├── connectors/
 │   ├── base.py            # Connector ABC (Phase 1 extension point)
 │   └── brreg.py           # Brreg / Enhetsregisteret connector (Phase 0)
-├── scoring.py             # quality filter + priority score + 60/40 selection
-├── extract.py             # CLI entrypoint, de-dup, CSV writer
+├── enrichers/
+│   ├── base.py            # Enricher ABC (augments the shortlist in place)
+│   ├── regnskap.py        # Brreg accounts -> revenue/omsetning (open data)
+│   └── api1881.py         # 1881 API -> phone/email (commercial, #56-gated)
+├── scoring.py             # quality filter + priority score + 60/40 selection + tiers
+├── extract.py             # CLI entrypoint, de-dup, enrichment, CSV writer
 ├── icp-note.md            # one-page ICP + "what we want back" note for Iteo
 ├── requirements.txt       # (intentionally empty — stdlib only)
 └── output/                # generated CSVs (git-ignored)

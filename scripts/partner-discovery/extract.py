@@ -8,6 +8,8 @@ Usage:
     python extract.py --oslo-only          # Oslo (0301) only
     python extract.py --size 150           # cap shortlist size
     python extract.py --no-cap             # write every qualified company (audit)
+    python extract.py --enrich-revenue     # add omsetning from Brreg accounts + tiers
+    python extract.py --enrich-contacts    # add phone/email from 1881 (needs creds)
     python extract.py --out path/file.csv  # custom output path
 
 Repeatable by design: re-run any time the register refreshes. No state, no login.
@@ -24,6 +26,7 @@ from pathlib import Path
 import config
 import scoring
 from connectors import BrregConnector
+from enrichers import Api1881Enricher, RegnskapEnricher
 from models import Company
 
 DEFAULT_OUTPUT = Path(__file__).parent / "output" / "iteo-shortlist.csv"
@@ -74,6 +77,28 @@ def build_shortlist(kommuner: list[str], size: int | None) -> list[Company]:
     return shortlist
 
 
+def enrich_shortlist(
+    shortlist: list[Company], revenue: bool, contacts: bool
+) -> None:
+    """Run opt-in enrichers on the selected shortlist, then assign talk-urgency tiers.
+
+    Enrichment runs on the final shortlist (not the whole universe) because each is
+    one API call per company. Revenue comes free from Brreg's open accounts API;
+    contacts come from the commercial 1881 API and only run when configured.
+    """
+    if revenue:
+        print("Enriching revenue from Brreg Regnskapsregister (open data)...")
+        RegnskapEnricher().enrich(shortlist)
+
+    if contacts:
+        print("Enriching contacts from 1881 API...")
+        Api1881Enricher().enrich(shortlist)
+
+    # Tiers depend on revenue, so assign them after enrichment.
+    for c in shortlist:
+        scoring.assign_tier(c)
+
+
 def write_csv(companies: list[Company], out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", newline="", encoding="utf-8-sig") as f:
@@ -84,9 +109,12 @@ def write_csv(companies: list[Company], out_path: Path) -> None:
                 c.name,
                 c.org_nr,
                 c.segment or "",
+                c.tier or "",
                 c.nace_primary or "",
                 c.kommune_name or config.KOMMUNE_NAMES.get(c.kommune_nr or "", ""),
                 c.employees if c.employees is not None else "",
+                c.revenue_nok if c.revenue_nok is not None else "",
+                c.revenue_year or "",
                 c.founded_year or "",
                 c.phone or "",
                 c.email or "",
@@ -117,6 +145,16 @@ def print_summary(companies: list[Company]) -> None:
     print(f"  Reachable (contact|MVA): {reachable} ({reachable / total:.0%})")
     print(f"  Score range:           {companies[-1].priority_score}-{companies[0].priority_score}")
 
+    with_revenue = [c for c in companies if c.revenue_nok is not None]
+    if with_revenue:
+        above = sum(1 for c in with_revenue if c.revenue_nok >= config.REVENUE_GATE_NOK)
+        print(f"  Revenue known:         {len(with_revenue)} ({len(with_revenue) / total:.0%})"
+              f"  |  >= {config.REVENUE_GATE_NOK / 1e6:.0f} MNOK: {above}")
+    if any(c.tier for c in companies):
+        tiers = {t: sum(1 for c in companies if c.tier == t) for t in (1, 2, 3, 4)}
+        print(f"  Tiers 1/2/3/4:         {tiers[1]}/{tiers[2]}/{tiers[3]}/{tiers[4]}"
+              f"  (Iteo works 1-2 = {tiers[1] + tiers[2]})")
+
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Brreg-first CDW partner shortlist for Iteo (#70).")
@@ -125,6 +163,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
                    help=f"Shortlist size (default {config.SHORTLIST_SIZE}).")
     p.add_argument("--no-cap", action="store_true",
                    help="Write every qualified company, ranked (ignores --size).")
+    p.add_argument("--enrich-revenue", action="store_true",
+                   help="Add omsetning from Brreg's open accounts API and assign tiers.")
+    p.add_argument("--enrich-contacts", action="store_true",
+                   help="Add phone/email from the 1881 API (needs API1881_* env + #56 opt-in).")
     p.add_argument("--out", type=Path, default=DEFAULT_OUTPUT, help="Output CSV path.")
     return p.parse_args(argv)
 
@@ -138,6 +180,8 @@ def main(argv: list[str]) -> int:
     if not shortlist:
         print("Nothing to write.", file=sys.stderr)
         return 1
+
+    enrich_shortlist(shortlist, revenue=args.enrich_revenue, contacts=args.enrich_contacts)
 
     out_path = args.out
     if out_path == DEFAULT_OUTPUT:

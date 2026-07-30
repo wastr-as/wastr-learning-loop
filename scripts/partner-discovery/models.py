@@ -34,6 +34,13 @@ class Company:
 
     mva_registered: bool = False
 
+    # Latest annual operating revenue (omsetning / sumDriftsinntekter) and the year
+    # it is for. Populated by the Brreg Regnskapsregister enricher (open data), which
+    # automates the manual proff.no omsetning check. None = accounts not fetched or
+    # not filed.
+    revenue_nok: int | None = None
+    revenue_year: int | None = None
+
     # Status flags used by the active-only quality filter.
     bankrupt: bool = False
     under_liquidation: bool = False
@@ -46,6 +53,10 @@ class Company:
     segment: str | None = None
     priority_score: int = 0
     why_prioritised: str = ""
+
+    # Talk-urgency tier (1 = talk now ... 4 = future / below revenue gate). Assigned
+    # by scoring.assign_tier after revenue enrichment; mirrors Denis's manual pass.
+    tier: int | None = None
 
     @property
     def is_active(self) -> bool:

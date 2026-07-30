@@ -124,6 +124,25 @@ WEIGHT_OSLO_PROXIMITY = 15
 WEIGHT_CONTACT_COMPLETENESS = 35
 
 # --------------------------------------------------------------------------- #
+# Revenue gate + talk-urgency tiers (Denis's manual pass, automated)
+#
+# Denis tiers the shortlist by omsetning (from proff.no) + talk-urgency:
+#   * omsetning < 3 MNOK        -> Tier 4 immediately
+#   * otherwise Tier 1 (talk now) / 2 (contact soon) / 3 (future) by strength.
+# The omsetning figure is fetched for free from Brreg's Regnskapsregister (the
+# RegnskapEnricher), so this reproduces the objective part of his rule. The
+# subjective signals ("ønsket pilot", "brukt selv") stay a manual override in the
+# "Why prioritised" column.
+# --------------------------------------------------------------------------- #
+REVENUE_GATE_NOK = 3_000_000   # < this -> Tier 4 (Denis's ">3 MNOK" relevance gate)
+
+# Priority-score thresholds for tiering companies that clear the revenue gate (or
+# whose revenue is unknown). Scores typically land ~72-86 for flagship targets.
+TIER1_MIN_SCORE = 75   # talk right now
+TIER2_MIN_SCORE = 60   # can wait, but must contact
+# Below TIER2_MIN_SCORE -> Tier 3 (future pipeline).
+
+# --------------------------------------------------------------------------- #
 # Output
 # --------------------------------------------------------------------------- #
 SHORTLIST_SIZE = 200          # ~200-row Iteo handoff sheet
@@ -133,9 +152,12 @@ CSV_COLUMNS = [
     "Company",
     "Org.nr",
     "Segment",
+    "Tier",
     "NACE",
     "Kommune",
     "Employees",
+    "Revenue (NOK)",
+    "Revenue year",
     "Founded",
     "Phone",
     "Email",

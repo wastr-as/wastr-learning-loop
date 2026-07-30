@@ -174,6 +174,28 @@ def score(company: Company) -> Company:
     return company
 
 
+def assign_tier(company: Company) -> Company:
+    """Set ``tier`` (1-4) mirroring Denis's manual talk-urgency pass.
+
+    Rule (objective part of his methodology):
+      * revenue known and below the gate (< 3 MNOK) -> Tier 4 immediately;
+      * otherwise tier by priority score — Tier 1 (talk now), Tier 2 (contact
+        soon), Tier 3 (future).
+    Revenue that is unknown (no accounts filed) does not force Tier 4; the company
+    is tiered on score alone so lean, brand-new operators are not buried. The
+    subjective override ("ønsket pilot", "brukt selv") stays manual in the sheet.
+    """
+    if company.revenue_nok is not None and company.revenue_nok < config.REVENUE_GATE_NOK:
+        company.tier = 4
+    elif company.priority_score >= config.TIER1_MIN_SCORE:
+        company.tier = 1
+    elif company.priority_score >= config.TIER2_MIN_SCORE:
+        company.tier = 2
+    else:
+        company.tier = 3
+    return company
+
+
 # --------------------------------------------------------------------------- #
 # 3. Selection — rank + ~60/40 A/B mix, cut to ~200
 # --------------------------------------------------------------------------- #
