@@ -65,17 +65,33 @@ We record two kinds of meetings, and they feed the loop differently — pick one
 
 The context is stamped into the transcript header (a routing hint for the Perplexity synthesis step) and output is filed under `output/<context>/`. Because everything runs **locally**, third-party audio never leaves the machine — but `customer`/`partner` meetings also print a **GDPR consent reminder**: confirm all participants consented to recording before you transcribe.
 
+## Where to put recordings
+
+Drop the file into the matching context folder, then run the tool by name:
+
+```
+input/
+  founders/   <- internal founder meetings
+  customer/   <- builder/contractor calls
+  partner/    <- transporter/partner calls
+```
+
+A bare filename is resolved against `input/<context>/` first, then `input/`. You can still pass a full path to a file anywhere. Recordings are git-ignored — only the folder structure is tracked.
+
 ## Usage
 
 ```powershell
-python transcribe.py meeting.m4a                    # founders (default), Norwegian, large-v3
-python transcribe.py call.m4a --context customer   # customer-discovery call
-python transcribe.py call.m4a --context partner    # partner-discovery call
-python transcribe.py meeting.mp4 --language en      # force English
-python transcribe.py meeting.m4a --model medium     # smaller/faster on a weak laptop
-python transcribe.py meeting.m4a --format md        # timestamped markdown
-python transcribe.py meeting.m4a --device cuda      # use an NVIDIA GPU
-python transcribe.py meeting.m4a --out notes/2026-07-team.txt
+# drop file in input/<context>/ and run by name
+python transcribe.py standup.m4a                     # input/founders/standup.m4a
+python transcribe.py acme-call.m4a --context customer  # input/customer/acme-call.m4a
+python transcribe.py hauler-call.m4a --context partner # input/partner/hauler-call.m4a
+
+# or pass any full path
+python transcribe.py C:\rec\meeting.mp4 --language en   # force English
+python transcribe.py standup.m4a --model medium         # smaller/faster on a weak laptop
+python transcribe.py standup.m4a --format md            # timestamped markdown
+python transcribe.py standup.m4a --device cuda          # use an NVIDIA GPU
+python transcribe.py standup.m4a --out notes/2026-07-team.txt
 ```
 
 | Flag | Default | Notes |

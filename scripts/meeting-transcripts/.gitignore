@@ -10,3 +10,17 @@ output/
 *.mp4
 *.mov
 *.webm
+
+# Recordings dropped into the input/ folder — keep the folder structure and docs,
+# ignore everything else that lands there.
+input/*
+!input/README.md
+!input/founders/
+!input/customer/
+!input/partner/
+input/founders/*
+!input/founders/.gitkeep
+input/customer/*
+!input/customer/.gitkeep
+input/partner/*
+!input/partner/.gitkeep

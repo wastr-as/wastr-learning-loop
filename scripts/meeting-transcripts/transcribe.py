@@ -22,9 +22,12 @@ synthesis step, and the output is filed under ``output/<context>/``. External
 contexts (customer/partner) also print a consent reminder — third parties are
 recorded, so GDPR consent must be captured before the meeting.
 
+Drop recordings in ``input/`` (optionally ``input/<context>/``) and pass just the
+filename, or give any full path.
+
 Usage:
     python transcribe.py meeting.m4a                      # founders, Norwegian, large-v3
-    python transcribe.py call.m4a --context customer      # customer-discovery call
+    python transcribe.py call.m4a --context customer      # from input/customer/call.m4a
     python transcribe.py call.m4a --context partner        # partner-discovery call
     python transcribe.py meeting.mp4 --language en        # force English
     python transcribe.py meeting.wav --model medium       # smaller/faster model
@@ -79,6 +82,11 @@ CONTEXTS = {
     },
 }
 DEFAULT_CONTEXT = "founders"
+
+# Drop recordings here — optionally in a per-context subfolder (input/customer/
+# etc.). A bare filename passed as input is resolved against input/<context>/
+# and then input/, so you can just drop a file and run the tool by name.
+INPUT_DIR = Path(__file__).parent / "input"
 
 # int8 runs comfortably on CPU with a small accuracy cost. On GPU, float16 is
 # both faster and more accurate — auto-selected when --device cuda is given.
@@ -146,6 +154,21 @@ def resolve_output_path(args: argparse.Namespace) -> Path:
         return args.out
     out_dir = Path(__file__).parent / "output" / args.context
     return out_dir / f"{args.input.stem}.{args.format}"
+
+
+def resolve_input_path(args: argparse.Namespace) -> Path:
+    """Resolve the input file, allowing a bare name dropped in ``input/``.
+
+    An explicit existing path wins. Otherwise a bare filename is looked up in
+    ``input/<context>/`` first, then ``input/``. If nothing matches the path is
+    returned unchanged so the caller can report a not-found error.
+    """
+    if args.input.exists():
+        return args.input
+    for candidate in (INPUT_DIR / args.context / args.input, INPUT_DIR / args.input):
+        if candidate.exists():
+            return candidate
+    return args.input
 
 
 def transcribe(args: argparse.Namespace) -> str:
@@ -239,8 +262,13 @@ def _cuda_available() -> bool:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
 
+    args.input = resolve_input_path(args)
     if not args.input.exists():
-        sys.exit(f"Input file not found: {args.input}")
+        sys.exit(
+            f"Input file not found: {args.input}\n"
+            f"Drop the recording in input/{args.context}/ (or input/) and pass "
+            "its name, or give a full path."
+        )
 
     if CONTEXTS[args.context]["external"]:
         print(
