@@ -1,0 +1,14 @@
+# Meeting-transcript extractor — dependencies (issue #72, July priority #1)
+#
+# Python 3.10+ required (code uses X | Y unions).
+#
+# faster-whisper pulls in ctranslate2 and the tokenizer; it does NOT bundle
+# ffmpeg. Install ffmpeg separately and make sure it is on PATH:
+#   * Windows:  winget install Gyan.FFmpeg   (or: choco install ffmpeg)
+#   * macOS:    brew install ffmpeg
+#   * Linux:    sudo apt install ffmpeg
+#
+# The Whisper model weights (~3 GB for large-v3) download on first run and are
+# cached under ~/.cache/huggingface — no separate step needed.
+
+faster-whisper>=1.0.0

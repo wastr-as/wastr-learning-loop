@@ -1,0 +1,12 @@
+# Python artefacts
+__pycache__/
+*.pyc
+
+# Transcripts and source recordings are captured into Notion, not committed here.
+output/
+*.m4a
+*.mp3
+*.wav
+*.mp4
+*.mov
+*.webm
