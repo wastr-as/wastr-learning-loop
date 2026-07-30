@@ -16,6 +16,27 @@ Chosen over hosted transcription tools (see the tooling discussion on #72), pric
 | Norwegian | Excellent (`large-v3`) | Excellent | Weak/English-first |
 | Privacy | Audio never leaves the machine | Uploaded | Uploaded |
 
+## Recording a meeting
+
+This tool needs one audio/video file as input. How to produce it:
+
+### Teams / Google Meet (built-in)
+
+- **Teams:** `···` (More actions) → **Record and transcribe** → **Start recording**. The `.mp4` lands in the organiser's **OneDrive → Recordings** (channel meetings: the channel's SharePoint). Needs a plan/policy that allows recording.
+- **Google Meet:** **Activities** → **Recording** → **Start recording**. The `.mp4` lands in the organiser's **Google Drive → Meet Recordings**. Needs an eligible Google Workspace plan (not free Gmail).
+
+Both already produce their own transcript — use faster-whisper when you want **better Norwegian**, **local/private** processing, or a **non-Teams/Meet** recording.
+
+### Any platform, or no recording feature
+
+- **OBS Studio** (free) — records screen + system audio + mic to `.mp4`; captures both sides on any platform.
+- **Windows Game Bar** (`Win+G` → record) — quick built-in screen+audio capture, no install.
+- **In-person meetings** — your phone's voice-memo app → transfer the `.m4a`.
+
+### Consent (customer/partner meetings)
+
+Third parties are recorded, so **start recording visibly and get a verbal "ok to record?"** at the top of the call. The `--context customer` / `--context partner` runs print a GDPR consent reminder for this reason.
+
 ## Setup
 
 ```powershell
