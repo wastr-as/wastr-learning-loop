@@ -50,9 +50,43 @@ class BrregConnector(Connector):
         for nace in nace_codes:
             yield from self._fetch_nace(nace, kommuner)
 
+    def fetch_by_orgnrs(self, org_nrs: list[str]) -> Iterator[Company]:
+        """Fetch fresh Brreg records for a specific list of org.nrs.
+
+        Used by the ``--from-csv`` re-scoring mode: take an existing list of
+        companies and pull their authoritative current data straight from the
+        register (one lookup per org.nr). Missing/deregistered org.nrs are skipped.
+        """
+        total = len(org_nrs)
+        for i, org_nr in enumerate(org_nrs, start=1):
+            company = self._fetch_one(org_nr)
+            if company is not None:
+                yield company
+            if i % 25 == 0 or i == total:
+                print(f"    fetched {i}/{total} by org.nr")
+            time.sleep(POLITE_DELAY)
+
     # ------------------------------------------------------------------ #
     # Internals
     # ------------------------------------------------------------------ #
+    def _fetch_one(self, org_nr: str) -> Company | None:
+        """Look up a single enhet by org.nr via the by-id endpoint."""
+        url = f"{API_URL}/{urllib.parse.quote(org_nr)}"
+        req = urllib.request.Request(
+            url, headers={"Accept": "application/json", "User-Agent": USER_AGENT}
+        )
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
+                    return self._to_company(json.loads(resp.read().decode("utf-8")))
+            except urllib.error.HTTPError as exc:
+                if exc.code in (404, 410):     # not found / gone (deregistered)
+                    return None
+                time.sleep(POLITE_DELAY * attempt * 2)
+            except (urllib.error.URLError, TimeoutError):
+                time.sleep(POLITE_DELAY * attempt * 2)
+        return None
+
     def _fetch_nace(self, nace: str, kommuner: list[str]) -> Iterator[Company]:
         page = 0
         while True:

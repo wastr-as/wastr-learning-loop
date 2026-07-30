@@ -127,6 +127,19 @@ python extract.py --enrich-revenue                    # free omsetning + auto-ti
 python extract.py --enrich-revenue --enrich-contacts  # + 1881 phone/email (needs creds)
 ```
 
+### Re-scoring an existing list (`--from-csv`)
+
+To re-rank a specific set of companies (e.g. Denis's manual `iteo-shortlist`)
+through today's filters, pass a CSV with an `Org.nr` column. It re-fetches each
+company fresh from Brreg, **always** enriches revenue + assigns tiers, then ranks
+by tier (asc) then score (desc) — no quality-filter drops, so the provided list is
+preserved intact:
+
+```powershell
+python extract.py --from-csv output/iteo-shortlist-20260630.csv
+# -> output/iteo-reranked-YYYYMMDD.csv, sorted Tier 1 → 4
+```
+
 **Why not scrape proff.no?** proff.no has **no public API** and scraping it
 breaches their ToS. But the *same* omsetning figure is filed for free in Brreg's
 open **Regnskapsregister** (`.../regnskap/{orgnr}` → `sumDriftsinntekter`), so the

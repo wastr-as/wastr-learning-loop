@@ -10,6 +10,7 @@ Usage:
     python extract.py --no-cap             # write every qualified company (audit)
     python extract.py --enrich-revenue     # add omsetning from Brreg accounts + tiers
     python extract.py --enrich-contacts    # add phone/email from 1881 (needs creds)
+    python extract.py --from-csv file.csv  # re-score a given company list (org.nr) + rank
     python extract.py --out path/file.csv  # custom output path
 
 Repeatable by design: re-run any time the register refreshes. No state, no login.
@@ -75,6 +76,38 @@ def build_shortlist(kommuner: list[str], size: int | None) -> list[Company]:
         shortlist = scoring.select_shortlist(scored, size=size)
     print(f"  {len(shortlist)} in final shortlist")
     return shortlist
+
+
+def load_orgnrs_from_csv(path: Path) -> list[str]:
+    """Read org.nrs from an existing shortlist CSV (the ``Org.nr`` column)."""
+    org_nrs: list[str] = []
+    with path.open(newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        col = next((c for c in (reader.fieldnames or []) if c.lower().strip() in
+                    ("org.nr", "orgnr", "org_nr", "organisasjonsnummer")), None)
+        if col is None:
+            raise SystemExit(f"No org.nr column found in {path}. Columns: {reader.fieldnames}")
+        for row in reader:
+            org_nr = (row.get(col) or "").strip()
+            if org_nr:
+                org_nrs.append(org_nr)
+    return org_nrs
+
+
+def build_from_csv(path: Path) -> list[Company]:
+    """Re-score a specific list of companies from a CSV through the current pipeline.
+
+    Pulls each org.nr's authoritative current data fresh from Brreg, then scores it
+    with today's rules. The provided list is preserved (no quality-filter drops);
+    revenue enrichment and tiering are applied by the caller so ranking reflects the
+    new filters.
+    """
+    org_nrs = load_orgnrs_from_csv(path)
+    print(f"Loaded {len(org_nrs)} org.nrs from {path.name}; fetching fresh from Brreg...")
+    connector = BrregConnector()
+    companies = list(connector.fetch_by_orgnrs(org_nrs))
+    print(f"  {len(companies)} resolved in the register")
+    return [scoring.score(c) for c in companies]
 
 
 def enrich_shortlist(
@@ -167,25 +200,41 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
                    help="Add omsetning from Brreg's open accounts API and assign tiers.")
     p.add_argument("--enrich-contacts", action="store_true",
                    help="Add phone/email from the 1881 API (needs API1881_* env + #56 opt-in).")
+    p.add_argument("--from-csv", type=Path, default=None,
+                   help="Re-score companies from an existing CSV (by Org.nr) instead of a "
+                        "NACE/kommune sweep. Forces revenue enrichment + tiering.")
     p.add_argument("--out", type=Path, default=DEFAULT_OUTPUT, help="Output CSV path.")
     return p.parse_args(argv)
 
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    kommuner = [config.OSLO] if args.oslo_only else config.DEFAULT_KOMMUNER
-    size = None if args.no_cap else args.size
 
-    shortlist = build_shortlist(kommuner, size)
-    if not shortlist:
-        print("Nothing to write.", file=sys.stderr)
-        return 1
-
-    enrich_shortlist(shortlist, revenue=args.enrich_revenue, contacts=args.enrich_contacts)
+    if args.from_csv is not None:
+        if not args.from_csv.exists():
+            print(f"Input CSV not found: {args.from_csv}", file=sys.stderr)
+            return 1
+        shortlist = build_from_csv(args.from_csv)
+        if not shortlist:
+            print("No companies resolved from the CSV.", file=sys.stderr)
+            return 1
+        # New filters are the whole point of a re-score: always enrich revenue + tier.
+        enrich_shortlist(shortlist, revenue=True, contacts=args.enrich_contacts)
+        # Rank by talk-urgency tier, then score within tier.
+        shortlist.sort(key=lambda c: (c.tier or 99, -c.priority_score))
+    else:
+        kommuner = [config.OSLO] if args.oslo_only else config.DEFAULT_KOMMUNER
+        size = None if args.no_cap else args.size
+        shortlist = build_shortlist(kommuner, size)
+        if not shortlist:
+            print("Nothing to write.", file=sys.stderr)
+            return 1
+        enrich_shortlist(shortlist, revenue=args.enrich_revenue, contacts=args.enrich_contacts)
 
     out_path = args.out
     if out_path == DEFAULT_OUTPUT:
-        out_path = out_path.with_name(f"iteo-shortlist-{date.today():%Y%m%d}.csv")
+        stem = "iteo-reranked" if args.from_csv is not None else "iteo-shortlist"
+        out_path = out_path.with_name(f"{stem}-{date.today():%Y%m%d}.csv")
     write_csv(shortlist, out_path)
     print_summary(shortlist)
     print(f"\nWrote {len(shortlist)} rows -> {out_path}")
