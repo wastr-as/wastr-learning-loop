@@ -103,14 +103,16 @@ makes the ESG / Innovasjon Norge / SmartOslo narrative defensible. Comparable st
 and emission factors are filed as signal
 [#76](https://github.com/wastr-as/wastr-learning-loop/issues/76).
 
-1. **Optimize routing for energy/fuel, not distance.** The routing engine should
-   minimize **fuel/gradient**, not km. Tavares et al. 2009 (Cape Verde, 3D GIS) found
-   the largest savings came from fuel-optimal — not shortest-path — routing on hilly
-   terrain: a longer, flatter route can beat a shorter, steeper one. Directly relevant
-   to Oslo topography (Holmenkollen, Ekeberg, Grefsen) and a differentiator vs. naive
-   shortest-path competitors. Feeds the Two-Way Routing Engine PoC (R&D #5) and the
-   smart route planner ([#44](https://github.com/wastr-as/wastr-learning-loop/issues/44))
-   — the optimization objective should include a fuel/energy strategy, not just distance.
+1. **Optimize routing for fuel/energy, with gradient + load as factors on top of
+   distance.** Distance stays the primary driver of fuel; the engine adds **gradient and
+   load** as weighting factors so it minimizes energy rather than raw km. Tavares et al.
+   2009 (Cape Verde, 3D GIS) found that on hilly terrain a slightly longer, flatter route
+   can beat a shorter, steeper one — the fuel objective (distance × gradient × load)
+   diverges from pure shortest-path. Directly relevant to Oslo topography (Holmenkollen,
+   Ekeberg, Grefsen) and a differentiator vs. naive shortest-path competitors. Feeds the
+   Two-Way Routing Engine PoC (R&D #5) and the smart route planner
+   ([#44](https://github.com/wastr-as/wastr-learning-loop/issues/44)) — the cost function
+   should weight distance by gradient and load, not replace it.
 2. **Consolidate loads + right-size vehicles (per-ton lever).** Per-ton collection
    intensity swings ~7× (≈5→35 kg CO₂-eq/ton), driven mostly by truck volume, engine
    power and fill — fuller, right-sized vehicles are more efficient *before* any route
