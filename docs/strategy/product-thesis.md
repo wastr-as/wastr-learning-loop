@@ -72,6 +72,16 @@ materials + return waste) is the technical core IP.
   optimization strategy (time / distance / toll-aware / CO₂), and Norwegian
   bomstasjon cost integration. Directional bet anchoring near-term routing
   choices — see [#44](https://github.com/wastr-as/wastr-learning-loop/issues/44).
+  - **Variable-cost inputs (Norway).** A `cost` strategy sums
+    `fuel_liters × fuel_price + tolls(time, class) + ev_kWh × spot(zone, hour)`.
+    The route-*and-time*-dependent levers with solid free data are **time-differentiated
+    tolls** (AutoPASS rushtidsavgift + Euro-class/weight) and **EV electricity spot**
+    (`hvakosterstrommen.no`, free, hourly, zones NO1–NO5). Diesel/HVO pump price has no
+    clean real-time API (SSB table 09654 = monthly averages; consumer apps = scraped), and
+    on a given day it barely varies by route — so treat it as a **slowly-varying config
+    coefficient** (per-fleet negotiated price or SSB baseline), not a per-edge input. Keep
+    the emissions objective **price-independent** (liters/energy); price belongs only in the
+    cost objective.
 
 ## Why Us
 
