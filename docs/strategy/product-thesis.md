@@ -93,3 +93,43 @@ materials + return waste) is the technical core IP.
    bidirectional reverse-logistics with dynamic demand is open territory.
 4. **QR + no-app onboarding beats sensor + hardware.** Zero-friction wins at
    SMB scale.
+
+## The Emission-Reduction Thesis (Research-Grounded)
+
+WASTR's sustainability story rests on **three independent, stacking levers** — each
+cuts emissions on a different axis, each is backed by peer-reviewed waste-logistics
+research. Grounding these in literature (rather than round-number projections) is what
+makes the ESG / Innovasjon Norge / SmartOslo narrative defensible. Comparable studies
+and emission factors are filed as signal
+[#76](https://github.com/wastr-as/wastr-learning-loop/issues/76).
+
+1. **Optimize routing for energy/fuel, not distance.** The routing engine should
+   minimize **fuel/gradient**, not km. Tavares et al. 2009 (Cape Verde, 3D GIS) found
+   the largest savings came from fuel-optimal — not shortest-path — routing on hilly
+   terrain: a longer, flatter route can beat a shorter, steeper one. Directly relevant
+   to Oslo topography (Holmenkollen, Ekeberg, Grefsen) and a differentiator vs. naive
+   shortest-path competitors. Feeds the Two-Way Routing Engine PoC (R&D #5) and the
+   smart route planner ([#44](https://github.com/wastr-as/wastr-learning-loop/issues/44))
+   — the optimization objective should include a fuel/energy strategy, not just distance.
+2. **Consolidate loads + right-size vehicles (per-ton lever).** Per-ton collection
+   intensity swings ~7× (≈5→35 kg CO₂-eq/ton), driven mostly by truck volume, engine
+   power and fill — fuller, right-sized vehicles are more efficient *before* any route
+   change. This is a distinct lever from empty-running avoidance and validates the
+   consolidated / bidirectional-load thesis (Demir & Maçin, Çorlu case study).
+3. **Driver behaviour is a cheap, high-impact lever.** Eco-driving alone — no fleet or
+   route change — cut İETT Istanbul's diesel by **3.58M L in one year** (~15–20% class
+   savings). No competitor (Sensorita, iSekk, phone/spreadsheet) addresses this; it's a
+   low-cost driver-app feature (eco-nudges, idling alerts) with a defensible ESG story.
+
+**Supporting evidence.** Fuel type matters (natural gas ≈ 1.90 vs. diesel 2.25 kg
+CO₂-eq/km, López et al. 2009) — surface per-transporter fuel mix in ESG reports without
+favouring anyone, consistent with the neutrality moat. WASTR's headline "160 t CO₂ on
+180,000 km" implies ~0.89 kg CO₂/km, **conservative** vs. a loaded diesel packer
+(2.25 kg/km), so the figure is more likely under- than over-stated.
+
+**Evidence gap = moat.** Every quantified study above is *municipal household waste*
+(fixed-route packer trucks). There is essentially no published per-km/per-ton dataset for
+ad-hoc **CDW skip/bag** logistics — exactly the whitespace R&D projects #1–#5 target, and
+the core argument for the FoU partnerships (NTNU / SINTEF / TØI). The direction
+(optimization → 10–25%+ savings) transfers; absolute CDW factors still need our own
+telemetry (SPEC #48) to confirm.
