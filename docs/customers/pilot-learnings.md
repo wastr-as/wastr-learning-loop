@@ -15,6 +15,7 @@
 
 - **Surprises (hypothesis, n=1):** Hente.no (Oslo bag + container collection) told Denis (2026-10-20) they **already have logistics-management software** — the thing we offered. Their public site already advertises online booking, per-bag fixed prices, weight/destination/recycling reporting and an electric fleet. Digitised operators are **outside** the phone/email/spreadsheet profile our hauler pitch targets, and "software for operators" is not a wedge for them. Candidate angle to test instead: WASTR as a **source of new, well-prepared jobs** that a fulfilment partner executes in its own tools. Single second-hand conversation — not validated. Full analysis: [hente-no-positioning.md](hente-no-positioning.md).
 - Still no transporter JTBD / WTP data from a pilot. Re-add those subsections when the first pilot `[SIGNAL]` lands.
+- **Desk research, not pilot evidence (2026-10-21):** Easyavfall publicly advertises a PROFF portal, invoice/order visibility, waste reports and material delivery/lifting alongside waste collection. Its internal dispatch software and pain points are unknown; no interview has been conducted. This is another reason to qualify the generic digitisation pitch, and not to claim that two-way transport is novel as a service concept. Candidate test: genuinely new, well-prepared contractor jobs fulfilled in its existing workflow. Full assessment and proposed referral pilot: [easyavfall-no-positioning.md](easyavfall-no-positioning.md).
 
 ### Builders / Contractors
 
