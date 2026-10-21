@@ -13,7 +13,8 @@
 
 ### Transporters (SMB)
 
-_No data yet — first Oslo transporter pilot signals pending. Re-add subsections (JTBD / friction / surprises / WTP) when first `[SIGNAL]` lands._
+- **Surprises (hypothesis, n=1):** Hente.no (Oslo bag + container collection) told Denis (2026-10-20) they **already have logistics-management software** — the thing we offered. Their public site already advertises online booking, per-bag fixed prices, weight/destination/recycling reporting and an electric fleet. Digitised operators are **outside** the phone/email/spreadsheet profile our hauler pitch targets, and "software for operators" is not a wedge for them. Candidate angle to test instead: WASTR as a **source of new, well-prepared jobs** that a fulfilment partner executes in its own tools. Single second-hand conversation — not validated. Full analysis: [hente-no-positioning.md](hente-no-positioning.md).
+- Still no transporter JTBD / WTP data from a pilot. Re-add those subsections when the first pilot `[SIGNAL]` lands.
 
 ### Builders / Contractors
 
@@ -34,6 +35,8 @@ _No data yet — first Oslo transporter pilot signals pending. Re-add subsection
 ## What We Still Don't Know
 
 - Transporter (SMB) JTBD — backfill covers Customer + infra; transporter-side pilot signals are still to come.
+- **Do digitised operators (e.g. Hente.no) want WASTR as a demand/job-preparation channel rather than as software?** Unknown: their software vendor, spare capacity, which jobs they want more of, and how often incomplete job info causes calls or failed collections. Proposed test: four-week referral pilot (Hente contracts and invoices). See [hente-no-positioning.md](hente-no-positioning.md).
+- **How large is the phone/email/spreadsheet segment among Oslo operators in practice?** The "~70% manual" thesis claim ([product thesis](../strategy/product-thesis.md)) sits uneasily with a well-digitised local operator; treat Hente as one data point on segmentation, not a contradiction.
 - Quantitative impact of UX hardening on QR-to-order conversion rate (no baseline captured pre-fixes).
 - Whether the BR pilot finding generalises to a **third** market (would confirm the platform thesis at a higher confidence level).
 - Whether the pricing/currency abstraction is sufficient for non-NOK markets — not yet exercised; revisit when first paid BR order lands.
