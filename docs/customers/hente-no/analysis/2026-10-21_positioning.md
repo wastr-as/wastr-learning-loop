@@ -23,7 +23,7 @@ Sources: [homepage](https://www.hente.no/), [operating terms](https://www.hente.
 
 ## Where WASTR stands
 
-Strongest documented starting point: **capturing the job at source** (QR/mobile order, location, photos, waste type, evidence workflow). Not established: customer-acquisition volume, measured route savings. Full reporting and advanced optimisation are still roadmap (see [product thesis](../strategy/product-thesis.md)). Sell a **small, measurable commercial experiment**, not a mature AI platform.
+Strongest documented starting point: **capturing the job at source** (QR/mobile order, location, photos, waste type, evidence workflow). Not established: customer-acquisition volume, measured route savings. Full reporting and advanced optimisation are still roadmap (see [product thesis](../../../strategy/product-thesis.md)). Sell a **small, measurable commercial experiment**, not a mature AI platform.
 
 ## Connection points (ranked)
 
@@ -67,7 +67,7 @@ Four weeks, one agreed Oslo area, selected non-hazardous bag jobs, target 20–3
 
 ## Segmentation takeaway
 
-The current [hauler pitch](../../../Wastr.Apps.Web.Landing.B2B/src/data/content.en.ts) targets operators running on phone / email / spreadsheets. Hente appears **outside that profile**. One conversation should refine targeting, not trigger a product pivot.
+The current [hauler pitch](../../../../../Wastr.Apps.Web.Landing.B2B/src/data/content.en.ts) targets operators running on phone / email / spreadsheets. Hente appears **outside that profile**. One conversation should refine targeting, not trigger a product pivot.
 
 ## Open questions
 

@@ -427,7 +427,10 @@ wastr-learning-loop/
 │   │   └── decision-log.md                     index of all [DECISION] issues
 │   │
 │   ├── customers/
-│   │   └── pilot-learnings.md                  synthesis across signals (incl. cross-segment patterns)
+│   │   ├── README.md                           per-customer layout + file-naming conventions
+│   │   ├── pilot-learnings.md                  synthesis across signals (incl. cross-segment patterns)
+│   │   ├── <customer-slug>/                    one folder per customer: notes/, transcripts/, analysis/
+│   │   └── _cross-customer/                    competitor + investor material not tied to one customer
 │   │
 │   ├── rituals/
 │   │   ├── weekly-review-template.md           how we run Friday reviews
