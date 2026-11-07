@@ -8,7 +8,7 @@ allowed-tools: Read Grep Glob Write
 
 # Minutes from a transcript
 
-Arguments: `$0` = `<group>/<slug>` (for example `partners/hente-no`), `$1` = file base name
+Arguments: `$0` = `<group>/<slug>` (for example `partners/example-operator`), `$1` = file base name
 (for example `2026-10-20_intro-call`).
 
 1. Read `docs/stakeholders/$0/transcripts/$1.md`. If it is missing, stop and say so; do not look

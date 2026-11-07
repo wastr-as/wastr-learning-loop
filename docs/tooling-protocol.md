@@ -90,9 +90,9 @@ week is "done" only when the `[WEEKLY]` issue exists.
 
 ## Working with Claude
 
-> **Status: proposal (weekly W2026-W45, decision D2).** The files named below exist in the same PR
-> but have not been run with Claude Code yet; the guard and launcher are tested only in isolation
-> (see "Validated so far" at the end of this section).
+> **Status: proposal (weekly W2026-W45, decision D2).** The files named below are in the same PR
+> but have not been run with Claude Code; see "Validated so far" at the end of the perspective
+> analysis section.
 
 ### Principles
 
@@ -188,13 +188,25 @@ opinion, and an output meant for one stakeholder must not carry another's inform
 by a human owner in an unscoped session, and the result is pseudonymised before it is
 committed. One stakeholder's notes are never fed into another's perspective run.
 
-**In-session shortcut.** A `lens-<slug>` subagent can answer a quick "how would REG read
-this?" inside a normal session. It has a fresh context and a read-only tool list, but it
-shares the machine with everything else, so treat it as level 0 to 1, not as isolation.
+**In-session shortcut (not scaffolded).** A `lens-<slug>` subagent could answer a quick "how would
+REG read this?" inside a normal session. It would have a fresh context and a read-only tool list, but
+it shares the machine with everything else, so treat it as level 0 to 1, not as isolation.
 
-*To validate in the scaffolding PR:* sparse-checkout behaviour in linked worktrees, which
-Claude Code settings keys the launcher can pass with `--settings`, and whether the hook sees
-paths in the form the allow-list expects on both Windows and macOS.
+**Validated so far** (on Windows, git 2.55, Python 3.14; Claude Code was not installed):
+
+- `scripts/claude/scope-guard.py --selftest` passes 15 cases, and the guard blocks every escape tried
+  against a real worktree: other stakeholders' paths, absolute and `..` paths, the main checkout,
+  `.git`, writes outside the stakeholder folder, and globs that leave the root. It fails closed when
+  its environment is missing.
+- `scripts/claude/lens.py <slug> --dry-run` builds a sparse worktree holding the shared docs, the lens
+  files and one stakeholder folder. Other stakeholders' folders, `pilot-learnings.md`, `docs/market/`
+  and all `transcripts/` are absent, and no other stakeholder's name appears in the remaining files.
+
+**Not yet validated:** that Claude Code accepts the generated settings (`--settings` file, the
+`permissions.block*OutsideWorkingDirectories` keys, exec-form hook with `onFailure`) and passes the hook
+the path forms the guard expects; that `Bash` and `mcp__*` deny rules apply in a scoped session; sparse
+worktrees on macOS; the skills themselves. First step on a machine with Claude Code: run
+`lens.py <slug>`, then ask the session to read another stakeholder's file and confirm it is refused.
 
 ### How Denis and Siarhei work in the same repo
 
