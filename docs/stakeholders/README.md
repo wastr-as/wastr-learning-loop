@@ -7,6 +7,7 @@ How the loop stores material about organisations outside WASTR that we talk to. 
 ```
 docs/stakeholders/
   pilot-learnings.md      synthesis across stakeholders
+  lenses/                 how a type of stakeholder judges WASTR (partner, municipal, funder, customer)
   partners/               operators/transporters, municipal bodies, research institutions we pilot or fulfil with
   customers/              builders, contractors, homeowners (ordering side); create at the first meeting
   funding/                investors, accelerators, grants (e.g. innovasjon-norge)
@@ -22,6 +23,7 @@ File a stakeholder by its **current** relationship and move the folder when that
 
 ```
 <group>/<stakeholder-slug>/
+  profile.md                      facts only: who, role, status, boundaries, links (optional, recommended)
   notes/                          meeting minutes (referat): curated, committed
   transcripts/                    raw transcripts: local only, git-ignored (see Confidentiality)
   analysis/                       synthesis, positioning, account assessments, desk research

@@ -90,8 +90,9 @@ week is "done" only when the `[WEEKLY]` issue exists.
 
 ## Working with Claude
 
-> **Status: proposal (weekly W2026-W45, decision D2).** The files named below do not exist
-> yet; they are scaffolded in a follow-up PR once the founders agree this section.
+> **Status: proposal (weekly W2026-W45, decision D2).** The files named below exist in the same PR
+> but have not been run with Claude Code yet; the guard and launcher are tested only in isolation
+> (see "Validated so far" at the end of this section).
 
 ### Principles
 
