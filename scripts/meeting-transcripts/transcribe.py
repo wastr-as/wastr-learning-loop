@@ -3,7 +3,7 @@
 Transcribes a meeting audio/video recording to clean text using faster-whisper
 (a fast, local, CPU/GPU CTranslate2 reimplementation of OpenAI Whisper). Output
 is plain UTF-8 text ready for the loop pipeline: Notion (raw capture) ->
-Perplexity (synthesis) -> GitHub (canonical).
+Claude (synthesis) -> GitHub (canonical).
 
 Why faster-whisper (see issue #72 tooling discussion):
     * Free — runs locally, no per-minute API cost, no subscription.
@@ -215,7 +215,7 @@ def transcribe(args: argparse.Namespace) -> str:
 def _render_text(args: argparse.Namespace, segments) -> str:
     """Plain, paragraph-joined transcript with a short context header.
 
-    The header gives the synthesis step (Perplexity -> GitHub) the routing hint
+    The header gives the synthesis step (Claude -> GitHub) the routing hint
     up front; the transcript itself stays a single clean paragraph below it.
     """
     ctx = CONTEXTS[args.context]

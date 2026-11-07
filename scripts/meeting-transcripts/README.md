@@ -4,7 +4,7 @@
 > Issue [#72](https://github.com/wastr-as/wastr-learning-loop/issues/72) — July priority #1.
 
 Turns a meeting recording into clean text so it can flow through the pipeline:
-**Notion (raw capture) → Perplexity (synthesis) → GitHub (canonical).**
+**Notion (raw capture) → Claude (synthesis) → GitHub (canonical).**
 
 ## Why faster-whisper
 
@@ -63,7 +63,7 @@ We record two kinds of meetings, and they feed the loop differently — pick one
 | `customer` | Calls with builders/contractors | Yes | `segment: customer` — pains, JTBD, pricing signals |
 | `partner` | Calls with transporters/partners | Yes | `segment: partner` — fit, integration, neutrality signals |
 
-The context is stamped into the transcript header (a routing hint for the Perplexity synthesis step) and output is filed under `output/<context>/`. Because everything runs **locally**, third-party audio never leaves the machine — but `customer`/`partner` meetings also print a **GDPR consent reminder**: confirm all participants consented to recording before you transcribe.
+The context is stamped into the transcript header (a routing hint for the Claude synthesis step) and output is filed under `output/<context>/`. Because everything runs **locally**, third-party audio never leaves the machine — but `customer`/`partner` meetings also print a **GDPR consent reminder**: confirm all participants consented to recording before you transcribe.
 
 ## Where to put recordings
 
@@ -105,7 +105,7 @@ python transcribe.py standup.m4a --out notes/2026-07-team.txt
 
 ## Output
 
-- `txt` — a short context/routing header followed by a single clean paragraph-joined transcript; paste straight into Notion → Perplexity.
+- `txt` — a short context/routing header followed by a single clean paragraph-joined transcript; hand straight to Claude (see [tooling-protocol.md](../../docs/tooling-protocol.md)).
 - `md` — context + metadata header, then timestamped segments for skimming a long meeting before synthesis.
 
 Recordings and transcripts are git-ignored (captured in Notion, not committed here).

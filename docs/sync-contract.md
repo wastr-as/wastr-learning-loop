@@ -3,22 +3,21 @@
 > **Where each kind of artifact lives, who edits it, and how it gets promoted.**
 >
 > This contract exists to prevent the single biggest failure mode of a multi-tool
-> setup: the same idea drifting across Notion, Perplexity, and GitHub with no
+> setup: the same idea drifting across Notion, Claude chats, and GitHub with no
 > agreed canonical version.
 
 ---
 
-## The four tools, in one line each
+## The three tools, in one line each
 
 | Tool | Role | Owner | Canonical for… |
 |---|---|---|---|
 | **GitHub** (this repo + code repos) | Source of truth, versioned, AI-readable | CTO (steward) | Approved strategy, decisions, ADRs, issues, code |
 | **Notion** | Drafts, meeting notes, customer notes-in-progress | CEO (steward) | Live working drafts, agendas, CRM-style customer logs |
-| **Perplexity** | Strategy analysis & research scratchpad | CEO | Nothing canonical — outputs flow into GitHub or Notion |
-| **Claude / Copilot** | Code generation & repo edits | CTO | Nothing canonical — outputs flow into GitHub via PRs |
+| **Claude** (Claude Code; Copilot in the IDE for code) | Analysis, drafting, repo edits | Both founders | Nothing canonical — outputs flow into GitHub via PRs and issues |
 
 **One rule above all:** if an artifact has a canonical home in GitHub, that is
-the version everyone references. Notion and Perplexity are upstream of GitHub,
+the version everyone references. Notion and Claude are upstream of GitHub,
 never parallel to it.
 
 ---
@@ -32,28 +31,28 @@ never parallel to it.
 | Product hypothesis | Anywhere | `[BET]` issue (GitHub) | Before any build effort |
 | Feature spec | Anywhere | `[SPEC]` issue (GitHub) | Before code is written |
 | Experiment design | Anywhere | `[EXP]` issue (GitHub) | Before experiment starts |
-| Strategy analysis (Perplexity) | Perplexity | `docs/strategy/*.md` *or* `[DECISION]` issue | When CEO + CTO agree it's a decision, not a draft |
+| Strategy analysis (Claude) | Claude session | `docs/strategy/*.md` *or* `[DECISION]` issue | When CEO + CTO agree it's a decision, not a draft |
 | Architectural decision | Anywhere | ADR in `docs/architecture/adr/` + `[DECISION]` issue | At the moment of commitment |
 | Roadmap | Anywhere | `docs/strategy/roadmap-now-next-later.md` | Updated at monthly review |
 | Confirmed learning | `[EXP]` outcome | `docs/knowledge/confirmed-learnings.md` | Monthly review (promotion vote) |
 | Weekly review | GitHub directly | `[WEEKLY]` issue | Every Friday |
 | Investor update | Notion | Not in this repo — separate IR channel | Monthly |
-| Application text (Innovasjon Norge, Antler) | Dedicated Perplexity space | Not in this repo — owned by CEO | n/a |
+| Application text (Innovasjon Norge, Antler) | Notion or a Claude session | Not in this repo — owned by CEO (the grant file itself lives in `docs/stakeholders/funding/innovasjon-norge/`) | n/a |
 
 ---
 
 ## Promotion rules
 
-1. **Drafts stay in Notion or Perplexity until they earn their place in GitHub.**
+1. **Drafts stay in Notion or a Claude session until they earn their place in GitHub.**
    Earning means: at least one of CEO or CTO has read it and agrees it represents
    a decision, a hypothesis, or a confirmed fact — not a half-formed thought.
 
 2. **When promoting, link back.** A `[DECISION]` issue or a `docs/` file that
-   originated in Notion or Perplexity should reference the source (Notion page
-   URL or Perplexity thread title) in its footer. This preserves the
+   originated in Notion or a Claude session should reference the source (Notion page
+   URL, or the notes file or issues the analysis used) in its footer. This preserves the
    "why did we think this?" trail.
 
-3. **Once promoted, the GitHub version wins.** The Notion or Perplexity draft
+3. **Once promoted, the GitHub version wins.** The Notion or Claude draft
    becomes historical context. If new edits are needed, they are made in GitHub
    and (optionally) reflected back into Notion for visibility — never the
    reverse.
@@ -71,17 +70,17 @@ never parallel to it.
 - **Customer signals are filed as GitHub issues, not Notion pages.** Interview
   notes can start in Notion, but the *signal* (quote + interpretation + labels)
   belongs in a `[SIGNAL]` issue within 48 hours.
-- **Decisions are never made in Perplexity threads.** Perplexity can help
+- **Decisions are never made in a Claude chat.** Claude can help
   analyze; the decision itself is a `[DECISION]` issue with a written rationale.
 - **AI outputs are not canonical until a human commits them.** A Claude
-  suggestion or a Perplexity analysis becomes truth only when committed by an
+  suggestion or analysis becomes truth only when committed by an
   owner into the appropriate GitHub artifact.
 
 ---
 
 ## What this contract is not
 
-- It is not a tool ban. Notion and Perplexity remain in active daily use —
+- It is not a tool ban. Notion and Claude remain in active daily use —
   they are where messy thinking happens. The contract only governs the moment
   thinking crystallises into a fact, a decision, or a plan.
 - It is not a process for code. Code lives in the Wastr service / app repos
