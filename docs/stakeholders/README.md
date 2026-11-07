@@ -1,20 +1,22 @@
 # Stakeholders
 
-How the loop stores material about people and organisations outside WASTR. One folder per stakeholder, grouped by relationship. Cross-stakeholder synthesis sits at the root of each group.
+How the loop stores material about organisations outside WASTR that we talk to. One folder per stakeholder, grouped by current relationship. Cross-stakeholder synthesis is [pilot-learnings.md](pilot-learnings.md) (monthly). Competitors are not stakeholders; see [Competitors](#competitors).
 
 ## Groups
 
 ```
 docs/stakeholders/
-  customers/                      transporters, builders, homeowners, public-sector pilots
-    pilot-learnings.md            synthesis across customers (monthly)
-  competitors/                    companies we are compared with
-    investor-differentiation-theses.md   landscape across competitors, used in investor talks
-  investors/                      investors, accelerators, incubators
-  funders/                        grants and public funding (e.g. innovasjon-norge)
+  pilot-learnings.md      synthesis across stakeholders
+  partners/               operators/transporters, municipal bodies, research institutions we pilot or fulfil with
+  customers/              builders, contractors, homeowners (ordering side); create at the first meeting
+  funding/                investors, accelerators, grants (e.g. innovasjon-norge)
 ```
 
-A stakeholder belongs to the group of its main relationship. If it plays two roles (a customer that is also a competitor), keep one folder and link from the other group. Add a group (`partners/` for research institutions and municipalities) when the first stakeholder needs it.
+File a stakeholder by its **current** relationship and move the folder when that changes. Operators are `partners/` until they pay us; today none has committed volume or a fee. The `segment:` label and the `segment` front-matter key (`transporter | builder | homeowner`) stay as they are, so a `segment: transporter` signal lives under `partners/`.
+
+## Competitors
+
+`docs/market/competitors/<competitor-slug>/analysis/`, plus the landscape document `investor-differentiation-theses.md`. Public-source desk research only: no meetings, no transcripts, no consent questions.
 
 ## Per-stakeholder layout
 
@@ -26,13 +28,13 @@ A stakeholder belongs to the group of its main relationship. If it plays two rol
   materials/                      decks and pitches we send to the stakeholder (source + exports)
 ```
 
-Create `notes/`, `transcripts/` and `materials/` only when first needed; competitors often have `analysis/` only. Outbound material for a Norwegian audience is written in Norwegian.
+Create `notes/`, `transcripts/` and `materials/` only when first needed. Outbound material for a Norwegian audience is written in Norwegian.
 
 ## Stakeholder slug
 
 Lowercase ASCII, kebab-case. Transliterate Norwegian letters: `æ` to `ae`, `ø` to `o`, `å` to `a`.
 
-- Named stakeholder: `hente-no`, `medarbeiderne`, `checksammy`, `innovasjon-norge`.
+- Named stakeholder: `hente-no`, `medarbeiderne`, `reg`, `innovasjon-norge`.
 - Stakeholder not yet cleared to be named: `<segment>-discovery-<first-contact-date>`. The mapping to the real name stays in private Notion.
 
 ## File names
@@ -51,17 +53,17 @@ Example: `hente-no/notes/2026-10-20_intro-call.md` and `hente-no/transcripts/202
 ```yaml
 ---
 stakeholder: hente-no
-stakeholder_type: customer     # customer | competitor | investor | funder
+stakeholder_type: partner       # partner | customer | funder
 date: 2026-10-20
 type: intro
-lane: b2b                # b2b | b2c
-segment: transporter     # customers only: transporter | builder | homeowner
-language: no             # no | en
+lane: b2b                       # b2b | b2c
+segment: transporter            # transporter | builder | homeowner | internal
+language: no                    # no | en
 participants: [Denis, "CEO of stakeholder"]   # roles for unnamed stakeholders
-source: teams            # teams | phone | in-person | email
-consent_to_record: yes   # required for transcripts
+source: teams                   # teams | phone | in-person | email
+consent_to_record: yes          # required for transcripts
 transcript: ../transcripts/2026-10-20_intro-call.md
-signals: [97]            # [SIGNAL] issues filed from this meeting
+signals: [97]                   # [SIGNAL] issues filed from this meeting
 ---
 ```
 
@@ -70,11 +72,11 @@ signals: [97]            # [SIGNAL] issues filed from this meeting
 1. Meeting held, recording consented, transcript saved to `transcripts/` (local).
 2. Minutes written to `notes/` from the transcript: facts, quotes, open questions. No invented quotes; mark anything not said in the meeting as an interpretation.
 3. `[SIGNAL]` issue(s) filed within 48 h per [tooling-protocol.md](../tooling-protocol.md), linking the notes file.
-4. Stakeholder synthesis goes to `analysis/`; patterns across stakeholders go to the group's root document at the monthly review.
+4. Stakeholder synthesis goes to `analysis/`; patterns across stakeholders go to `pilot-learnings.md` at the monthly review.
 
 ## Innovasjon Norge
 
-Reporting boundary: only `lane: b2b` evidence is reported to Innovasjon Norge (see the lane rule in the [README](../../README.md)). Keep grant applications, milestone reports and meeting minutes in `funders/innovasjon-norge/`; link the underlying `[SIGNAL]` issues instead of copying customer evidence into it.
+Reporting boundary: only `lane: b2b` evidence is reported to Innovasjon Norge (see the lane rule in the [README](../../README.md)). Keep grant applications, milestone reports and meeting minutes in `funding/innovasjon-norge/`; link the underlying `[SIGNAL]` issues instead of copying customer evidence into it.
 
 ## Confidentiality
 

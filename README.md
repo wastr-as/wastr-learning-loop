@@ -426,11 +426,12 @@ wastr-learning-loop/
 │   │   ├── roadmap-now-next-later.md           rolling, opinion-driven roadmap
 │   │   └── decision-log.md                     index of all [DECISION] issues
 │   │
-│   ├── stakeholders/                       customers, competitors, investors, funders (see stakeholders/README.md)
-│   │   ├── customers/                          + pilot-learnings.md: synthesis across signals
-│   │   ├── competitors/                        + investor-differentiation-theses.md
-│   │   ├── investors/
-│   │   └── funders/                            e.g. innovasjon-norge
+│   ├── stakeholders/                       organisations we talk to (see stakeholders/README.md)
+│   │   ├── pilot-learnings.md                  synthesis across signals
+│   │   ├── partners/                           operators, municipal bodies, research institutions
+│   │   ├── customers/                          builders, contractors, homeowners (from first meeting)
+│   │   └── funding/                            investors, grants (e.g. innovasjon-norge)
+│   ├── market/competitors/                 competitor analyses + investor-differentiation-theses.md
 │   │
 │   ├── rituals/
 │   │   ├── weekly-review-template.md           how we run Friday reviews

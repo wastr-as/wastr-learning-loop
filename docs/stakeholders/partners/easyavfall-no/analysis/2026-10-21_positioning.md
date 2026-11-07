@@ -31,7 +31,7 @@ Sources checked 2026-10-21: [homepage and FAQ](https://www.easyavfall.no/), [ser
 
 ## Where WASTR stands
 
-The [product thesis](../../../../strategy/product-thesis.md) and [pilot learnings](../../pilot-learnings.md) support source-level capture as our starting point: QR/mobile ordering, location, photos, waste selection and order/evidence workflows. They do not establish repeatable customer acquisition, positive Oslo unit economics or measured route savings. Advanced two-way optimisation and full reporting remain roadmap in the documented thesis.
+The [product thesis](../../../../strategy/product-thesis.md) and [pilot learnings](../../../pilot-learnings.md) support source-level capture as our starting point: QR/mobile ordering, location, photos, waste selection and order/evidence workflows. They do not establish repeatable customer acquisition, positive Oslo unit economics or measured route savings. Advanced two-way optimisation and full reporting remain roadmap in the documented thesis.
 
 Position WASTR as a **small commercial experiment around a confirmed gap**, not a replacement for Easyavfall's portal, dispatch or customer relationships.
 

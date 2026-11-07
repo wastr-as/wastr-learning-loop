@@ -299,6 +299,6 @@ def build(source_deck, output_dir):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-deck", type=Path, default=Path.home() / "Downloads" / "Wastr - HSB.pdf")
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "docs" / "stakeholders" / "customers" / "reg" / "materials")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "docs" / "stakeholders" / "partners" / "reg" / "materials")
     arguments = parser.parse_args()
     build(arguments.source_deck, arguments.output_dir)
