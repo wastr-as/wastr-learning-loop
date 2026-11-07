@@ -426,7 +426,7 @@ wastr-learning-loop/
 │   │   ├── roadmap-now-next-later.md           rolling, opinion-driven roadmap
 │   │   └── decision-log.md                     index of all [DECISION] issues
 │   │
-│   ├── parties/                            external parties, one folder each (see parties/README.md)
+│   ├── stakeholders/                       customers, competitors, investors, funders (see stakeholders/README.md)
 │   │   ├── customers/                          + pilot-learnings.md: synthesis across signals
 │   │   ├── competitors/                        + investor-differentiation-theses.md
 │   │   ├── investors/
