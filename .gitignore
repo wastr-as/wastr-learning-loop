@@ -1,3 +1,3 @@
-# Raw meeting transcripts stay local (customer data); keep the folder structure only
-docs/customers/*/transcripts/*
-!docs/customers/*/transcripts/.gitkeep
+# Raw meeting transcripts stay local (party data); keep the folder structure only
+docs/*/*/transcripts/*
+!docs/*/*/transcripts/.gitkeep

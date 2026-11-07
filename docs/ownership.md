@@ -27,6 +27,9 @@ The point of this map is not bureaucracy. It is to remove the daily question
 | `docs/strategy/roadmap-now-next-later.md` | Both | Updated at monthly review. |
 | `docs/strategy/decision-log.md` | Both | Index file; auto-curated where possible. |
 | `docs/customers/pilot-learnings.md` | CEO | Synthesis of customer signals, incl. recurring cross-segment patterns. |
+| `docs/customers/`, `docs/investors/`, `docs/funders/` | CEO | Per-party folders; layout in [external-parties.md](external-parties.md). Innovasjon Norge, Antler and investor dialogue are CEO-owned. |
+| `docs/competitors/` | Both | Competitor analyses; CTO contributes technical comparison. |
+| `docs/external-parties.md` | Both | Layout, naming and confidentiality rules for the folders above. |
 | `docs/rituals/*.md` | Both | Process changes require both. |
 | `docs/metrics/definitions.md` | CTO | Canonical metric definitions. CEO contributes business-side metrics. |
 | `docs/knowledge/confirmed-learnings.md` | Both | Promotions decided at monthly review. |
