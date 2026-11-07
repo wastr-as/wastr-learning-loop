@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WASTR | Pilotforslag for Oslo</title>
+  <style>
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #20352d; background: #e9eeeb; font-family: "Segoe UI", sans-serif; font-size: 10pt; line-height: 1.43; }
+    .page { width: 210mm; height: 297mm; padding: 15mm 17mm 17mm; margin: 8mm auto; position: relative; background: white; break-after: page; }
+    .page:last-child { break-after: auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 5mm; border-bottom: 1px solid #cbd8cf; }
+    .logo { width: 37mm; height: auto; }
+    .edition { text-align: right; font-size: 8pt; color: #53665b; }
+    .eyebrow { margin: 7mm 0 2mm; font-size: 9pt; font-weight: 700; color: #35704c; text-transform: uppercase; }
+    h1 { font-size: 29pt; line-height: 1.1; margin: 0 0 4mm; font-weight: 650; letter-spacing: 0; }
+    h2 { font-size: 13pt; line-height: 1.2; margin: 5mm 0 2mm; color: #24593d; }
+    p { margin: 0 0 2.5mm; }
+    .lead { font-size: 12pt; line-height: 1.4; }
+    .intro { font-size: 10.5pt; }
+    .band { border-left: 3px solid #d96a4b; padding: 2mm 0 2mm 4mm; margin: 4mm 0; }
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; margin: 3mm 0 4mm; }
+    .step { border-top: 2px solid #53ab77; padding-top: 2mm; }
+    .step strong { display: block; margin-bottom: 1mm; color: #24593d; }
+    .step p { font-size: 9.5pt; }
+    .small { font-size: 9pt; color: #4b5e53; }
+    table { border-collapse: collapse; width: 100%; font-size: 9.2pt; margin: 2mm 0; }
+    th { text-align: left; font-weight: 650; color: #24593d; background: #edf4ef; }
+    th, td { padding: 2.1mm 2.5mm; border-bottom: 1px solid #dbe4de; vertical-align: top; }
+    td:first-child { width: 30%; font-weight: 650; }
+    .metrics td:first-child { width: 23%; }
+    .metrics td:nth-child(2) { width: 23%; }
+    ul { margin: 1mm 0 3mm; padding-left: 5mm; }
+    li { margin-bottom: 1.3mm; }
+    .request { background: #edf4ef; padding: 3mm 4mm; margin-top: 4mm; }
+    .request h2 { margin-top: 0; }
+    .request p:last-child { margin-bottom: 0; }
+    .pilot { font-size: 9.5pt; line-height: 1.36; }
+    .pilot h1 { font-size: 26pt; }
+    .pilot h2 { margin-top: 2.5mm; }
+    .pilot .eyebrow { margin-top: 4mm; }
+    .pilot th, .pilot td { padding: 1.7mm 2.5mm; }
+    .pilot .request h2 { margin-top: 0; }
+    footer { position: absolute; bottom: 9mm; left: 17mm; right: 17mm; border-top: 1px solid #cbd8cf; padding-top: 2.5mm; display: flex; justify-content: space-between; font-size: 8pt; color: #53665b; }
+    a { color: inherit; text-decoration: none; }
+    @media print { body { background: white; } .page { margin: 0; } * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+    @media screen and (max-width: 800px) { .page { width: 100%; height: auto; min-height: 297mm; margin: 0 0 5mm; padding: 8mm 6mm 24mm; } h1 { font-size: 25pt; } .flow { grid-template-columns: 1fr; gap: 2mm; } footer { left: 6mm; right: 6mm; } }
+  </style>
+</head>
+<body>
+  <section class="page" aria-label="Bakgrunn og løsning">
+    <header>
+      <img class="logo" src="../../../../../../Wastr.Apps.Web.Landing/public/denis-logo-green.webp" alt="WASTR">
+      <div class="edition">PILOTFORSLAG · OKTOBER 2026<br>Til dialog med REG, via Hovinbyen Sirkulære Oslo</div>
+    </header>
+    <p class="eyebrow">Små henteoppdrag · bedre driftsdata</p>
+    <h1>Kan små avfallsoppdrag<br>bli mer lønnsomme?</h1>
+    <p class="lead">WASTR søker partnere til en avgrenset Oslo-pilot for digital bestilling, samordnet henting og sporbar dokumentasjon av bygg- og rivningsavfall i sekker.</p>
+    <div class="band"><strong>Teknologipartner, ikke renovatør.</strong> WASTR kan være underleverandør eller utviklingspartner. I operatørens egen salgskanal (whitelabel) beholder operatøren kunderelasjonen og prisingen. Operatøren har ansvar for transport og avfallshåndtering i begge kanaler.</div>
+    <p>I tillegg samler WASTR bestillinger fra privatkunder via <a href="https://wastr.no">wastr.no</a> og tilbyr dem til registrerte operatører, som ny etterspørsel. WASTR er selger overfor kunden; operatøren som tar oppdraget får betalt per oppdrag.</p>
+
+    <h2>Utgangspunktet: små ordre, lite samlet oversikt</h2>
+    <p>Dialog med aktører i bransjen peker mot lukkede løsninger, mangelfull dokumentasjon og krevende planlegging av små henteoppdrag. Dette er foreløpige signaler, ikke dokumenterte funn for hele bransjen.</p>
+    <p>Kan bedre ordredata redusere administrasjon og kjøring? Kommunen kan få oversikt over sekker, hentinger og avfallsstrømmer i pilotutvalget, ikke et totalbilde av Oslo.</p>
+
+    <h2>Fra sekk til dokumentert henting</h2>
+    <div class="flow">
+      <div class="step"><strong>01 · Kunden registrerer</strong><p>QR-koden åpner en nettbasert bestilling uten app. Kunden oppgir avfallstype, antall sekker, plassering og bilde.</p></div>
+      <div class="step"><strong>02 · Operatøren planlegger</strong><p>Oppdrag samles i kart og fordeles til rute og sjåfør. Én til to operatører deltar, uten krav om å dele egne kundeordre med konkurrenter.</p></div>
+      <div class="step"><strong>03 · Hentingen dokumenteres</strong><p>Status og hentegrunnlag samles per oppdrag. Piloten skal teste kobling til mottakets vekt- og behandlingsdata.</p></div>
+    </div>
+    <p>Plattformen er aktørnøytral. Piloten skal dokumentere nytten i faktisk drift før eventuell utvidelse til flere operatører.</p>
+
+    <h2>Modenhet og avgrensning</h2>
+    <p>WASTR har en tidlig testversjon for bestilling og operatøroversikt. B2B-løsningen er i valideringsfase; integrasjoner, rapportering og driftsgevinster må prøves ut med partnerne. B2B-valideringen støttes av Oppstartstilskudd 1 fra Innovasjon Norge, innvilget i mai 2026.</p>
+    <p class="small"><strong>Ingen udokumenterte miljøløfter:</strong> Ombruk og materialgjenvinning krever sporbare mottaks- og behandlingsdata, ikke bare QR-data. Utslippsberegninger krever faktisk kjøring og kjøretøydata.</p>
+
+    <h2>Teamet bak</h2>
+    <p class="small">Etablert i 2025. Denis Pozhinsky: 20 års erfaring fra bygg, anlegg og prosjektledelse. Siarhei Karabitski: over 15 år med programvare og arkitektur fra blant annet Rystad Energy, Statens vegvesen og Telenor. Philip Hansteen er rådgiver.</p>
+    <footer><span>WASTR AS · Org.nr. 936 598 536 · <a href="https://wastr.no">wastr.no</a></span><span>1 / 2</span></footer>
+  </section>
+
+  <section class="page pilot" aria-label="Pilotmodell og neste steg">
+    <header>
+      <img class="logo" src="../../../../../../Wastr.Apps.Web.Landing/public/denis-logo-green.webp" alt="WASTR">
+      <div class="edition">FORSLAG TIL AVGRENSNING<br>Roller, omfang og mål avtales før oppstart</div>
+    </header>
+    <p class="eyebrow">Pilotmodell</p>
+    <h1>Forslag til REG-ledet pilot</h1>
+    <p class="intro">Henteoppdrag på tvers av Oslo kan gi bedre testvolum enn én bydel. Hovinbyen Sirkulære Oslo kan koble aktørene og bidra til å avklare et mulig SmartOslo-løp.</p>
+
+    <p><strong>REG som mulig prosjekteier, med én til to henteoperatører.</strong> Norsk Gjenvinning (NG) eller annen større operatør kan kobles på dersom REG ønsker det, på samme vilkår.</p>
+    <p class="small">Roller, kommunalt mandat, avfallsansvar, anskaffelse og finansiering må avklares. SmartOslo er en mulig ordning, ikke innvilget støtte.</p>
+
+    <table aria-label="Foreslåtte roller og bidrag">
+      <thead><tr><th>Aktør</th><th>Foreslått bidrag</th></tr></thead>
+      <tbody>
+        <tr><td>WASTR</td><td>Testoppsett, opplæring, støtte og måleopplegg. Sammenstille resultater og avklare datautveksling med fagsystemet.</td></tr>
+        <tr><td>Operatør(er)</td><td>Per operatør: én driftskontakt, én planlegger og 1–2 sjåfører. Reelle oppdrag med avtalte ordre-, tids-, kjøre- og mottaksdata.</td></tr>
+        <tr><td>REG / kommunal partner</td><td>Én kontakt for behov, rapportering og mulig prosjekteierrolle. Anslag: ca. 1 time oppstart og 30 minutter annenhver uke. REG forutsettes ikke å hente eller motta avfallet.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Forslag: åtte uker, med enkel oppstart</h2>
+    <p><strong>Uke 1–2:</strong> Avgrense oppdrag, måle dagens arbeidsflyt og avtale datatilgang. <strong>Uke 3–6:</strong> Teste på anslagsvis 50–100 hentinger, justert etter faktisk volum. <strong>Uke 7–8:</strong> Evaluere drift, datakvalitet og grunnlag for videre samarbeid.</p>
+    <p class="small">Anslag: to timers oppstart og 30 minutters ukentlig oppfølging for driftskontakten, pluss opplæring og registrering. Merarbeid måles. Filutveksling kan være første steg; integrasjoner, kostnader og ansvar avtales før oppstart.</p>
+
+    <h2>Effektivisering skal måles, ikke loves</h2>
+    <p class="small">Tallene under er forslag til testmål, ikke prognoser eller oppnådde resultater. Endelige terskler avtales etter baselinemålingen.</p>
+    <table class="metrics" aria-label="Foreslåtte måltall">
+      <thead><tr><th>Målepunkt</th><th>Forslag til mål</th><th>Sammenligningsgrunnlag</th></tr></thead>
+      <tbody>
+        <tr><td>Administrasjon</td><td>20 % lavere tidsbruk</td><td>Minutter per ordre, inkludert ekstra registrering.</td></tr>
+        <tr><td>Kjøring</td><td>10 % færre km per henting*</td><td>Kun der operatøren har sammenlignbare kjøredata.</td></tr>
+        <tr><td>Dokumentasjon</td><td>95 % komplette oppdrag</td><td>Avtalte felt for ordre, sted, fraksjon, status og mottaksreferanse.</td></tr>
+      </tbody>
+    </table>
+    <p class="small">*Kjøremålet krever operatørdata; WASTR registrerer foreløpig ikke kjørelengde. Ruter sammenlignes med hensyn til volum, avstand og last. Små utvalg gir usikkerhet; uten data gis ingen konklusjon om kjøreeffekt. Databruk, tilgang og sletting avtales; kommunen får aggregert innsikt.</p>
+
+    <div class="request">
+      <h2>Neste steg: 45 minutters avklaringsmøte</h2>
+      <p>Vi inviterer REG via Hovinbyen Sirkulære Oslo til å avklare pilotmodell, kontaktpersoner, data og finansiering. Operatører deltar dersom REG ønsker det.</p>
+      <p><strong>Denis Pozhinsky · Medgründer / CEO</strong><br><a href="mailto:dep@wastras.com">dep@wastras.com</a> · <a href="tel:+4748291492">+47 482 91 492</a> · <a href="https://zcal.co/wastras">zcal.co/wastras</a></p>
+    </div>
+    <footer><span>WASTR AS · Pilotforslag til dialog · Oktober 2026</span><span>2 / 2</span></footer>
+  </section>
+</body>
+</html>

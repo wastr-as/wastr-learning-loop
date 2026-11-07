@@ -6,7 +6,7 @@ _Written: 2026-10-21 · Segment: transporter · Lane: b2b · Domain: customer_
 
 ## The signal
 
-Unlike [Hente](hente-no-positioning.md), where Denis received a direct statement about existing logistics software, this is a **public-source assessment only**. Easyavfall presents itself as an established Greater-Oslo collection operator with digital ordering and a PROFF customer portal. Do not classify it as a phone/spreadsheet operator, or infer its internal dispatch system from its customer-facing website.
+Unlike [Hente](../../hente-no/analysis/2026-10-21_positioning.md), where Denis received a direct statement about existing logistics software, this is a **public-source assessment only**. Easyavfall presents itself as an established Greater-Oslo collection operator with digital ordering and a PROFF customer portal. Do not classify it as a phone/spreadsheet operator, or infer its internal dispatch system from its customer-facing website.
 
 ## What Easyavfall publicly offers
 
@@ -31,7 +31,7 @@ Sources checked 2026-10-21: [homepage and FAQ](https://www.easyavfall.no/), [ser
 
 ## Where WASTR stands
 
-The [product thesis](../strategy/product-thesis.md) and [pilot learnings](pilot-learnings.md) support source-level capture as our starting point: QR/mobile ordering, location, photos, waste selection and order/evidence workflows. They do not establish repeatable customer acquisition, positive Oslo unit economics or measured route savings. Advanced two-way optimisation and full reporting remain roadmap in the documented thesis.
+The [product thesis](../../../../strategy/product-thesis.md) and [pilot learnings](../../../pilot-learnings.md) support source-level capture as our starting point: QR/mobile ordering, location, photos, waste selection and order/evidence workflows. They do not establish repeatable customer acquisition, positive Oslo unit economics or measured route savings. Advanced two-way optimisation and full reporting remain roadmap in the documented thesis.
 
 Position WASTR as a **small commercial experiment around a confirmed gap**, not a replacement for Easyavfall's portal, dispatch or customer relationships.
 

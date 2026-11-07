@@ -40,7 +40,7 @@ _Written: 2026-11-02 | Source date: 2026-10-26 | Segment: transporter | Lane: b2
 3. **Intake quality is a plausible operational opportunity.** Photos and structured access details may reduce clarification work. This response does not quantify that work or demonstrate willingness to pay for reducing it.
 4. **Reporting is not yet the leading commercial case for this account.** Available records are not the same as customer demand for a reporting product. Do not interpret the unanswered social-value question as either demand or rejection.
 
-This account is directionally consistent with the digitised-operator hypothesis in [Hente positioning](hente-no-positioning.md) and [pilot learnings](pilot-learnings.md). The operators and evidence sources differ; this response alone does not validate the hypothesis, invalidate the wider manual-operations segment, or establish a product pivot.
+This account is directionally consistent with the digitised-operator hypothesis in [Hente positioning](../../hente-no/analysis/2026-10-21_positioning.md) and [pilot learnings](../../../pilot-learnings.md). The operators and evidence sources differ; this response alone does not validate the hypothesis, invalidate the wider manual-operations segment, or establish a product pivot.
 
 ## Signals
 

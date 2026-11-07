@@ -26,7 +26,13 @@ The point of this map is not bureaucracy. It is to remove the daily question
 | `docs/strategy/product-thesis.md` | CEO | CTO contributes the "what is shipped today" section. |
 | `docs/strategy/roadmap-now-next-later.md` | Both | Updated at monthly review. |
 | `docs/strategy/decision-log.md` | Both | Index file; auto-curated where possible. |
-| `docs/customers/pilot-learnings.md` | CEO | Synthesis of customer signals, incl. recurring cross-segment patterns. |
+| `docs/stakeholders/pilot-learnings.md` | CEO | Synthesis of customer signals, incl. recurring cross-segment patterns. |
+| `docs/stakeholders/partners/`, `customers/`, `funding/` | CEO | Per-stakeholder folders; layout in [stakeholders/README.md](stakeholders/README.md). Innovasjon Norge, Antler and investor dialogue are CEO-owned. |
+| `docs/market/competitors/` | Both | Competitor analyses; CTO contributes technical comparison. |
+| `docs/stakeholders/README.md` | Both | Layout, naming and confidentiality rules for the folders above. |
+| `docs/stakeholders/lenses/` | Both | Type-level frames for perspective analysis; refine from real notes. |
+| `AGENTS.md`, `CLAUDE.md`, `.claude/` | Both | Shared agent instructions and skills; changes need the other's comment. |
+| `scripts/claude/` | CTO | Scoped-session launcher and guard. |
 | `docs/rituals/*.md` | Both | Process changes require both. |
 | `docs/metrics/definitions.md` | CTO | Canonical metric definitions. CEO contributes business-side metrics. |
 | `docs/knowledge/confirmed-learnings.md` | Both | Promotions decided at monthly review. |

@@ -1,0 +1,9 @@
+# Raw meeting transcripts stay local (stakeholder data); keep the folder structure only
+docs/stakeholders/*/*/transcripts/*
+!docs/stakeholders/*/*/transcripts/.gitkeep
+
+# Personal Claude Code files
+CLAUDE.local.md
+.claude/settings.local.json
+
+__pycache__/

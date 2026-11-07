@@ -11,7 +11,7 @@ CheckSammy ([checksammy.com](https://checksammy.com/)) looks very similar to WAS
 not surface in roughly a year of validation. This note records what it actually offers, how
 long it has existed, how much it overlaps with WASTR, why it may have been missed, and what
 changes in our positioning. It complements
-[investor-differentiation-theses.md](./investor-differentiation-theses.md).
+[investor-differentiation-theses.md](../../investor-differentiation-theses.md).
 
 **Bottom line.** CheckSammy does not invalidate the customer problem. It does invalidate
 treating "independent haulers + digital coordination + traceability + sustainability data" as
@@ -59,7 +59,7 @@ customers use it, or whether it is offered in Europe.
 The full competitor-search log was not available when this was written, so this is inference,
 not a finding.
 
-- [Product thesis](../strategy/product-thesis.md) names Sensorita, iSekk and
+- [Product thesis](../../../../strategy/product-thesis.md) names Sensorita, iSekk and
   phone/spreadsheet workflows as the comparison set and states that the ground is
   "uncontested by purpose-built software". That framing is Norway-centric.
 - CheckSammy describes itself as bulk-junk removal, managed waste services, waste diversion
@@ -112,7 +112,7 @@ not a finding.
    existing customers and optionally share capacity, even if WASTR brought no new leads?
 4. Correct unsupported uniqueness claims in the product thesis and any pitch material.
 5. Define paid-adoption and job-economics metrics before the pilot (see the pilot metrics in
-   [investor-differentiation-theses.md](./investor-differentiation-theses.md)).
+   [investor-differentiation-theses.md](../../investor-differentiation-theses.md)).
 6. File this as a `[SIGNAL]` issue and link it from the product-thesis revisit.
 
 ## Open questions
