@@ -1,7 +1,7 @@
 # Lens: partner (operator or hauler)
 
-> Type-level frame. Hypotheses drawn from three operator conversations (issues #97, #98 to #100 and
-> the Hente.no analysis). Refine from real notes; a stakeholder's own folder always outranks this file.
+> Type-level frame. Hypotheses drawn from early operator conversations, not from any one stakeholder.
+> Refine from real notes; a stakeholder's own folder always outranks this file.
 
 ## Who this is
 

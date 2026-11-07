@@ -36,7 +36,7 @@ Create `notes/`, `transcripts/` and `materials/` only when first needed. Outboun
 
 Lowercase ASCII, kebab-case. Transliterate Norwegian letters: `æ` to `ae`, `ø` to `o`, `å` to `a`.
 
-- Named stakeholder: `hente-no`, `medarbeiderne`, `reg`, `innovasjon-norge`.
+- Named stakeholder: `example-operator`, `example-municipality`, `example-funder`.
 - Stakeholder not yet cleared to be named: `<segment>-discovery-<first-contact-date>`. The mapping to the real name stays in private Notion.
 
 ## File names
@@ -48,13 +48,13 @@ Lowercase ASCII, kebab-case. Transliterate Norwegian letters: `æ` to `ae`, `ø`
 - `<topic>`: one to three words. Same-day second meeting: append `-2`.
 - A transcript and its minutes share the same file name, in `transcripts/` and `notes/`.
 
-Example: `hente-no/notes/2026-10-20_intro-call.md` and `hente-no/transcripts/2026-10-20_intro-call.md`.
+Example: `example-operator/notes/2026-10-20_intro-call.md` and `example-operator/transcripts/2026-10-20_intro-call.md`.
 
 ## Front matter (notes and transcripts)
 
 ```yaml
 ---
-stakeholder: hente-no
+stakeholder: example-operator
 stakeholder_type: partner       # partner | customer | funder
 date: 2026-10-20
 type: intro

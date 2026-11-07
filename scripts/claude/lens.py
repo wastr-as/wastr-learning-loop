@@ -36,7 +36,6 @@ SHARED = [
     "docs/architecture/adr",
     "docs/stakeholders/README.md",
     "docs/stakeholders/lenses",
-    "docs/tooling-protocol.md",
 ]
 DEFAULT_LENS = {"partners": "partner", "customers": "customer", "funding": "funder"}
 LENSES = ["partner", "municipal", "funder", "customer"]

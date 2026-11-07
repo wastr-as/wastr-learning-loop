@@ -1,7 +1,7 @@
 # Lens: municipal (kommune and its entities)
 
-> Type-level frame. Hypotheses drawn from the Hovinbyen Sirkulære Oslo meeting (issue #92) and the
-> pilot proposal. Refine from real notes; a stakeholder's own folder always outranks this file.
+> Type-level frame. Hypotheses drawn from an early municipal pilot conversation, not from any one
+> stakeholder. Refine from real notes; a stakeholder's own folder always outranks this file.
 
 ## Who this is
 
