@@ -69,16 +69,16 @@ for the why.
 
 | Tile | Reads | Flag when |
 |---|---|---|
-| **Traffic & top pages (7d)** | views + unique visitors per page | Traffic drops to ~0 (deploy broke telemetry) or a page you expected is missing. |
-| **Conversion funnel (7d)** | sessions surviving each step: `visit → hero_calculator_clicked → calc_started → calc_completed → save_cta_clicked` | A big step-to-step drop = friction. Note the worst drop as the funnel's weakest link. |
-| **Bounce rate (7d)** | % of single-pageview sessions | Sustained rise vs prior weeks = landing message/landing-page mismatch. |
+| **Traffic & top pages (30d)** | views + unique visitors per page | Traffic drops to ~0 (deploy broke telemetry) or a page you expected is missing. |
+| **Funnel (30d)** | sessions reaching each step: `visit → hero_calculator_clicked → calc_started → calc_completed → save_cta_clicked` | A big step-to-step drop = friction. Note the worst drop as the funnel's weakest link. Steps are **not** sequential — the calculator is embedded on the homepage, so `calc_started` can exceed `hero_calculator_clicked`. **`calc_completed` currently fires on the first interaction alongside `calc_started`** — it is not a completion measure, so don't read start→done as a completion rate. |
+| **Bounce & engagement (30d)** | `bounce_rate_pct` = sessions that never interacted with the calculator; `engagement_rate_pct` = those that did | Scrolling is not tracked, and the hero button only scrolls — neither counts as engagement. A high bounce with healthy traffic means the page isn't converting attention into calculator use. |
 | **Exceptions (24h)** | client-side JS errors by message | Any non-zero you don't recognise → open a `type: signal` / bug issue. |
-| **Load performance (7d, ms)** | p50 / p95 page load per page | p95 creeping up (slow page = lost visitors). |
+| **Load performance (30d, ms)** | p50 / p95 page load per page | p95 creeping up (slow page = lost visitors). |
 
 ### What to capture in the weekly issue
 
 - Funnel: the 5 step counts (or just the conversion % visit→`save_cta_clicked`) and the **single worst drop-off**.
-- Bounce %: this week vs last.
+- Bounce % and engagement %: this week vs last. Tiles use a rolling 30d window, so consecutive weeks **overlap** — read the trend, not the week-on-week delta as if it were a fresh cohort. (30d rather than 7d because at current volume a week is too few sessions to read.)
 - Any exception cluster or p95 regression → spawn a follow-up issue and link it back.
 
 ### Alerts (don't wait for the weekly)
