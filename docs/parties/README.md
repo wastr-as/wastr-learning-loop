@@ -23,9 +23,10 @@ A party belongs to the group of its main relationship. If it plays two roles (a 
   notes/                          meeting minutes (referat): curated, committed
   transcripts/                    raw transcripts: local only, git-ignored (see Confidentiality)
   analysis/                       synthesis, positioning, account assessments, desk research
+  materials/                      decks and pitches we send to the party (source + exports)
 ```
 
-Create `notes/` and `transcripts/` only when the first meeting happens; competitors often have `analysis/` only.
+Create `notes/`, `transcripts/` and `materials/` only when first needed; competitors often have `analysis/` only. Outbound material for a Norwegian audience is written in Norwegian.
 
 ## Party slug
 
@@ -39,7 +40,7 @@ Lowercase ASCII, kebab-case. Transliterate Norwegian letters: `æ` to `ae`, `ø`
 `YYYY-MM-DD_<type>-<topic>.md`
 
 - Date is the meeting date (analysis: the date written). ISO format so the folder sorts chronologically.
-- `<type>`: `intro`, `discovery`, `demo`, `followup`, `pilot`, `email`, `positioning`, `assessment`, `competitive-analysis`, `application`, `report`.
+- `<type>`: `intro`, `discovery`, `demo`, `followup`, `pilot`, `email`, `positioning`, `assessment`, `competitive-analysis`, `application`, `report`, `pitch`, `deck`.
 - `<topic>`: one to three words. Same-day second meeting: append `-2`.
 - A transcript and its minutes share the same file name, in `transcripts/` and `notes/`.
 
