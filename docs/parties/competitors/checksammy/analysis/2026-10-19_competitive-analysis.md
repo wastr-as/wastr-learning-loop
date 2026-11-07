@@ -59,7 +59,7 @@ customers use it, or whether it is offered in Europe.
 The full competitor-search log was not available when this was written, so this is inference,
 not a finding.
 
-- [Product thesis](../../../strategy/product-thesis.md) names Sensorita, iSekk and
+- [Product thesis](../../../../strategy/product-thesis.md) names Sensorita, iSekk and
   phone/spreadsheet workflows as the comparison set and states that the ground is
   "uncontested by purpose-built software". That framing is Norway-centric.
 - CheckSammy describes itself as bulk-junk removal, managed waste services, waste diversion

@@ -5,7 +5,7 @@ How the loop stores material about people and organisations outside WASTR. One f
 ## Groups
 
 ```
-docs/
+docs/parties/
   customers/                      transporters, builders, homeowners, public-sector pilots
     pilot-learnings.md            synthesis across customers (monthly)
   competitors/                    companies we are compared with
@@ -68,13 +68,13 @@ signals: [97]            # [SIGNAL] issues filed from this meeting
 
 1. Meeting held, recording consented, transcript saved to `transcripts/` (local).
 2. Minutes written to `notes/` from the transcript: facts, quotes, open questions. No invented quotes; mark anything not said in the meeting as an interpretation.
-3. `[SIGNAL]` issue(s) filed within 48 h per [tooling-protocol.md](tooling-protocol.md), linking the notes file.
+3. `[SIGNAL]` issue(s) filed within 48 h per [tooling-protocol.md](../tooling-protocol.md), linking the notes file.
 4. Party synthesis goes to `analysis/`; patterns across parties go to the group's root document at the monthly review.
 
 ## Innovasjon Norge
 
-Reporting boundary: only `lane: b2b` evidence is reported to Innovasjon Norge (see the lane rule in the [README](../README.md)). Keep grant applications, milestone reports and meeting minutes in `funders/innovasjon-norge/`; link the underlying `[SIGNAL]` issues instead of copying customer evidence into it.
+Reporting boundary: only `lane: b2b` evidence is reported to Innovasjon Norge (see the lane rule in the [README](../../README.md)). Keep grant applications, milestone reports and meeting minutes in `funders/innovasjon-norge/`; link the underlying `[SIGNAL]` issues instead of copying customer evidence into it.
 
 ## Confidentiality
 
-This repository is public. Raw transcripts and party-identifying detail must not be committed: `transcripts/` content is git-ignored (only `.gitkeep` is tracked), and `notes/` must be written so that it can be published, with unnamed parties pseudonymised. Truly confidential material (financials, legal, personal data, investor terms) stays in private Notion. See [tooling-protocol.md](tooling-protocol.md#sensitive-content).
+This repository is public. Raw transcripts and party-identifying detail must not be committed: `transcripts/` content is git-ignored (only `.gitkeep` is tracked), and `notes/` must be written so that it can be published, with unnamed parties pseudonymised. Truly confidential material (financials, legal, personal data, investor terms) stays in private Notion. See [tooling-protocol.md](../tooling-protocol.md#sensitive-content).

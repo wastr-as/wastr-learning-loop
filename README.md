@@ -426,13 +426,11 @@ wastr-learning-loop/
 │   │   ├── roadmap-now-next-later.md           rolling, opinion-driven roadmap
 │   │   └── decision-log.md                     index of all [DECISION] issues
 │   │
-│   ├── external-parties.md                 layout, naming and confidentiality for the four groups below
-│   ├── customers/
-│   │   ├── pilot-learnings.md                  synthesis across signals (incl. cross-segment patterns)
-│   │   └── <customer-slug>/                    notes/, transcripts/, analysis/
-│   ├── competitors/                        one folder per competitor + cross-competitor landscape
-│   ├── investors/                          investors, accelerators, incubators
-│   ├── funders/                            grants and public funding (Innovasjon Norge)
+│   ├── parties/                            external parties, one folder each (see parties/README.md)
+│   │   ├── customers/                          + pilot-learnings.md: synthesis across signals
+│   │   ├── competitors/                        + investor-differentiation-theses.md
+│   │   ├── investors/
+│   │   └── funders/                            e.g. innovasjon-norge
 │   │
 │   ├── rituals/
 │   │   ├── weekly-review-template.md           how we run Friday reviews
