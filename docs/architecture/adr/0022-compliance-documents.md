@@ -27,8 +27,15 @@ Facts that shape the answer:
 - An `Order` has one customer, one pickup address, a `ProjectId`, and, once accepted
   and routed, the hauler's `CompanyId`, `RouteId` and `DriverId`. A `Project` has its
   own `CompanyId` (the builder, ADR-0016).
-- #111 already allocates a drop-off weighing to deliveries (by crane weight) and has a
-  named review for mismatches.
+- What is measured today (#111): the driver records a **crane weight per order** at
+  pickup (a real per-order measurement, but a crane scale is less accurate than a
+  certified weighbridge). The receiving station's **weighbridge weighs the whole
+  load**, not each order. #111 shares that load weight out over the orders of the
+  drop-off in proportion to crane weight (`share = weighbridge x crane / sum of crane
+  weights`); this is an allocation, not a measurement. It is refused when any order
+  of the drop-off has no crane weight, and the #111 report falls back to the crane
+  weight when there is no usable weighing. A named review resolves mismatches per
+  weighing.
 - From the #115 desk check: the generator is the legal issuer of an MTR and the
   hauler confirms and carries it; the RJ receipt deadline is 7 days, the CDF 90 days.
 - #120 (Norwegian hazardous-waste declaration) has the same shape: a reference per
@@ -39,8 +46,9 @@ Facts that shape the answer:
 1. **One manifest per order.** An order has one generator, one pickup address and,
    once routed, one planned receiver, which is the legal unit of an MTR (one
    generator, one transporter, one receiver). A route drop-off that takes several
-   orders gives several manifests; each stores `OrderId`, `RouteId` and the drop-off,
-   and its share of the weighing comes from the #111 allocation. If an order is split
+   orders gives several manifests; each stores `OrderId`, `RouteId` and the drop-off.
+   The weighing is **not** measured per order, so the received quantity follows the
+   rules in decision 6. If an order is split
    between two receivers, a second manifest is created from the same order, so the
    key is `OrderId` plus a sequence (usually 1:1). A hauler-issued "romaneio" (one
    route, many generators) is a later kind and not part of v1.
@@ -76,6 +84,32 @@ Facts that shape the answer:
 7. **Cheap to move later.** A repository interface per aggregate, links as explicit
    documents (relational-shaped), no Cosmos types in the API contract, and the code in
    its own `Compliance` area of Ordering.
+8. **Three quantities per item, never overwritten, and a received quantity that is
+   not faked.** Each manifest item keeps:
+
+   | Quantity | Source | Rule |
+   |---|---|---|
+   | Declared | crane weight at pickup | never overwritten; a correction is a new event |
+   | Received | first available of: (a) the receiver's own per-manifest figure, entered or imported through #113, source `Receiver`; (b) the weighbridge share, source `Allocated` and labelled "allocated by crane weight"; (c) unknown | what the receiver accepted; the declared quantity is **never** shown as received, unlike the #111 report, which falls back to crane weight for reporting |
+   | Certified | the CDF (#117) | what was destined |
+
+   Further rules:
+   - **Divergence is judged per load, not per order.** The allocation gives every order
+     of a drop-off the same percentage, so it cannot say which order or generator was
+     wrong. The tolerance check and the named review from #111 act on the weighing;
+     all manifests of that drop-off are marked divergent together, with one
+     justification (a user, a date, a reason).
+   - **No allocation without crane weights.** If any order of the drop-off has no
+     crane weight, no manifest of that drop-off gets an allocated quantity, and the
+     received quantity stays unknown until the receiver's figure is entered.
+   - **A receiver figure replaces the allocation** (for example when each order is
+     weighed or reported separately), and the allocation is kept in the history.
+   - **Mixed fractions or classes in one weighing are not split by weight.** If the
+     drop-off mixes waste classes (for example hazardous and non-hazardous), received
+     quantities need the receiver's figures. How often this occurs is not known.
+   - **The weighbridge is the authority** (certified), the crane weight is the
+     generator's declaration. The user interface says which is which.
+   - Mass and volume are never added (ADR-0021, decision 5).
 
 ### Norway
 The record shape (parties, items, official reference, receipt, audit) is the same for
@@ -109,6 +143,22 @@ out. #120 starts with discovery, so nothing is built for Norway here.
    the awaiting-CDF queue and per-company listing become cross-partition and a
    certificate cannot be written atomically with links to several manifests.
    Rejected.
+6. **Store the allocated weight as the received quantity, as the #111 report does.**
+   Simple, but it presents an estimate (a proportional share) as a measurement and
+   hides that every order in a load shows the same deviation. Rejected for manifests;
+   the report keeps its own rule.
+7. **Weigh each order separately at the receiver.** The only real per-order
+   measurement, but it needs a weighbridge pass per order. Not assumed; supported when
+   the receiver provides the figure (decision 8).
+
+## Open Questions
+
+1. When one truck arrives with several generators' MTRs and one weighing, how does the
+   receiver record the quantity per MTR in Rio de Janeiro (own figure per MTR, or a
+   proportional split)? To be asked of the RJ contact. It decides whether an
+   allocation is acceptable there; for the demo it is labelled as an allocation.
+2. How often does one weighing cover mixed waste classes in our Norwegian
+   operations? Check against real routes before relying on the allocation.
 
 ## Consequences
 
@@ -130,6 +180,11 @@ out. #120 starts with discovery, so nothing is built for Norway here.
   extraction possible.
 - A manifest cannot exist before the order has a hauler `CompanyId`, so there is no
   "draft before acceptance".
+- Per-order received quantities are mostly estimates unless the receiver reports
+  them. The manifest shows this (`Allocated` versus `Receiver`), so it looks less
+  precise than the #111 report, which is the honest outcome.
+- Deviations cannot be traced to a single order or generator when only the load is
+  weighed.
 
 ## Revisit Trigger
 
@@ -139,6 +194,9 @@ out. #120 starts with discovery, so nothing is built for Norway here.
   20 GB.
 - An authority or customer audit requires tamper-evidence (hash chain or immutable
   storage).
+- The RJ receiver (or Norwegian practice) shows that an allocation is not accepted as
+  the received quantity: require the receiver's per-manifest figure before a manifest
+  can be marked received.
 - The demand test fails (#115): stop and keep only the Norwegian reference (#120).
 
 ## Definition of Done
