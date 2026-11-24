@@ -58,6 +58,39 @@ second market, and the code is shaped by Norway in many places (checked on `main
    profile files ship as embedded resources, so a profile change is a PR plus a
    package version).
 
+### How the package is managed (GitHub Packages)
+
+Today no repo uses a NuGet feed: each service has a test workflow (push to `main`)
+and a manual prod workflow (`workflow_dispatch` with a version, then a git tag), and
+the Dockerfile restores and runs the tests inside the image build. The package fits
+that flow without manual steps.
+
+- **Publish.** `Wastr.Shared.Markets` is its own repository. A pull request builds,
+  tests and packs it. Pushing a git tag `vX.Y.Z` runs a workflow that publishes
+  version X.Y.Z to the `wastr-as` GitHub Packages feed with the built-in
+  `GITHUB_TOKEN` (`packages: write`). Nobody runs `dotnet nuget push` by hand.
+- **Versioning.** Semantic versions. Additive changes are minor, breaking changes
+  are major. A regulatory profile change is a PR plus a new tag, and each profile
+  file also carries its own version (decision 6).
+- **Consuming.** Each service pins an **exact** version in its `.csproj` (no
+  floating versions). Dependabot can open a pull request when a new version
+  appears, so an upgrade is a reviewed PR and each service upgrades and deploys on
+  its own schedule.
+- **CI access.** The consumer repositories are granted access in the package
+  settings, so their workflows read the feed with `GITHUB_TOKEN`
+  (`packages: read`). A `nuget.config` that names the feed is committed; it holds
+  no secret.
+- **Docker builds.** The token is passed as a BuildKit secret
+  (`docker build --secret`) and used only by the restore step, so it never ends up
+  in an image layer. The in-image test stage keeps working.
+- **Local development.** Each developer adds the feed once with a personal access
+  token that has `read:packages`.
+- **Terraform and runtime.** Not involved: GitHub Packages is not an Azure
+  resource, and the feed is needed only at build time. A feed outage can block a
+  build but never a running service.
+- **Cost.** Every service Dockerfile and workflow needs a small one-off edit (the
+  secret and the feed config), done as part of Phase 1.
+
 ### What this does not decide
 - Which Brazilian catalogue the MTR-RJ form requires (answer comes from #115).
 - Whether WASTR holds the licensed NS 9431 code list (EWC/EAL is public).
