@@ -45,6 +45,26 @@ Titles start with `[SIGNAL]`, `[BET]`, `[SPEC]`, `[EXP]`, `[DECISION]`, `[BUG]` 
 Label taxonomy is in [README.md](README.md#vocabulary--label-taxonomy-25-labels-5-groups). Issue-shaped
 export formats are in the tooling protocol. Write issue bodies to a file and pass `--body-file`.
 
+### Closing an issue (when asked to)
+
+The workflow `enforce-learning-label.yml` reopens a closed `type: signal`, `type: experiment` or
+`type: feature` issue that has no `learning:` outcome label, and any issue that still has
+`learning: hypothesis`. So set the label as part of closing:
+
+1. **Set the label first**, then close with a comment that states the outcome. Never close first.
+   - `[SIGNAL]`: add `learning: new-insight` or `learning: invalidated`.
+   - `[SPEC]` / `[EXP]` / `[BET]`: swap `learning: hypothesis` for `learning: validated` (success
+     criterion met), `invalidated` (kill criterion hit) or `new-insight` (the unexpected finding
+     matters most). If the work is done but the claim is untested, do not use `validated`.
+   - `[DECISION]`, `[BUG]`, `[WEEKLY]`: no outcome label, but a `[DECISION]` must not keep
+     `learning: hypothesis`.
+2. **Never use `learning: confirmed`** (rule 6). Use `new-insight` or ask.
+3. Choose from [The four `learning:` outcome labels](README.md#the-four-learning-outcome-labels) and
+   say which label you chose and why, so the human can change it.
+4. **Check afterwards.** Wait about 20 seconds and read the issue state again. If the guard
+   commented and reopened it, fix the label and close again. Do not report it as closed from the
+   result of the close command alone.
+
 ## Lens sessions (scoped to one stakeholder)
 
 A session started by `scripts/claude/lens.py` sees only the shared docs, one lens file and one
